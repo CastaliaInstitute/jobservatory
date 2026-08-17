@@ -1,4 +1,4 @@
-name: Refresh Jobservatory corpus
+name: Validate and refresh Jobservatory
 
 on:
   push:
@@ -24,12 +24,15 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
-      - run: npm run data:collect
+      - name: Collect scheduled or manually requested observations
+        if: github.event_name != 'push'
+        run: npm run data:collect
       - run: npm run data:validate
       - run: npm run ml:evaluate
       - run: npm run lint
       - run: npm test
       - name: Commit new observations
+        if: github.event_name != 'push'
         run: |
           if git diff --quiet -- public/api data; then exit 0; fi
           git config user.name "jobservatory[bot]"
