@@ -1,6 +1,6 @@
 {
   "schemaVersion": "apocalypso.signal.v2",
-  "generatedAt": "2026-08-17T10:01:05+00:00",
+  "generatedAt": "2026-08-17T10:02:15+00:00",
   "module": "AI",
   "source": "jobservatory.castalia.institute",
   "signal": {
@@ -89,11 +89,11 @@
           "retentionPolicy": "metadata-hash-short-evidence",
           "url": "https://boards-api.greenhouse.io/v1/boards/anthropic/jobs?content=true",
           "httpStatus": 200,
-          "etag": "W/\"bcbc9e04308eaf5839f1d0bee7bfd134\"",
+          "etag": "W/\"1a0ec5784b9901e4cbfe3f69802fed46\"",
           "lastModified": null,
-          "responseHash": "sha256:bcbc9e04308eaf5839f1d0bee7bfd134b509dc2e13e0fd9f41152d9dd3967d38",
+          "responseHash": "sha256:1a0ec5784b9901e4cbfe3f69802fed46cb9d94528c2c17d49539c5dfb1326bb1",
           "responseBytes": 6402564,
-          "latencyMs": 686
+          "latencyMs": 309
         },
         {
           "employer": "Scale AI",
@@ -105,11 +105,11 @@
           "retentionPolicy": "metadata-hash-short-evidence",
           "url": "https://boards-api.greenhouse.io/v1/boards/scaleai/jobs?content=true",
           "httpStatus": 200,
-          "etag": "W/\"6a5aac9c15d2d8762086f70fd6a7ffbe\"",
+          "etag": "W/\"add1d9c1f72e43b13f5582089e32c3e3\"",
           "lastModified": null,
-          "responseHash": "sha256:6a5aac9c15d2d8762086f70fd6a7ffbe0dc6c6ff13156c36b749a88cfc721d77",
+          "responseHash": "sha256:add1d9c1f72e43b13f5582089e32c3e34643aadf7cd1b99fb67c39aeed9ccaa9",
           "responseBytes": 2412945,
-          "latencyMs": 341
+          "latencyMs": 178
         },
         {
           "employer": "Anduril",
@@ -121,11 +121,11 @@
           "retentionPolicy": "metadata-hash-short-evidence",
           "url": "https://boards-api.greenhouse.io/v1/boards/andurilindustries/jobs?content=true",
           "httpStatus": 200,
-          "etag": "W/\"53a1f6dacebff03bdc16c05324604584\"",
+          "etag": "W/\"1a7781d564e1fe751f954731425bbdb5\"",
           "lastModified": null,
-          "responseHash": "sha256:53a1f6dacebff03bdc16c05324604584418b04b845e1a3aaf5e21a8c2f0f819f",
+          "responseHash": "sha256:1a7781d564e1fe751f954731425bbdb561965bb91b77e85960a5da8346eb3cac",
           "responseBytes": 38045472,
-          "latencyMs": 9253
+          "latencyMs": 903
         },
         {
           "employer": "Glean",
@@ -137,11 +137,11 @@
           "retentionPolicy": "metadata-hash-short-evidence",
           "url": "https://boards-api.greenhouse.io/v1/boards/gleanwork/jobs?content=true",
           "httpStatus": 200,
-          "etag": "W/\"27b3df81bd4620e5dd880aa6d204718d\"",
+          "etag": "W/\"4a3d615c1f0ecc5f58bf52bcdbd8ff6c\"",
           "lastModified": null,
-          "responseHash": "sha256:27b3df81bd4620e5dd880aa6d204718dce3037c0ac808f7bb18b2f2251c9e435",
+          "responseHash": "sha256:4a3d615c1f0ecc5f58bf52bcdbd8ff6c7280a2e1f47e4b097280d58977aca34d",
           "responseBytes": 2145107,
-          "latencyMs": 458
+          "latencyMs": 176
         },
         {
           "employer": "Together AI",
@@ -157,7 +157,7 @@
           "lastModified": null,
           "responseHash": "sha256:a8d0147c8c35323666db132b23dd92870f96ccdac43d581841aa6be1edbad02e",
           "responseBytes": 514775,
-          "latencyMs": 518
+          "latencyMs": 107
         },
         {
           "employer": "xAI",
@@ -169,11 +169,11 @@
           "retentionPolicy": "metadata-hash-short-evidence",
           "url": "https://boards-api.greenhouse.io/v1/boards/xai/jobs?content=true",
           "httpStatus": 200,
-          "etag": "W/\"63617799f4dbb4bbc6ce580ba77676e3\"",
+          "etag": "W/\"dd4e35bc93cb4f86de1147099e108a60\"",
           "lastModified": null,
-          "responseHash": "sha256:63617799f4dbb4bbc6ce580ba77676e317e476ee8214b0088153d17d0191585b",
+          "responseHash": "sha256:dd4e35bc93cb4f86de1147099e108a60a88573713308a37ee762f8c33b06c243",
           "responseBytes": 2065614,
-          "latencyMs": 370
+          "latencyMs": 154
         }
       ],
       "eligibleObservations": 875,
