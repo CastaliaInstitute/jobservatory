@@ -10,7 +10,7 @@ test("builds a Cloudflare Pages-ready static site", async () => {
 });
 
 test("publishes provenance, evaluation, and safely abstaining signal feeds", async () => {
-  const [observatory, dataCard, apocalypso, retrieval, classification, learnedRetrieval, hierarchical, counterfactual, readiness, benchmark, accessibility, servingManifest, servingIndex, retrievalServiceBenchmark] = await Promise.all([
+  const [observatory, dataCard, apocalypso, retrieval, classification, learnedRetrieval, hierarchical, counterfactual, readiness, benchmark, accessibility, servingManifest, servingIndex, retrievalServiceBenchmark, sourceRightsRegister] = await Promise.all([
     readFile(new URL("../dist/api/observatory.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/data-card.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/apocalypso/jobs-signal.json", import.meta.url), "utf8"),
@@ -25,6 +25,7 @@ test("publishes provenance, evaluation, and safely abstaining signal feeds", asy
     readFile(new URL("../dist/api/search/manifest-v1.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/search/index-v1.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/ops/retrieval-service-benchmark.json", import.meta.url), "utf8"),
+    readFile(new URL("../dist/api/governance/source-rights-register.json", import.meta.url), "utf8"),
   ]);
   const corpus = JSON.parse(observatory);
   const card = JSON.parse(dataCard);
@@ -40,6 +41,7 @@ test("publishes provenance, evaluation, and safely abstaining signal feeds", asy
   const searchManifest = JSON.parse(servingManifest);
   const searchIndex = JSON.parse(servingIndex);
   const searchBenchmark = JSON.parse(retrievalServiceBenchmark);
+  const rightsRegister = JSON.parse(sourceRightsRegister);
   assert.ok(corpus.observations.length >= 100);
   assert.ok(corpus.termIndex.length >= 20);
   assert.ok(corpus.termTimeline.length >= 1);
@@ -66,6 +68,12 @@ test("publishes provenance, evaluation, and safely abstaining signal feeds", asy
   assert.equal(card.coverage.configuredSources, corpus.coverage.sourcesConfigured);
   assert.equal(card.rights.allSourcesApproved, false);
   assert.equal(card.rights.modelTrainingPermitted, false);
+  assert.equal(rightsRegister.summary.sources, corpus.coverage.sourcesConfigured);
+  assert.equal(rightsRegister.summary.status, "pending");
+  assert.equal(rightsRegister.summary.approvedDecisions, 0);
+  assert.equal(rightsRegister.reviews.length, corpus.coverage.retrieval.length);
+  assert.ok(rightsRegister.reviews.every(review => review.registryAligned && review.decisionEvidence.employerTermsUrl === null && review.blockers.length === 5));
+  assert.equal(rightsRegister.policy.sourceContentModelTrainingEnabled, false);
   assert.equal(card.corpus.descriptionPolicy, "metadata-and-evidence-only");
   assert.ok(corpus.observations.some(item => item.classifications.skills.some(skill => skill.onetSoftwareSkill)));
   assert.equal(signal.module, "AI");

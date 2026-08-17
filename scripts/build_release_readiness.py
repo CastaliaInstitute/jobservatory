@@ -19,21 +19,18 @@ accessibility = json.loads(accessibility_path.read_text()) if accessibility_path
 serving_manifest = json.loads((PUBLIC / "search" / "manifest-v1.json").read_text())
 retrieval_benchmark_path = PUBLIC / "ops" / "retrieval-service-benchmark.json"
 retrieval_benchmark = json.loads(retrieval_benchmark_path.read_text()) if retrieval_benchmark_path.exists() else None
+rights_register_path = PUBLIC / "governance" / "source-rights-register.json"
+rights_register = json.loads(rights_register_path.read_text()) if rights_register_path.exists() else None
 
 
 def gate(identifier: str, name: str, passed: bool, evidence: str) -> dict:
     return {"id": identifier, "name": name, "status": "pass" if passed else "fail", "evidence": evidence}
 
 
-rights_approved = all(
-    source["rightsReviewStatus"] == "approved"
-    and source["redistributionReviewStatus"] == "approved"
-    and source["modelTrainingReviewStatus"] == "approved"
-    for source in corpus["coverage"]["retrieval"]
-)
+rights_approved = bool(rights_register) and rights_register["summary"]["status"] == "approved" and rights_register["summary"]["sources"] == corpus["coverage"]["sourcesConfigured"] and all(not review["blockers"] for review in rights_register["reviews"])
 gates = [
     gate("corpus.source_universe", "Declared source universe is complete", corpus["coverage"]["sourcesSuccessful"] == corpus["coverage"]["sourcesConfigured"] and corpus["coverage"]["publishedObservations"] == corpus["coverage"]["eligibleObservations"], "public/api/observatory.json coverage"),
-    gate("corpus.rights", "Every source has approved retrieval, retention, redistribution, and training rights", rights_approved and assurance["sourceRightsReviewComplete"], "source registry rightsReviewStatus plus config/assurance.json"),
+    gate("corpus.rights", "Every source has approved retrieval, retention, excerpt publication, redistribution, and training rights", rights_approved and assurance["sourceRightsReviewComplete"], "public/api/governance/source-rights-register.json plus config/assurance.json"),
     gate("onet.human_review", "Occupation and skill mappings are human reviewed", assurance["occupationMappingHumanReviewComplete"], "config/assurance.json"),
     gate("evaluation.independent", "Retrieval and classification sets are independently annotated and adjudicated", assurance["independentAdjudicationComplete"], "config/assurance.json and model evaluation manifests"),
     gate("retrieval.promotion", "Learned retrieval clears BM25 quality and evidence gates", retrieval["promotion"]["status"] == "eligible", "public/api/ml/learned-retrieval-metrics.json"),

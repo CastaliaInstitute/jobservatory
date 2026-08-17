@@ -1,0 +1,2037 @@
+{
+  "schemaVersion": "jobservatory.source-rights-register.v1",
+  "generatedAt": "2026-08-17T12:12:59+00:00",
+  "sourceRegistryVersion": "jobservatory-sources-2026-08-17.5",
+  "sourceRegistrySha256": "sha256:ee32bd1a455451879ee1e92cde50aa6872bf2559096e771c94fc8ca4d867e4ab",
+  "reviewInputSha256": "sha256:6bb7f41af3de502d2dade9ecc43a91cb238a5fe823ea24cf996d8813a5dcd737",
+  "policy": {
+    "fullDescriptionsRepublished": false,
+    "sourceContentModelTrainingEnabled": false,
+    "defaultDecision": "pending",
+    "notice": "Public technical access is not a license. Every decision requires source-specific evidence and an accountable reviewer."
+  },
+  "summary": {
+    "sources": 53,
+    "actionableDecisions": 265,
+    "approvedDecisions": 0,
+    "pendingDecisions": 265,
+    "rejectedDecisions": 0,
+    "status": "pending"
+  },
+  "reviews": [
+    {
+      "sourceId": "ashby:abridge",
+      "employer": "Abridge",
+      "ats": "ashby",
+      "sourceKey": "abridge",
+      "sector": "healthcare-ai",
+      "jobBoardUrl": "https://jobs.ashbyhq.com/abridge",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-posting-api",
+        "documentationUrl": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:3a68f2bf280b4d408139d696143db3101940378023e26c1821259567f21a44b1",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "ashby:cohere",
+      "employer": "Cohere",
+      "ats": "ashby",
+      "sourceKey": "cohere",
+      "sector": "frontier-model-lab",
+      "jobBoardUrl": "https://jobs.ashbyhq.com/cohere",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-posting-api",
+        "documentationUrl": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:0804ad8391e67c20ab9dbdcbaf3579262341d6105bedaedb31b84aae226b0c55",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "ashby:decagon",
+      "employer": "Decagon",
+      "ats": "ashby",
+      "sourceKey": "decagon",
+      "sector": "enterprise-ai-agents",
+      "jobBoardUrl": "https://jobs.ashbyhq.com/decagon",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-posting-api",
+        "documentationUrl": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:a66ed839768e573c1ea49fd489a50b78451af243ff68e106eea5d782a8c20e0f",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "ashby:openai",
+      "employer": "OpenAI",
+      "ats": "ashby",
+      "sourceKey": "openai",
+      "sector": "frontier-model-lab",
+      "jobBoardUrl": "https://jobs.ashbyhq.com/openai",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-posting-api",
+        "documentationUrl": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:88849e37dcac428276ac42ed5d03669cab6cc37bd0d1c65ae504363da0f6bb73",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "ashby:perplexity",
+      "employer": "Perplexity",
+      "ats": "ashby",
+      "sourceKey": "perplexity",
+      "sector": "ai-search",
+      "jobBoardUrl": "https://jobs.ashbyhq.com/perplexity",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-posting-api",
+        "documentationUrl": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:495adaeb96d82d8777b2af376e605aeb2d5063d562bf62aff9210ef049f80c56",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "ashby:physicalintelligence",
+      "employer": "Physical Intelligence",
+      "ats": "ashby",
+      "sourceKey": "physicalintelligence",
+      "sector": "robotics-foundation-models",
+      "jobBoardUrl": "https://jobs.ashbyhq.com/physicalintelligence",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-posting-api",
+        "documentationUrl": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:f291c841bef003217a3bfe4564075e4917cf81e37af8a2a61a6ab7d718bf2e56",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "ashby:sierra",
+      "employer": "Sierra",
+      "ats": "ashby",
+      "sourceKey": "sierra",
+      "sector": "enterprise-ai-agents",
+      "jobBoardUrl": "https://jobs.ashbyhq.com/sierra",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-posting-api",
+        "documentationUrl": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:8e54e7f48965e1360f1595409d3a482a5a15773cdbf54f64a81bb4261a4fb029",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:affirm",
+      "employer": "Affirm",
+      "ats": "greenhouse",
+      "sourceKey": "affirm",
+      "sector": "financial-technology",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/affirm",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:113b1d460005f2ebe01474f9678191ab78e40a9104156cf99c1f3738ac1edb04",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:airbnb",
+      "employer": "Airbnb",
+      "ats": "greenhouse",
+      "sourceKey": "airbnb",
+      "sector": "travel",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/airbnb",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:6f7ac1804183b9af286065e12113508475c6042af157faf1dccf2a2b382054ee",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:andurilindustries",
+      "employer": "Anduril",
+      "ats": "greenhouse",
+      "sourceKey": "andurilindustries",
+      "sector": "defense-robotics",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/andurilindustries",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:5da7fe131bdc3f66d6eee83ce74caa488ac1385e2fdaea1b728f92e3b637b66c",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:anthropic",
+      "employer": "Anthropic",
+      "ats": "greenhouse",
+      "sourceKey": "anthropic",
+      "sector": "frontier-model-lab",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/anthropic",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:d6919dfd3c58c45e0db834ec794073147f09f4ff287084efdd0f1ba1c7e53cd4",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:asana",
+      "employer": "Asana",
+      "ats": "greenhouse",
+      "sourceKey": "asana",
+      "sector": "productivity",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/asana",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:4fed7c8dbd829604ed8fc51e5157523f3cd38cfb76d0801610d0646404383994",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:brex",
+      "employer": "Brex",
+      "ats": "greenhouse",
+      "sourceKey": "brex",
+      "sector": "financial-technology",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/brex",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:c000eb99d51b244b69bc1f2003f1656c5773f1ea17185cda4612e3d2a7b21203",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:carbonrobotics",
+      "employer": "Carbon Robotics",
+      "ats": "greenhouse",
+      "sourceKey": "carbonrobotics",
+      "sector": "agriculture",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/carbonrobotics",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:f457f2eef145dcf1b5b3c74744b1f0be78040fd889681a744ec9383f69c46246",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:chime",
+      "employer": "Chime",
+      "ats": "greenhouse",
+      "sourceKey": "chime",
+      "sector": "financial-technology",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/chime",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:11afc763d1f3c0e169aa9c490e11cffd82d8dbce5e6dcdf065ec141aa955c2ee",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:cloudflare",
+      "employer": "Cloudflare",
+      "ats": "greenhouse",
+      "sourceKey": "cloudflare",
+      "sector": "internet-infrastructure",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/cloudflare",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:7b5d4d017aef0267ffa0139f48639b471b57d181861e05d251e0a2986fa6e551",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:coherehealth",
+      "employer": "Cohere Health",
+      "ats": "greenhouse",
+      "sourceKey": "coherehealth",
+      "sector": "healthcare-ai",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/coherehealth",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:5a93c602df62a3505e04cabab074b683125b342a7b604215d662df336b4893ec",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:coinbase",
+      "employer": "Coinbase",
+      "ats": "greenhouse",
+      "sourceKey": "coinbase",
+      "sector": "financial-technology",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/coinbase",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:4b792498b239ce58ad6d1172c5634a3b4a65fc542ae104cd2a845c4e6311aaab",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:coreweave",
+      "employer": "CoreWeave",
+      "ats": "greenhouse",
+      "sourceKey": "coreweave",
+      "sector": "ai-cloud",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/coreweave",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:e0e9d72045dc940653605841119b8540a88ae3a1e59a0b25ca53b0b9ba83e994",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:databricks",
+      "employer": "Databricks",
+      "ats": "greenhouse",
+      "sourceKey": "databricks",
+      "sector": "data-and-ai-platform",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/databricks",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:56efca9612e242ccaed5a54152e03aab6426640c6d66baa8bb87425151a1063b",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:deepmind",
+      "employer": "Google DeepMind",
+      "ats": "greenhouse",
+      "sourceKey": "deepmind",
+      "sector": "frontier-model-lab",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/deepmind",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:2c42e328802836872e90efe6fb01df48342f5fb2ce266c5fc98f24c9126c3ec3",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:duolingo",
+      "employer": "Duolingo",
+      "ats": "greenhouse",
+      "sourceKey": "duolingo",
+      "sector": "education-technology",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/duolingo",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:ebd01af94b5065605aa00b55683d2686fbfd4c05d546168637031dce8d93e938",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:eve",
+      "employer": "Eve",
+      "ats": "greenhouse",
+      "sourceKey": "eve",
+      "sector": "legal-technology",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/eve",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:30a16b569327acb3e62b590f6fdbdbb56852d6fcff41d0e065812e2f412cee7b",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:faire",
+      "employer": "Faire",
+      "ats": "greenhouse",
+      "sourceKey": "faire",
+      "sector": "commerce-marketplace",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/faire",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:db55f478db4df78ff9581c1d7d468909abe130700c42a924aaef2bd57180c918",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:figma",
+      "employer": "Figma",
+      "ats": "greenhouse",
+      "sourceKey": "figma",
+      "sector": "design-collaboration",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/figma",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:738c70b4cfe6b712295238614efd48687bd150eea0f1e01fa294a181d5462533",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:formationbio",
+      "employer": "Formation Bio",
+      "ats": "greenhouse",
+      "sourceKey": "formationbio",
+      "sector": "biotechnology",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/formationbio",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:90d85f5e3365d0d4e3238bcef7407963850a1df5f9b7bc275994985464f1a9d4",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:gitlab",
+      "employer": "GitLab",
+      "ats": "greenhouse",
+      "sourceKey": "gitlab",
+      "sector": "developer-platform",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/gitlab",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:04d003bc41bbf90d5a0df5424bbb4a764d11464cb68b6eb016db0e09aa89c159",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:gleanwork",
+      "employer": "Glean",
+      "ats": "greenhouse",
+      "sourceKey": "gleanwork",
+      "sector": "enterprise-search",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/gleanwork",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:27b3df81bd4620e5dd880aa6d204718dce3037c0ac808f7bb18b2f2251c9e435",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:gusto",
+      "employer": "Gusto",
+      "ats": "greenhouse",
+      "sourceKey": "gusto",
+      "sector": "hr-technology",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/gusto",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:d299466f730c0c7d4e8a4669e3c60464525e3b68b00b5914513b2f4d7bb51ba0",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:instacart",
+      "employer": "Instacart",
+      "ats": "greenhouse",
+      "sourceKey": "instacart",
+      "sector": "commerce-marketplace",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/instacart",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:6eccac65ffbb25249721c0e0b81e2ecf2b1e177df74a5fea2d9431ec9d40d826",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:lawzero",
+      "employer": "LawZero",
+      "ats": "greenhouse",
+      "sourceKey": "lawzero",
+      "sector": "ai-safety-research",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/lawzero",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:5d74910fdb992b94684e2a5449b9c84e4317daa88e39642152c54e59be22536f",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:lyft",
+      "employer": "Lyft",
+      "ats": "greenhouse",
+      "sourceKey": "lyft",
+      "sector": "mobility",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/lyft",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:3ff1f7d04d923a763e038c1db7accef5b60108476fffaaca55c12ae1646cc494",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:okta",
+      "employer": "Okta",
+      "ats": "greenhouse",
+      "sourceKey": "okta",
+      "sector": "security",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/okta",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:2e21b479ed07e1ecc9cd1370af4e6ff06522770595b976293230f0e23fdc95ae",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:oscar",
+      "employer": "Oscar Health",
+      "ats": "greenhouse",
+      "sourceKey": "oscar",
+      "sector": "health-insurance",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/oscar",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:abbdf4147fa6c7def69a432e9891c43e1dd470fd6e697ea80031834d22572ad2",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:pinterest",
+      "employer": "Pinterest",
+      "ats": "greenhouse",
+      "sourceKey": "pinterest",
+      "sector": "consumer-platform",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/pinterest",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:df187c3f3aff12d8bda5c17694e821c8e3e6b4bcf035af6e0c0a542050913f14",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:reddit",
+      "employer": "Reddit",
+      "ats": "greenhouse",
+      "sourceKey": "reddit",
+      "sector": "consumer-platform",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/reddit",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:ea32cd92786ba9dc1af68b830a820a87b38a2984785e05017ea66119ef6e57d4",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:roblox",
+      "employer": "Roblox",
+      "ats": "greenhouse",
+      "sourceKey": "roblox",
+      "sector": "interactive-entertainment",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/roblox",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:b15efc3d27d91c0a8e84d20e6ecbc73b1ca1a4328ce08e208875d28dd54b9d0b",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:samsara",
+      "employer": "Samsara",
+      "ats": "greenhouse",
+      "sourceKey": "samsara",
+      "sector": "industrial-iot",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/samsara",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:2b10a0121c35a8373baa4f046a5b0b9d904e9098ca9aed3fd261d58c9923dff3",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:scaleai",
+      "employer": "Scale AI",
+      "ats": "greenhouse",
+      "sourceKey": "scaleai",
+      "sector": "ai-data-platform",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/scaleai",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:6a5aac9c15d2d8762086f70fd6a7ffbe0dc6c6ff13156c36b749a88cfc721d77",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:stripe",
+      "employer": "Stripe",
+      "ats": "greenhouse",
+      "sourceKey": "stripe",
+      "sector": "financial-technology",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/stripe",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:33d8c7e091ebd6f3e8beedf34a23ba23ecc56960d01d894bce5827032a9f0113",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:tapestryenergy",
+      "employer": "Tapestry",
+      "ats": "greenhouse",
+      "sourceKey": "tapestryenergy",
+      "sector": "energy",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/tapestryenergy",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:d4f9dd880f2a9ddad230d4c564ea96be314156aae64039e348e87ac70e9b7948",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:thoughtworks",
+      "employer": "Thoughtworks",
+      "ats": "greenhouse",
+      "sourceKey": "thoughtworks",
+      "sector": "professional-services",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/thoughtworks",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:548661db725e3406a50e264a75d566904d7b8e706ac1041c0c8ccf0a9aab37d4",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:toast",
+      "employer": "Toast",
+      "ats": "greenhouse",
+      "sourceKey": "toast",
+      "sector": "hospitality-technology",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/toast",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:9da2876d02c0bfae55c410f49ecd86cbc5a1a538a251484f0c161b9a2bb80246",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:togetherai",
+      "employer": "Together AI",
+      "ats": "greenhouse",
+      "sourceKey": "togetherai",
+      "sector": "ai-cloud",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/togetherai",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:a8d0147c8c35323666db132b23dd92870f96ccdac43d581841aa6be1edbad02e",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:tripadvisor",
+      "employer": "Tripadvisor",
+      "ats": "greenhouse",
+      "sourceKey": "tripadvisor",
+      "sector": "travel",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/tripadvisor",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:c3f34f1da8a92daae225d1d7c0a06f1e6493f097caaeaba3417a7384787c32b9",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:twilio",
+      "employer": "Twilio",
+      "ats": "greenhouse",
+      "sourceKey": "twilio",
+      "sector": "communications",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/twilio",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:17a7914fe0c6a4fed4d3b76239369f0ad2bd89ceed783a5086b066404eace9f2",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:xai",
+      "employer": "xAI",
+      "ats": "greenhouse",
+      "sourceKey": "xai",
+      "sector": "frontier-model-lab",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/xai",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:63617799f4dbb4bbc6ce580ba77676e317e476ee8214b0088153d17d0191585b",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "greenhouse:xometry",
+      "employer": "Xometry",
+      "ats": "greenhouse",
+      "sourceKey": "xometry",
+      "sector": "manufacturing",
+      "jobBoardUrl": "https://job-boards.greenhouse.io/xometry",
+      "technicalAccess": {
+        "accessBasis": "official-public-job-board-api",
+        "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:66aaa15649b21291162583f53d60edc569c0eedd6a56f41e693eb95455bf5d2a",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "lever:palantir",
+      "employer": "Palantir",
+      "ats": "lever",
+      "sourceKey": "palantir",
+      "sector": "enterprise-and-defense-software",
+      "jobBoardUrl": "https://jobs.lever.co/palantir",
+      "technicalAccess": {
+        "accessBasis": "official-public-postings-api",
+        "documentationUrl": "https://github.com/lever/postings-api",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:c4f71a9e5a2a288929347ced42149332198b9d156f05bead8e193d05973d2f8f",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "lever:shieldai",
+      "employer": "Shield AI",
+      "ats": "lever",
+      "sourceKey": "shieldai",
+      "sector": "defense-robotics",
+      "jobBoardUrl": "https://jobs.lever.co/shieldai",
+      "technicalAccess": {
+        "accessBasis": "official-public-postings-api",
+        "documentationUrl": "https://github.com/lever/postings-api",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:aab661f8eaf867930511b771701d245ef1337268e99f14d3d0bf374d3b29e49b",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "lever:spotify",
+      "employer": "Spotify",
+      "ats": "lever",
+      "sourceKey": "spotify",
+      "sector": "media-and-entertainment",
+      "jobBoardUrl": "https://jobs.lever.co/spotify",
+      "technicalAccess": {
+        "accessBasis": "official-public-postings-api",
+        "documentationUrl": "https://github.com/lever/postings-api",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:4597e2d72fdadb16cd311242da16d7c8e0af86177c148e185f1e11d8fd534501",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "lever:waabi",
+      "employer": "Waabi",
+      "ats": "lever",
+      "sourceKey": "waabi",
+      "sector": "autonomous-vehicles",
+      "jobBoardUrl": "https://jobs.lever.co/waabi",
+      "technicalAccess": {
+        "accessBasis": "official-public-postings-api",
+        "documentationUrl": "https://github.com/lever/postings-api",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:2abe0e9b4ca91e6cba342a568739a45084951765221b221c76222c40ac7af28e",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "lever:zoox",
+      "employer": "Zoox",
+      "ats": "lever",
+      "sourceKey": "zoox",
+      "sector": "autonomous-vehicles",
+      "jobBoardUrl": "https://jobs.lever.co/zoox",
+      "technicalAccess": {
+        "accessBasis": "official-public-postings-api",
+        "documentationUrl": "https://github.com/lever/postings-api",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:61345434cc88647388887f67147a30a7270d3040c4a9387f4d6c90fcd4a0d64c",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    }
+  ]
+}

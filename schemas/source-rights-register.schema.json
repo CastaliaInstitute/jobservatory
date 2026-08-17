@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jobservatory.castalia.institute/schemas/source-rights-register.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schemaVersion", "generatedAt", "sourceRegistryVersion", "sourceRegistrySha256", "reviewInputSha256", "policy", "summary", "reviews"],
+  "properties": {
+    "schemaVersion": {"const": "jobservatory.source-rights-register.v1"},
+    "generatedAt": {"type": "string", "format": "date-time"},
+    "sourceRegistryVersion": {"type": "string", "minLength": 1},
+    "sourceRegistrySha256": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "reviewInputSha256": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["fullDescriptionsRepublished", "sourceContentModelTrainingEnabled", "defaultDecision", "notice"],
+      "properties": {
+        "fullDescriptionsRepublished": {"const": false},
+        "sourceContentModelTrainingEnabled": {"const": false},
+        "defaultDecision": {"const": "pending"},
+        "notice": {"type": "string", "minLength": 1}
+      }
+    },
+    "summary": {
+      "type": "object", "additionalProperties": false,
+      "required": ["sources", "actionableDecisions", "approvedDecisions", "pendingDecisions", "rejectedDecisions", "status"],
+      "properties": {
+        "sources": {"type": "integer", "minimum": 1},
+        "actionableDecisions": {"type": "integer", "minimum": 1},
+        "approvedDecisions": {"type": "integer", "minimum": 0},
+        "pendingDecisions": {"type": "integer", "minimum": 0},
+        "rejectedDecisions": {"type": "integer", "minimum": 0},
+        "status": {"enum": ["pending", "approved"]}
+      }
+    },
+    "reviews": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/review"}}
+  },
+  "$defs": {
+    "decision": {"enum": ["pending", "approved", "rejected", "not_requested"]},
+    "review": {
+      "type": "object", "additionalProperties": false,
+      "required": ["sourceId", "employer", "ats", "sourceKey", "sector", "jobBoardUrl", "technicalAccess", "retentionPolicy", "decisions", "decisionEvidence", "registryAligned", "blockers"],
+      "properties": {
+        "sourceId": {"type": "string", "pattern": "^(greenhouse|lever|ashby):"},
+        "employer": {"type": "string", "minLength": 1},
+        "ats": {"enum": ["greenhouse", "lever", "ashby"]},
+        "sourceKey": {"type": "string", "minLength": 1},
+        "sector": {"type": "string", "minLength": 1},
+        "jobBoardUrl": {"type": "string", "format": "uri"},
+        "technicalAccess": {
+          "type": "object", "additionalProperties": false,
+          "required": ["accessBasis", "documentationUrl", "documentationReviewedAt", "lastSuccessfulResponseSha256", "lastSuccessfulHttpStatus"],
+          "properties": {
+            "accessBasis": {"type": "string", "pattern": "^official-public-"},
+            "documentationUrl": {"type": "string", "format": "uri"},
+            "documentationReviewedAt": {"type": "string", "format": "date"},
+            "lastSuccessfulResponseSha256": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+            "lastSuccessfulHttpStatus": {"const": 200}
+          }
+        },
+        "retentionPolicy": {"const": "metadata-hash-short-evidence"},
+        "decisions": {
+          "type": "object", "additionalProperties": false,
+          "required": ["retrieval", "metadataRetention", "shortExcerptPublication", "redistribution", "modelTraining", "rawResponseRetention"],
+          "properties": {
+            "retrieval": {"$ref": "#/$defs/decision"},
+            "metadataRetention": {"$ref": "#/$defs/decision"},
+            "shortExcerptPublication": {"$ref": "#/$defs/decision"},
+            "redistribution": {"$ref": "#/$defs/decision"},
+            "modelTraining": {"$ref": "#/$defs/decision"},
+            "rawResponseRetention": {"$ref": "#/$defs/decision"}
+          }
+        },
+        "decisionEvidence": {
+          "type": "object", "additionalProperties": false,
+          "required": ["employerTermsUrl", "reviewer", "reviewedAt", "notes"],
+          "properties": {
+            "employerTermsUrl": {"type": ["string", "null"], "format": "uri"},
+            "reviewer": {"type": ["string", "null"], "minLength": 1},
+            "reviewedAt": {"type": ["string", "null"], "format": "date"},
+            "notes": {"type": "string", "minLength": 1}
+          }
+        },
+        "registryAligned": {"type": "boolean"},
+        "blockers": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+      }
+    }
+  }
+}

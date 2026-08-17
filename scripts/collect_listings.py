@@ -416,6 +416,11 @@ def main() -> int:
             }
             candidates.append(record)
         policy = CONFIG.get("atsPolicies", {}).get(ats, {})
+        policy = {
+            **policy,
+            "redistributionReviewStatus": source.get("redistributionReviewStatus", policy.get("redistributionReviewStatus", "pending")),
+            "modelTrainingReviewStatus": source.get("modelTrainingReviewStatus", policy.get("modelTrainingReviewStatus", "pending")),
+        }
         retrieval.append({"employer": source["employer"], "ats": ats, "sourceKey": source_key, "sector": source.get("sector", "unspecified"), "retrieved": len(jobs), "eligible": source_eligible, "status": "ok", "rightsReviewStatus": source.get("rightsReviewStatus", "pending"), "retentionPolicy": source.get("retentionPolicy", "metadata-hash-short-evidence"), **policy, **fetch_metadata})
 
     if failures and os.environ.get("JOBSERVATORY_ALLOW_PARTIAL") != "1":

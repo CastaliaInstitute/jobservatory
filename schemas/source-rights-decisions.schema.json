@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jobservatory.castalia.institute/schemas/source-rights-decisions.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schemaVersion", "reviews"],
+  "properties": {
+    "schemaVersion": {"const": "jobservatory.source-rights-decisions.v1"},
+    "reviews": {
+      "type": "object",
+      "propertyNames": {"pattern": "^(greenhouse|lever|ashby):[a-zA-Z0-9_-]+$"},
+      "additionalProperties": {"$ref": "#/$defs/reviewInput"}
+    }
+  },
+  "$defs": {
+    "decision": {"enum": ["pending", "approved", "rejected", "not_requested"]},
+    "reviewInput": {
+      "type": "object", "additionalProperties": false,
+      "required": ["decisions", "decisionEvidence"],
+      "properties": {
+        "decisions": {
+          "type": "object", "additionalProperties": false,
+          "required": ["retrieval", "metadataRetention", "shortExcerptPublication", "redistribution", "modelTraining", "rawResponseRetention"],
+          "properties": {
+            "retrieval": {"$ref": "#/$defs/decision"},
+            "metadataRetention": {"$ref": "#/$defs/decision"},
+            "shortExcerptPublication": {"$ref": "#/$defs/decision"},
+            "redistribution": {"$ref": "#/$defs/decision"},
+            "modelTraining": {"$ref": "#/$defs/decision"},
+            "rawResponseRetention": {"$ref": "#/$defs/decision"}
+          }
+        },
+        "decisionEvidence": {
+          "type": "object", "additionalProperties": false,
+          "required": ["employerTermsUrl", "reviewer", "reviewedAt", "notes"],
+          "properties": {
+            "employerTermsUrl": {"type": "string", "format": "uri"},
+            "reviewer": {"type": "string", "minLength": 1},
+            "reviewedAt": {"type": "string", "format": "date"},
+            "notes": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    }
+  }
+}

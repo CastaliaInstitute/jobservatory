@@ -13,9 +13,9 @@
     },
     {
       "id": "corpus.rights",
-      "name": "Every source has approved retrieval, retention, redistribution, and training rights",
+      "name": "Every source has approved retrieval, retention, excerpt publication, redistribution, and training rights",
       "status": "fail",
-      "evidence": "source registry rightsReviewStatus plus config/assurance.json"
+      "evidence": "public/api/governance/source-rights-register.json plus config/assurance.json"
     },
     {
       "id": "onet.human_review",

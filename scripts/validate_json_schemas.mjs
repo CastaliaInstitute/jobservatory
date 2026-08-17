@@ -15,6 +15,8 @@ const pairs = [
   ["schemas/serving-index-manifest.schema.json", "public/api/search/manifest-v1.json"],
   ["schemas/serving-index.schema.json", "public/api/search/index-v1.json"],
   ["schemas/retrieval-service-benchmark.schema.json", "public/api/ops/retrieval-service-benchmark.json"],
+  ["schemas/source-rights-register.schema.json", "public/api/governance/source-rights-register.json"],
+  ["schemas/source-rights-decisions.schema.json", "config/source-rights-decisions.json"],
 ];
 const ajv = new Ajv2020({ allErrors: true, strict: true });
 addFormats(ajv);
@@ -27,4 +29,4 @@ for (const [schemaPath, artifactPath] of pairs) {
   if (!validate) throw new Error(`schema was not registered: ${schemaPath}`);
   if (!validate(artifact)) throw new Error(`${artifactPath} violates ${schemaPath}: ${ajv.errorsText(validate.errors, { separator: "\n" })}`);
 }
-console.log(`validated ${pairs.length} public artifacts against JSON Schema 2020-12 contracts`);
+console.log(`validated ${pairs.length} artifacts against JSON Schema 2020-12 contracts`);

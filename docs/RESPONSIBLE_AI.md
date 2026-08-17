@@ -11,6 +11,7 @@ The gates cover source rights, O*NET mapping review, independent annotation and 
 ## Current boundaries
 
 - Source training and redistribution rights are not yet approved for every source.
+- The public source-rights register separates technical access from five actionable legal/use decisions per source, records accountable evidence fields, and fails on registry disagreement; all decisions remain pending until reviewed.
 - Labels used by the classifier are weak labels, not adjudicated gold labels.
 - The counterfactual audit does not measure disparate impact or location-proxy effects and is not a fairness certification.
 - The retrieval development set has one reviewer and is not promotion evidence.
