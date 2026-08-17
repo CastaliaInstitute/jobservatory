@@ -4,7 +4,7 @@ import test from "node:test";
 
 test("builds a Cloudflare Pages-ready static site", async () => {
   const html = await readFile(new URL("../dist/index.html", import.meta.url), "utf8");
-  assert.match(html, /Castalia AI Labor Observatory/);
+  assert.match(html, /Jobservatory — Castalia AI Labor Observatory/);
   assert.match(html, /canonical/);
   await access(new URL("../dist/assets/", import.meta.url));
 });

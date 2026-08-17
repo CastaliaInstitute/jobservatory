@@ -107,7 +107,7 @@ def compensation(text: str) -> dict | None:
 
 def fetch_board(board: str) -> list[dict]:
     url = f"https://boards-api.greenhouse.io/v1/boards/{board}/jobs?content=true"
-    req = urllib.request.Request(url, headers={"User-Agent": "Castalia-AI-Labor-Observatory/0.1 (+https://jobs.castalia.institute)"})
+    req = urllib.request.Request(url, headers={"User-Agent": "Jobservatory/0.1 (+https://jobservatory.castalia.institute)"})
     with urllib.request.urlopen(req, timeout=40) as response:
         return json.load(response).get("jobs", [])
 
@@ -239,9 +239,9 @@ def main() -> int:
     PUBLIC_PATH.write_text(json.dumps(export, indent=2) + "\n")
     APOCALYPSO_PATH.parent.mkdir(parents=True, exist_ok=True)
     apocalypso = {
-        "schemaVersion": "apocalypso.signal.v1", "generatedAt": now, "module": "AI", "source": "jobs.castalia.institute",
+        "schemaVersion": "apocalypso.signal.v1", "generatedAt": now, "module": "AI", "source": "jobservatory.castalia.institute",
         "signal": {"id": "labor.ai_job_design", "name": "AI job-design pressure", "value": min(1, round((domains.get("ML engineering", 0) + domains.get("Product & leadership", 0)) / max(len(records), 1), 3)), "unit": "index_0_1", "direction": "higher_means_more_operationalization"},
-        "context": export["summary"], "sourceUrl": "https://jobs.castalia.institute/api/observatory.json"
+        "context": export["summary"], "sourceUrl": "https://jobservatory.castalia.institute/api/observatory.json"
     }
     APOCALYPSO_PATH.write_text(json.dumps(apocalypso, indent=2) + "\n")
     HISTORY_PATH.parent.mkdir(parents=True, exist_ok=True)

@@ -1,6 +1,6 @@
-# Castalia AI Labor Observatory
+# Jobservatory
 
-A longitudinal research dataset and public interface for examining how organizations operationalize AI through job design.
+Castalia's AI Labor Observatory: a longitudinal research dataset and public interface for examining how organizations operationalize AI through job design.
 
 ## Research object
 
@@ -36,7 +36,7 @@ The site is a static Vite build for Cloudflare Pages:
 - output directory: `dist`
 - production branch: `main`
 
-The scheduled GitHub Action refreshes observations daily, verifies the build, and commits changed public exports. A connected Cloudflare Pages project then publishes the update.
+The scheduled GitHub Action refreshes observations daily, verifies the build, and commits changed public exports. Production is published at `jobservatory.castalia.institute` through Cloudflare Pages.
 
 ## Method limits
 
