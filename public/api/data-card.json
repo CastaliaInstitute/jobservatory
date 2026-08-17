@@ -1,15 +1,15 @@
 {
   "schemaVersion": "jobservatory.data-card.v1",
-  "generatedAt": "2026-08-17T11:07:30+00:00",
+  "generatedAt": "2026-08-17T11:14:48+00:00",
   "corpus": {
     "schemaVersion": "0.2.0",
-    "sha256": "sha256:6c72a9f32fabf3f10669ef8c4e15ee29469a80ffbc2ae42ec500dc07e476f5f7",
+    "sha256": "sha256:439786f2ebc0aa98207e647230157b2f76d1ab172bb6b075a6bc3c9eed3293f1",
     "unitOfAnalysis": "A public job-listing observation retrieved at a particular time.",
     "descriptionPolicy": "metadata-and-evidence-only"
   },
   "coverage": {
     "employers": 26,
-    "observations": 2173,
+    "observations": 2174,
     "configuredSources": 26,
     "successfulSources": 26,
     "atsProviders": {
@@ -37,13 +37,13 @@
       "enterprise-ai-agents": 2,
       "healthcare-ai": 1
     },
-    "largestEmployerShare": 0.2306,
+    "largestEmployerShare": 0.2305,
     "herfindahlHirschmanIndex": 0.0997,
     "entityResolution": {
       "methodVersion": "jobservatory-entity-resolution-0.1.0",
-      "postingFamilies": 1897,
+      "postingFamilies": 1898,
       "multiObservationFamilies": 174,
-      "exactVariantGroups": 2128,
+      "exactVariantGroups": 2129,
       "repostCandidateGroups": 37,
       "observationsInRepostCandidateGroups": 82,
       "reviewStatus": "unreviewed",
