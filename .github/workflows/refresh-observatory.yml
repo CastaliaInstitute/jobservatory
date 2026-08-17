@@ -1,6 +1,11 @@
 name: Refresh Jobservatory corpus
 
 on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "data/**"
+      - "public/api/**"
   schedule:
     - cron: "17 9 * * *"
   workflow_dispatch:
