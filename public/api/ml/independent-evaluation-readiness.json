@@ -1,0 +1,113 @@
+{
+  "schemaVersion": "jobservatory.independent-evaluation-readiness.v1",
+  "generatedAt": "2026-08-17T12:12:59+00:00",
+  "protocol": {
+    "id": "independent-temporal-evaluation-2026-07",
+    "path": "ml/eval/independent/protocol.json",
+    "sha256": "sha256:f8ff2ee1cdb680081ec7b632f2affc71a600589f997e260c1f8140da055a586e"
+  },
+  "corpus": {
+    "snapshot": "ml/eval/snapshots/corpus-98606624c96a5f66.json.gz",
+    "canonicalSha256": "98606624c96a5f6689478eb02b599b771b7458cf40c53dddce5f327ff82c0920",
+    "observations": 2701
+  },
+  "temporalSplit": {
+    "timestampField": "sourcePublishedAt",
+    "cutoff": "2026-07-01T00:00:00+00:00",
+    "semantics": "source-publication temporal split from one frozen corpus snapshot; not a longitudinal observation-history holdout",
+    "knownTimestampRecords": 899,
+    "excludedUnknownTimestampRecords": 1802,
+    "trainingCandidates": 616,
+    "rawHoldoutCandidates": 283,
+    "holdoutCandidates": 269,
+    "crossingFamiliesQuarantined": 9,
+    "postingFamilyLeakage": 0,
+    "status": "pass"
+  },
+  "blindPackages": {
+    "taskSetSha256": {
+      "retrieval": "sha256:71b8f414fee54fd1c8ae31979ce0a0d5971e024e0194f87b67de17d6ac9cb56b",
+      "classification": "sha256:8efd9cc07ba51085f558ef2395ab1a3e766921476e2e5caa18c9bd86c01dd13e"
+    },
+    "packages": {
+      "retrieval": {
+        "a": {
+          "path": "ml/eval/independent/packages/retrieval-reviewer-a.json",
+          "sha256": "sha256:b3b27fe6e238025dc07ad9e7d740ff15e97af308994130a0827a07bd736fbbd5",
+          "tasks": 400
+        },
+        "b": {
+          "path": "ml/eval/independent/packages/retrieval-reviewer-b.json",
+          "sha256": "sha256:98b7deb0775528b951961f85adb8154c073457e39b6b1488435f576a5dde9b67",
+          "tasks": 400
+        }
+      },
+      "classification": {
+        "a": {
+          "path": "ml/eval/independent/packages/classification-reviewer-a.json",
+          "sha256": "sha256:a7d838b831e25f5f0c0dc1aae6366527556ab743eeca22f090a0bacdc3a0078d",
+          "tasks": 200
+        },
+        "b": {
+          "path": "ml/eval/independent/packages/classification-reviewer-b.json",
+          "sha256": "sha256:cf46a404e7fcba8131c6a72e026dc7cdf007383f076e55a66370452aaf2d6414",
+          "tasks": 200
+        }
+      }
+    }
+  },
+  "submissions": {
+    "retrieval": {
+      "a": {
+        "status": "missing",
+        "blockers": [
+          "retrieval.reviewer_a.missing"
+        ]
+      },
+      "b": {
+        "status": "missing",
+        "blockers": [
+          "retrieval.reviewer_b.missing"
+        ]
+      }
+    },
+    "classification": {
+      "a": {
+        "status": "missing",
+        "blockers": [
+          "classification.reviewer_a.missing"
+        ]
+      },
+      "b": {
+        "status": "missing",
+        "blockers": [
+          "classification.reviewer_b.missing"
+        ]
+      }
+    }
+  },
+  "agreement": {
+    "retrieval": null,
+    "classification": null
+  },
+  "adjudication": {
+    "status": "missing",
+    "requiredDecisions": 0,
+    "completedDecisions": 0,
+    "coverage": 0.0
+  },
+  "eligibleForPromotionDecision": false,
+  "status": "awaiting_independent_review",
+  "blockers": [
+    "adjudication.missing",
+    "classification.reviewer_a.missing",
+    "classification.reviewer_b.missing",
+    "retrieval.reviewer_a.missing",
+    "retrieval.reviewer_b.missing"
+  ],
+  "claims": {
+    "independentAnnotationsComplete": false,
+    "longitudinalObservationHoldout": false,
+    "sourcePublicationTemporalHoldout": true
+  }
+}

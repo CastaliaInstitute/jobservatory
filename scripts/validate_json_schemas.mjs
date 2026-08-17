@@ -17,6 +17,7 @@ const pairs = [
   ["schemas/retrieval-service-benchmark.schema.json", "public/api/ops/retrieval-service-benchmark.json"],
   ["schemas/source-rights-register.schema.json", "public/api/governance/source-rights-register.json"],
   ["schemas/source-rights-decisions.schema.json", "config/source-rights-decisions.json"],
+  ["schemas/independent-evaluation-readiness.schema.json", "public/api/ml/independent-evaluation-readiness.json"],
 ];
 const ajv = new Ajv2020({ allErrors: true, strict: true });
 addFormats(ajv);

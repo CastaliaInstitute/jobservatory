@@ -1,0 +1,7 @@
+{
+  "schemaVersion": "jobservatory.retrieval-annotation-submission.v1",
+  "protocolId": "independent-temporal-evaluation-2026-07",
+  "packageSha256": "COPY_FROM_PACKAGE_MANIFEST",
+  "reviewer": {"id": "REPLACE_WITH_STABLE_PSEUDONYMOUS_ID", "independent": true, "completedAt": "YYYY-MM-DDTHH:MM:SSZ"},
+  "judgments": [{"taskId": "COPY_EACH_TASK_ID", "grade": 0, "note": "optional"}]
+}

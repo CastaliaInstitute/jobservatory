@@ -21,6 +21,8 @@ retrieval_benchmark_path = PUBLIC / "ops" / "retrieval-service-benchmark.json"
 retrieval_benchmark = json.loads(retrieval_benchmark_path.read_text()) if retrieval_benchmark_path.exists() else None
 rights_register_path = PUBLIC / "governance" / "source-rights-register.json"
 rights_register = json.loads(rights_register_path.read_text()) if rights_register_path.exists() else None
+independent_evaluation_path = PUBLIC / "ml" / "independent-evaluation-readiness.json"
+independent_evaluation = json.loads(independent_evaluation_path.read_text()) if independent_evaluation_path.exists() else None
 
 
 def gate(identifier: str, name: str, passed: bool, evidence: str) -> dict:
@@ -28,11 +30,22 @@ def gate(identifier: str, name: str, passed: bool, evidence: str) -> dict:
 
 
 rights_approved = bool(rights_register) and rights_register["summary"]["status"] == "approved" and rights_register["summary"]["sources"] == corpus["coverage"]["sourcesConfigured"] and all(not review["blockers"] for review in rights_register["reviews"])
+independent_ready = bool(independent_evaluation) and all([
+    independent_evaluation["eligibleForPromotionDecision"],
+    independent_evaluation["status"] == "ready",
+    not independent_evaluation["blockers"],
+    independent_evaluation["temporalSplit"]["status"] == "pass",
+    independent_evaluation["temporalSplit"]["postingFamilyLeakage"] == 0,
+    independent_evaluation["adjudication"]["status"] == "pass",
+    independent_evaluation["adjudication"]["coverage"] == 1,
+    independent_evaluation["claims"]["independentAnnotationsComplete"],
+    independent_evaluation["claims"]["sourcePublicationTemporalHoldout"],
+])
 gates = [
     gate("corpus.source_universe", "Declared source universe is complete", corpus["coverage"]["sourcesSuccessful"] == corpus["coverage"]["sourcesConfigured"] and corpus["coverage"]["publishedObservations"] == corpus["coverage"]["eligibleObservations"], "public/api/observatory.json coverage"),
     gate("corpus.rights", "Every source has approved retrieval, retention, excerpt publication, redistribution, and training rights", rights_approved and assurance["sourceRightsReviewComplete"], "public/api/governance/source-rights-register.json plus config/assurance.json"),
     gate("onet.human_review", "Occupation and skill mappings are human reviewed", assurance["occupationMappingHumanReviewComplete"], "config/assurance.json"),
-    gate("evaluation.independent", "Retrieval and classification sets are independently annotated and adjudicated", assurance["independentAdjudicationComplete"], "config/assurance.json and model evaluation manifests"),
+    gate("evaluation.independent", "Retrieval and classification sets are independently annotated and adjudicated", independent_ready and assurance["independentAdjudicationComplete"], "public/api/ml/independent-evaluation-readiness.json plus config/assurance.json"),
     gate("retrieval.promotion", "Learned retrieval clears BM25 quality and evidence gates", retrieval["promotion"]["status"] == "eligible", "public/api/ml/learned-retrieval-metrics.json"),
     gate("classification.promotion", "Calibrated hierarchical classifier clears evidence gates", classifier["promotion"]["status"] == "eligible", "public/api/ml/hierarchical-classifier-metrics.json"),
     gate("responsible_ai.counterfactuals", "Scoped protected-attribute counterfactual tests pass", counterfactual["status"] == "pass" and assurance["protectedAttributeCounterfactualTestsComplete"], "public/api/ml/counterfactual-audit.json plus config/assurance.json"),

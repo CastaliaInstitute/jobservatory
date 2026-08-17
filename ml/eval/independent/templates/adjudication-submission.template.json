@@ -1,0 +1,7 @@
+{
+  "schemaVersion": "jobservatory.annotation-adjudication.v1",
+  "protocolId": "independent-temporal-evaluation-2026-07",
+  "adjudicator": {"id": "A_THIRD_STABLE_PSEUDONYMOUS_ID", "independentOfReviewers": true, "completedAt": "YYYY-MM-DDTHH:MM:SSZ"},
+  "retrieval": [{"taskId": "ONLY_DISAGREEMENT_TASK_IDS", "finalGrade": 0, "rationale": "required"}],
+  "classification": [{"taskId": "ONLY_DISAGREEMENT_TASK_IDS", "finalLabels": {"aiRelationship": [], "systemLayer": [], "skills": [], "laborEffect": [], "humanRole": [], "maturity": []}, "insufficientEvidence": false, "rationale": "required"}]
+}

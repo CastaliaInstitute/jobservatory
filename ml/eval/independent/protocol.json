@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "jobservatory.annotation-protocol.v1",
+  "protocolId": "independent-temporal-evaluation-2026-07",
+  "temporalSplit": {
+    "timestampField": "sourcePublishedAt",
+    "cutoff": "2026-07-01T00:00:00+00:00",
+    "unknownTimestampPolicy": "exclude",
+    "crossingFamilyPolicy": "quarantine_from_holdout",
+    "leakageUnit": "entityResolution.postingFamilyId",
+    "minimumTrainingCandidates": 500,
+    "minimumHoldoutCandidates": 200
+  },
+  "retrieval": {
+    "candidatesPerQuery": 20,
+    "requiredIndependentReviewers": 2,
+    "queries": [
+      {"id":"tq01","stratum":"retrieval","query":"machine learning search quality engineer"},
+      {"id":"tq02","stratum":"serving","query":"model serving infrastructure staff engineer"},
+      {"id":"tq03","stratum":"robotics","query":"principal robotics perception engineer"},
+      {"id":"tq04","stratum":"safety","query":"AI safeguards and model evaluation"},
+      {"id":"tq05","stratum":"leadership","query":"principal AI platform architect"},
+      {"id":"tq06","stratum":"science","query":"scientific AI chemistry research"},
+      {"id":"tq07","stratum":"governance","query":"responsible AI governance lead"},
+      {"id":"tq08","stratum":"agents","query":"LLM agents production engineer"},
+      {"id":"tq09","stratum":"retrieval","query":"RAG vector search engineer"},
+      {"id":"tq10","stratum":"evaluation","query":"generative AI evaluation scientist"},
+      {"id":"tq11","stratum":"data","query":"machine learning data platform engineer"},
+      {"id":"tq12","stratum":"infrastructure","query":"GPU distributed training infrastructure"},
+      {"id":"tq13","stratum":"product","query":"AI product manager enterprise"},
+      {"id":"tq14","stratum":"early-career","query":"entry level machine learning engineer"},
+      {"id":"tq15","stratum":"leadership","query":"director of machine learning remote US"},
+      {"id":"tq16","stratum":"compensation","query":"senior AI engineer salary above 200000"},
+      {"id":"tq17","stratum":"embedded","query":"embedded C++ machine learning robotics"},
+      {"id":"tq18","stratum":"forecasting","query":"forecasting machine learning scientist"},
+      {"id":"tq19","stratum":"education","query":"AI education training specialist"},
+      {"id":"tq20","stratum":"human-judgment","query":"AI human review subject matter expert"}
+    ]
+  },
+  "classification": {
+    "sampleSize": 200,
+    "requiredIndependentReviewers": 2,
+    "families": {
+      "aiRelationship": ["builds", "deploys", "governs", "evaluates", "uses"],
+      "systemLayer": ["data", "training", "evaluation", "serving", "product", "infrastructure", "safety"],
+      "skills": ["AWS", "Agents", "C++", "Evaluation", "Go", "Governance", "Kubernetes", "LLMs", "PyTorch", "Python", "RAG", "Robotics", "SQL", "Safety", "TensorFlow", "Transformers", "TypeScript", "Vector search"],
+      "laborEffect": ["automation", "augmentation", "coordination", "supervision", "new capability"],
+      "humanRole": ["decision-maker", "reviewer", "operator", "subject-matter expert", "accountable executive"],
+      "maturity": ["experiment", "productization", "production scaling", "organizational transformation"]
+    }
+  },
+  "agreementThresholds": {
+    "retrievalWeightedKappa": 0.6,
+    "retrievalMinimumRelevantPerReviewer": 20,
+    "retrievalMinimumIrrelevantPerReviewer": 20,
+    "classificationBinaryKappa": 0.6,
+    "classificationMeanLabelJaccard": 0.65,
+    "classificationMinimumPositiveAssignmentsPerReviewer": 200,
+    "adjudicationCoverage": 1.0
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "jobservatory.eval-corpus.v1",
+  "createdAt": "2026-08-17T12:32:02.098679+00:00",
+  "source": "public/api/observatory.json",
+  "snapshot": "ml/eval/snapshots/corpus-98606624c96a5f66.json.gz",
+  "canonicalSha256": "98606624c96a5f6689478eb02b599b771b7458cf40c53dddce5f327ff82c0920",
+  "compressedSha256": "4ff4f9bf160392fef81ea4247b0f999024b20b26fcee53fbd9d2c60f3dd1d2ee",
+  "observations": 2701,
+  "generatedAt": "2026-08-17T12:12:59+00:00",
+  "immutability": "This independent evaluation corpus is frozen. A changed canonical digest requires a new protocol and snapshot filename."
+}

@@ -27,7 +27,7 @@
       "id": "evaluation.independent",
       "name": "Retrieval and classification sets are independently annotated and adjudicated",
       "status": "fail",
-      "evidence": "config/assurance.json and model evaluation manifests"
+      "evidence": "public/api/ml/independent-evaluation-readiness.json plus config/assurance.json"
     },
     {
       "id": "retrieval.promotion",

@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jobservatory.castalia.institute/schemas/independent-evaluation-readiness.schema.json",
+  "title": "Jobservatory independent evaluation readiness",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "generatedAt", "protocol", "corpus", "temporalSplit", "blindPackages", "submissions", "agreement", "adjudication", "eligibleForPromotionDecision", "status", "blockers", "claims"],
+  "properties": {
+    "schemaVersion": {"const": "jobservatory.independent-evaluation-readiness.v1"},
+    "generatedAt": {"type": "string", "format": "date-time"},
+    "protocol": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "path", "sha256"],
+      "properties": {"id": {"type": "string", "minLength": 1}, "path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/hash"}}
+    },
+    "corpus": {
+      "type": "object", "additionalProperties": false,
+      "required": ["snapshot", "canonicalSha256", "observations"],
+      "properties": {"snapshot": {"type": "string"}, "canonicalSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "observations": {"type": "integer", "minimum": 1}}
+    },
+    "temporalSplit": {
+      "type": "object", "additionalProperties": false,
+      "required": ["timestampField", "cutoff", "semantics", "knownTimestampRecords", "excludedUnknownTimestampRecords", "trainingCandidates", "rawHoldoutCandidates", "holdoutCandidates", "crossingFamiliesQuarantined", "postingFamilyLeakage", "status"],
+      "properties": {
+        "timestampField": {"const": "sourcePublishedAt"}, "cutoff": {"type": "string", "format": "date-time"}, "semantics": {"type": "string"},
+        "knownTimestampRecords": {"type": "integer", "minimum": 0}, "excludedUnknownTimestampRecords": {"type": "integer", "minimum": 0},
+        "trainingCandidates": {"type": "integer", "minimum": 0}, "rawHoldoutCandidates": {"type": "integer", "minimum": 0}, "holdoutCandidates": {"type": "integer", "minimum": 0},
+        "crossingFamiliesQuarantined": {"type": "integer", "minimum": 0}, "postingFamilyLeakage": {"type": "integer", "minimum": 0}, "status": {"enum": ["pass", "fail"]}
+      }
+    },
+    "blindPackages": {
+      "type": "object", "additionalProperties": false, "required": ["taskSetSha256", "packages"],
+      "properties": {
+        "taskSetSha256": {"type": "object", "additionalProperties": false, "required": ["retrieval", "classification"], "properties": {"retrieval": {"$ref": "#/$defs/hash"}, "classification": {"$ref": "#/$defs/hash"}}},
+        "packages": {"type": "object", "additionalProperties": false, "required": ["retrieval", "classification"], "properties": {"retrieval": {"$ref": "#/$defs/packageSlots"}, "classification": {"$ref": "#/$defs/packageSlots"}}}
+      }
+    },
+    "submissions": {
+      "type": "object", "additionalProperties": false, "required": ["retrieval", "classification"],
+      "properties": {"retrieval": {"$ref": "#/$defs/submissionSlots"}, "classification": {"$ref": "#/$defs/submissionSlots"}}
+    },
+    "agreement": {
+      "type": "object", "additionalProperties": false, "required": ["retrieval", "classification"],
+      "properties": {"retrieval": {"type": ["object", "null"]}, "classification": {"type": ["object", "null"]}}
+    },
+    "adjudication": {
+      "type": "object", "additionalProperties": false, "required": ["status", "requiredDecisions", "completedDecisions", "coverage"],
+      "properties": {"status": {"enum": ["missing", "invalid", "fail", "pass"]}, "requiredDecisions": {"type": "integer", "minimum": 0}, "completedDecisions": {"type": "integer", "minimum": 0}, "coverage": {"type": "number", "minimum": 0, "maximum": 1}}
+    },
+    "eligibleForPromotionDecision": {"type": "boolean"},
+    "status": {"enum": ["ready", "awaiting_independent_review"]},
+    "blockers": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "claims": {
+      "type": "object", "additionalProperties": false, "required": ["independentAnnotationsComplete", "longitudinalObservationHoldout", "sourcePublicationTemporalHoldout"],
+      "properties": {"independentAnnotationsComplete": {"type": "boolean"}, "longitudinalObservationHoldout": {"type": "boolean"}, "sourcePublicationTemporalHoldout": {"type": "boolean"}}
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"eligibleForPromotionDecision": {"const": true}}, "required": ["eligibleForPromotionDecision"]},
+      "then": {
+        "properties": {
+          "status": {"const": "ready"},
+          "blockers": {"type": "array", "maxItems": 0},
+          "adjudication": {"type": "object", "properties": {"status": {"const": "pass"}, "coverage": {"const": 1}}},
+          "claims": {"type": "object", "properties": {"independentAnnotationsComplete": {"const": true}, "sourcePublicationTemporalHoldout": {"const": true}}}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "package": {"type": "object", "additionalProperties": false, "required": ["path", "sha256", "tasks"], "properties": {"path": {"type": "string"}, "sha256": {"$ref": "#/$defs/hash"}, "tasks": {"type": "integer", "minimum": 0}}},
+    "packageSlots": {"type": "object", "additionalProperties": false, "required": ["a", "b"], "properties": {"a": {"$ref": "#/$defs/package"}, "b": {"$ref": "#/$defs/package"}}},
+    "submission": {"type": "object", "required": ["status", "blockers"], "properties": {"status": {"enum": ["missing", "invalid", "valid"]}, "blockers": {"type": "array", "items": {"type": "string"}}, "reviewerId": {"type": "string"}}},
+    "submissionSlots": {"type": "object", "additionalProperties": false, "required": ["a", "b"], "properties": {"a": {"$ref": "#/$defs/submission"}, "b": {"$ref": "#/$defs/submission"}}}
+  }
+}
