@@ -17,7 +17,7 @@
     },
     "coverage": {
       "type": "object",
-      "required": ["sourceRegistryVersion", "definition", "sourcesConfigured", "sourcesSuccessful", "sourceFailures", "atsProviders", "sectors", "retrieval", "eligibleObservations", "publishedObservations", "publicationCap"],
+      "required": ["sourceRegistryVersion", "definition", "sourcesConfigured", "sourcesSuccessful", "sourceFailures", "atsProviders", "sectors", "assessment", "retrieval", "eligibleObservations", "publishedObservations", "publicationCap"],
       "properties": {
         "sourcesConfigured": {"type": "integer", "minimum": 1},
         "sourcesSuccessful": {"type": "integer", "minimum": 0},
@@ -28,6 +28,18 @@
         "definition": {"type": "string"},
         "atsProviders": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "integer", "minimum": 1}},
         "sectors": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "integer", "minimum": 1}},
+        "assessment": {
+          "type": "object", "additionalProperties": false,
+          "required": ["status", "semantics", "targets", "actual", "checks", "missingRequiredSectors"],
+          "properties": {
+            "status": {"enum": ["expanding", "target_met"]},
+            "semantics": {"type": "string", "minLength": 1},
+            "targets": {"type": "object"},
+            "actual": {"type": "object"},
+            "checks": {"type": "object", "minProperties": 5, "additionalProperties": {"type": "boolean"}},
+            "missingRequiredSectors": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+          }
+        },
         "publicationCap": {"type": ["integer", "null"], "minimum": 1},
         "retrieval": {"type": "array", "items": {"type": "object", "required": ["employer", "ats", "sourceKey", "sector", "retrieved", "eligible", "status", "rightsReviewStatus", "responseHash", "feedSchemaVersion", "accessBasis", "documentationUrl", "documentationReviewedAt", "redistributionReviewStatus", "modelTrainingReviewStatus"], "properties": {
           "employer": {"type": "string"}, "ats": {"enum": ["greenhouse", "lever", "ashby"]}, "sourceKey": {"type": "string"}, "sector": {"type": "string"},

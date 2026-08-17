@@ -1,19 +1,19 @@
 {
   "schemaVersion": "jobservatory.data-card.v1",
-  "generatedAt": "2026-08-17T11:53:02+00:00",
+  "generatedAt": "2026-08-17T11:58:02+00:00",
   "corpus": {
     "schemaVersion": "0.2.0",
-    "sha256": "sha256:b52f337dda88cbcc7f3b9293950cc45afe0006a9119cceef1acaf1a4455ac937",
+    "sha256": "sha256:3d2b85871220c4499f2b1a6080fab9cc6e9fc9c3f649e143dba046740b555d1f",
     "unitOfAnalysis": "A public job-listing observation retrieved at a particular time.",
     "descriptionPolicy": "metadata-and-evidence-only"
   },
   "coverage": {
-    "employers": 26,
-    "observations": 2174,
-    "configuredSources": 26,
-    "successfulSources": 26,
+    "employers": 34,
+    "observations": 2296,
+    "configuredSources": 34,
+    "successfulSources": 34,
     "atsProviders": {
-      "greenhouse": 14,
+      "greenhouse": 22,
       "lever": 5,
       "ashby": 7
     },
@@ -24,35 +24,88 @@
       "enterprise-search": 1,
       "ai-cloud": 2,
       "data-and-ai-platform": 1,
-      "financial-technology": 1,
+      "financial-technology": 2,
       "internet-infrastructure": 1,
       "education-technology": 1,
       "consumer-platform": 1,
       "interactive-entertainment": 1,
+      "ai-safety-research": 1,
+      "legal-technology": 1,
+      "healthcare-ai": 2,
+      "industrial-iot": 1,
+      "design-collaboration": 1,
+      "commerce-marketplace": 1,
+      "biotechnology": 1,
       "autonomous-vehicles": 2,
       "enterprise-and-defense-software": 1,
       "media-and-entertainment": 1,
       "ai-search": 1,
       "robotics-foundation-models": 1,
-      "enterprise-ai-agents": 2,
-      "healthcare-ai": 1
+      "enterprise-ai-agents": 2
     },
-    "largestEmployerShare": 0.2305,
-    "herfindahlHirschmanIndex": 0.0997,
+    "assessment": {
+      "status": "expanding",
+      "semantics": "Coverage of the declared employer-source design only; never a claim of labor-market representativeness.",
+      "targets": {
+        "minimumEmployers": 50,
+        "minimumSectors": 25,
+        "maximumLargestEmployerShare": 0.15,
+        "minimumCompensationCoverage": 0.65,
+        "requiredSectors": [
+          "frontier-model-lab",
+          "ai-safety-research",
+          "healthcare-ai",
+          "biotechnology",
+          "industrial-iot",
+          "financial-technology",
+          "education-technology",
+          "legal-technology",
+          "commerce-marketplace",
+          "design-collaboration",
+          "professional-services",
+          "public-sector",
+          "manufacturing",
+          "energy",
+          "agriculture"
+        ]
+      },
+      "actual": {
+        "employers": 34,
+        "sectors": 24,
+        "largestEmployerShare": 0.2182,
+        "compensationCoverage": 0.614
+      },
+      "checks": {
+        "minimumEmployers": false,
+        "minimumSectors": false,
+        "maximumLargestEmployerShare": false,
+        "minimumCompensationCoverage": false,
+        "requiredSectors": false
+      },
+      "missingRequiredSectors": [
+        "agriculture",
+        "energy",
+        "manufacturing",
+        "professional-services",
+        "public-sector"
+      ]
+    },
+    "largestEmployerShare": 0.2182,
+    "herfindahlHirschmanIndex": 0.0898,
     "entityResolution": {
       "methodVersion": "jobservatory-entity-resolution-0.1.0",
-      "postingFamilies": 1898,
-      "multiObservationFamilies": 174,
-      "exactVariantGroups": 2129,
-      "repostCandidateGroups": 37,
-      "observationsInRepostCandidateGroups": 82,
+      "postingFamilies": 1991,
+      "multiObservationFamilies": 192,
+      "exactVariantGroups": 2248,
+      "repostCandidateGroups": 40,
+      "observationsInRepostCandidateGroups": 88,
       "reviewStatus": "unreviewed",
       "interpretation": "Candidate metadata clusters for leakage control and review; not verified requisitions or reposts."
     }
   },
   "provenance": {
-    "sourceRegistryVersion": "jobservatory-sources-2026-08-17.3",
-    "sourceManifests": 26,
+    "sourceRegistryVersion": "jobservatory-sources-2026-08-17.4",
+    "sourceManifests": 34,
     "allFeedsSuccessful": true,
     "allFeedResponsesHashed": true,
     "durableVersionLedger": "data/observation_versions.ndjson",
@@ -60,7 +113,7 @@
   },
   "rights": {
     "reviewStatusCounts": {
-      "pending": 26
+      "pending": 34
     },
     "allSourcesApproved": false,
     "accessBasis": [

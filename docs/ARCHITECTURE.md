@@ -21,16 +21,16 @@ public career feeds
        -> Apocalypso signal (withholds value until valid)
 ```
 
-The production Cloudflare Pages deployment exposes `/api/v1/search` and `/api/v1/health`. The Function loads a content-addressed 2,100+ observation inverted index through the Pages `ASSETS` binding, verifies its SHA-256 and lineage, caches the loaded index and up to 100 candidate sets per isolate, and returns version/timing headers. The browser retains the prior hybrid implementation only as a network-failure fallback.
+The production Cloudflare Pages deployment exposes `/api/v1/search` and `/api/v1/health`. The Function loads a content-addressed 2,296-observation inverted index through the Pages `ASSETS` binding, verifies its SHA-256 and lineage, caches the loaded index and up to 100 candidate sets per isolate, and returns version/timing headers. The browser retains the prior hybrid implementation only as a network-failure fallback.
 
 ## Data and model contracts
 
 | Boundary | Required contract | Current state |
 |---|---|---|
-| Source → ingestion | source identity, ATS provider, feed schema, retrieval time, source publication/update time when semantically available, URL, HTTP success, response hash/size, latency, fetched/eligible counts, public-API access basis, and separate redistribution/training review states | Implemented for 26 Greenhouse/Lever/Ashby feeds; raw immutable responses are intentionally not retained pending rights review |
+| Source → ingestion | source identity, ATS provider, feed schema, retrieval time, source publication/update time when semantically available, URL, HTTP success, response hash/size, latency, fetched/eligible counts, public-API access basis, and separate redistribution/training review states | Implemented for 34 Greenhouse/Lever/Ashby feeds; machine-readable coverage targets remain unmet; raw immutable responses are intentionally not retained pending rights review |
 | Observation identity | `sourceId`, full-content SHA-256, `observationId`, first/last seen, listing version | Implemented; daily presence snapshots make disappearances independent of the 5,000-record publication cap |
 | Analysis identity | `analysisId`, extraction and ontology versions, review state, evidence | Implemented; analysis revisions are distinct from listing revisions |
-| Occupation and skill mapping | O*NET-SOC code/version, inferred flag, review state, listing-evidence crosswalk, inherited-profile semantics | Conservative title rules mapped 915/2,174; 1,330 skill mentions on 634 listings map to exact occupation-linked O*NET 30.3 software examples; mappings remain unreviewed |
+| Occupation and skill mapping | O*NET-SOC code/version, inferred flag, review state, listing-evidence crosswalk, inherited-profile semantics | Conservative title rules mapped 954/2,296; 1,398 skill mentions on 667 listings map to exact occupation-linked O*NET 30.3 software examples; mappings remain unreviewed |
 | Retrieval | query, corpus/index version, ranked IDs, component scores, latency | Versioned BM25 baseline API exposes result scores, model/index/corpus lineage, cache state, and service/application timing; learned retrieval remains rejected |
 | Evaluation | immutable queries/qrels, split, model/index version, Recall@K, MRR, nDCG | Small single-reviewer development set implemented; no held-out or adjudicated set yet |
 | Classification | hierarchical label IDs, probabilities, threshold version, evidence | Versioned title/location logistic baseline implements five label families, Platt calibration, threshold-band abstention, tail metrics, and deterministic parents; weak-label and rights gates reject promotion |

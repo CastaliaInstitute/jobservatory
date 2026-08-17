@@ -1,5 +1,5 @@
 {
-  "registryVersion": "jobservatory-sources-2026-08-17.3",
+  "registryVersion": "jobservatory-sources-2026-08-17.4",
   "coverageDefinition": "All listings satisfying the versioned AI relevance rule in every successfully retrieved feed in this registry; this is source-universe completeness, not labor-market completeness.",
   "atsPolicies": {
     "greenhouse": {
@@ -38,7 +38,15 @@
     { "employer": "Cloudflare", "board": "cloudflare", "sector": "internet-infrastructure", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
     { "employer": "Duolingo", "board": "duolingo", "sector": "education-technology", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
     { "employer": "Reddit", "board": "reddit", "sector": "consumer-platform", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
-    { "employer": "Roblox", "board": "roblox", "sector": "interactive-entertainment", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" }
+    { "employer": "Roblox", "board": "roblox", "sector": "interactive-entertainment", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "LawZero", "board": "lawzero", "sector": "ai-safety-research", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Eve", "board": "eve", "sector": "legal-technology", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Cohere Health", "board": "coherehealth", "sector": "healthcare-ai", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Samsara", "board": "samsara", "sector": "industrial-iot", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Figma", "board": "figma", "sector": "design-collaboration", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Brex", "board": "brex", "sector": "financial-technology", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Faire", "board": "faire", "sector": "commerce-marketplace", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Formation Bio", "board": "formationbio", "sector": "biotechnology", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" }
   ],
   "lever": [
     { "employer": "Shield AI", "site": "shieldai", "sector": "defense-robotics", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
@@ -58,5 +66,17 @@
   ],
   "maximumObservations": 5000,
   "minimumRecordsPerSource": 5,
-  "samplingPolicy": "all-eligible-or-proportional-by-source-with-floor"
+  "samplingPolicy": "all-eligible-or-proportional-by-source-with-floor",
+  "coverageTargets": {
+    "minimumEmployers": 50,
+    "minimumSectors": 25,
+    "maximumLargestEmployerShare": 0.15,
+    "minimumCompensationCoverage": 0.65,
+    "requiredSectors": [
+      "frontier-model-lab", "ai-safety-research", "healthcare-ai", "biotechnology",
+      "industrial-iot", "financial-technology", "education-technology", "legal-technology",
+      "commerce-marketplace", "design-collaboration", "professional-services", "public-sector",
+      "manufacturing", "energy", "agriculture"
+    ]
+  }
 }

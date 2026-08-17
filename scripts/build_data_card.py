@@ -31,6 +31,7 @@ card = {
         "successfulSources": corpus["coverage"]["sourcesSuccessful"],
         "atsProviders": corpus["coverage"]["atsProviders"],
         "sectors": corpus["coverage"]["sectors"],
+        "assessment": corpus["coverage"]["assessment"],
         "largestEmployerShare": corpus["summary"]["sourceConcentration"]["largestEmployerShare"],
         "herfindahlHirschmanIndex": corpus["summary"]["sourceConcentration"]["herfindahlHirschmanIndex"],
         "entityResolution": corpus["summary"]["entityResolution"],

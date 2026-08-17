@@ -48,7 +48,8 @@ def main() -> int:
     documents = []
     inverted: dict[str, list[list[int]]] = defaultdict(list)
     total_terms = 0
-    for index, observation in enumerate(corpus["observations"]):
+    observations = sorted(corpus["observations"], key=lambda observation: observation["observationId"])
+    for index, observation in enumerate(observations):
         counts = Counter(tokens(search_text(observation)))
         length = sum(counts.values())
         total_terms += length

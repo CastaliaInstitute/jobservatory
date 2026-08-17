@@ -55,6 +55,9 @@ test("publishes provenance, evaluation, and safely abstaining signal feeds", asy
   assert.ok(corpus.observations.every(item => !JSON.stringify(item.classifications).match(/<[^>]+>/)));
   assert.equal(corpus.coverage.sourcesSuccessful, corpus.coverage.sourcesConfigured);
   assert.equal(corpus.coverage.sourceFailures.length, 0);
+  assert.ok(["expanding", "target_met"].includes(corpus.coverage.assessment.status));
+  assert.equal(corpus.coverage.assessment.actual.employers, corpus.summary.employers);
+  assert.ok(Object.values(corpus.coverage.assessment.checks).some(check => !check));
   assert.ok(corpus.coverage.retrieval.every(source => source.httpStatus === 200 && source.responseHash.startsWith("sha256:") && source.rightsReviewStatus));
   assert.ok(corpus.coverage.eligibleObservations >= corpus.observations.length);
   assert.equal(corpus.onet.version, "30.3");
@@ -99,6 +102,10 @@ test("publishes provenance, evaluation, and safely abstaining signal feeds", asy
   assert.equal(searchManifest.index.documents, corpus.observations.length);
   assert.equal(searchIndex.statistics.documents, corpus.observations.length);
   assert.equal(searchIndex.corpus.contentSha256, searchManifest.corpus.contentSha256);
+  assert.deepEqual(
+    searchIndex.documents.map(document => document.observationId),
+    searchIndex.documents.map(document => document.observationId).toSorted(),
+  );
   assert.equal(searchBenchmark.status, "pass");
   assert.equal(searchBenchmark.aggregate.errors, 0);
   assert.equal(searchBenchmark.aggregate.contractFailures, 0);

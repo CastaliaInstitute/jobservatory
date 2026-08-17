@@ -24,6 +24,10 @@ assert not corpus["coverage"]["sourceFailures"]
 assert all(item["status"] == "ok" and item["httpStatus"] == 200 and item["rightsReviewStatus"] and item["ats"] in {"greenhouse", "lever", "ashby"} and item["sourceKey"] for item in corpus["coverage"]["retrieval"])
 assert all(item["feedSchemaVersion"] and item["accessBasis"].startswith("official-public-") and item["documentationUrl"].startswith("https://") and item["documentationReviewedAt"] and item["redistributionReviewStatus"] and item["modelTrainingReviewStatus"] for item in corpus["coverage"]["retrieval"])
 assert sum(corpus["coverage"]["atsProviders"].values()) == corpus["coverage"]["sourcesSuccessful"]
+assert corpus["coverage"]["assessment"]["status"] in {"expanding", "target_met"}
+assert "labor-market representativeness" in corpus["coverage"]["assessment"]["semantics"]
+assert corpus["coverage"]["assessment"]["actual"]["employers"] == corpus["summary"]["employers"]
+assert corpus["coverage"]["assessment"]["actual"]["sectors"] == len(corpus["coverage"]["sectors"])
 assert corpus["summary"]["sourceConcentration"]["largestEmployerShare"] <= 1
 assert corpus["summary"]["sourceConcentration"]["herfindahlHirschmanIndex"] <= 1
 assert corpus["summary"]["entityResolution"]["methodVersion"].startswith("jobservatory-entity-resolution-")

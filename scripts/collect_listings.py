@@ -526,6 +526,31 @@ def main() -> int:
     snapshot = {"date": now[:10], "generatedAt": now, "eligibleSourceIds": sorted(current_presence), "contentHashes": {r["sourceId"]: r["contentHash"] for r in candidates}}
     (SNAPSHOT_DIR / f"{now[:10]}.json").write_text(json.dumps(snapshot, separators=(",", ":")) + "\n")
     compensated = [r for r in records if r["compensation"]]
+    compensation_coverage = round(len(compensated) / len(records), 3) if records else 0
+    sector_counts = Counter(item["sector"] for item in retrieval)
+    coverage_targets = CONFIG["coverageTargets"]
+    required_sectors = set(coverage_targets["requiredSectors"])
+    missing_required_sectors = sorted(required_sectors - set(sector_counts))
+    coverage_checks = {
+        "minimumEmployers": len(employers) >= coverage_targets["minimumEmployers"],
+        "minimumSectors": len(sector_counts) >= coverage_targets["minimumSectors"],
+        "maximumLargestEmployerShare": source_concentration["largestEmployerShare"] is not None and source_concentration["largestEmployerShare"] <= coverage_targets["maximumLargestEmployerShare"],
+        "minimumCompensationCoverage": compensation_coverage >= coverage_targets["minimumCompensationCoverage"],
+        "requiredSectors": not missing_required_sectors,
+    }
+    coverage_assessment = {
+        "status": "target_met" if all(coverage_checks.values()) else "expanding",
+        "semantics": "Coverage of the declared employer-source design only; never a claim of labor-market representativeness.",
+        "targets": coverage_targets,
+        "actual": {
+            "employers": len(employers),
+            "sectors": len(sector_counts),
+            "largestEmployerShare": source_concentration["largestEmployerShare"],
+            "compensationCoverage": compensation_coverage,
+        },
+        "checks": coverage_checks,
+        "missingRequiredSectors": missing_required_sectors,
+    }
     usd_annual_compensated = [r for r in compensated if r["compensation"].get("currency") == "USD" and r["compensation"].get("period") == "annual"]
     midpoint = sorted((r["compensation"]["minimum"] + r["compensation"]["maximum"]) / 2 for r in usd_annual_compensated)
     median_pay = int(midpoint[len(midpoint)//2]) if midpoint else None
@@ -551,8 +576,8 @@ def main() -> int:
             },
             "profileSemantics": "Occupation-inherited profiles are context, not listing-stated requirements. Record-level software mappings require listing evidence and an exact occupation-linked crosswalk.",
         },
-        "coverage": {"sourceRegistryVersion": CONFIG.get("registryVersion"), "definition": CONFIG.get("coverageDefinition"), "sourcesConfigured": len(configured_sources), "sourcesSuccessful": len(retrieval), "sourceFailures": failures, "atsProviders": dict(Counter(item["ats"] for item in retrieval)), "sectors": dict(Counter(item["sector"] for item in retrieval)), "retrieval": retrieval, "eligibleObservations": len(candidates), "publishedObservations": len(records), "publicationCap": int(CONFIG["maximumObservations"])},
-        "summary": {"observations": len(records), "employers": len(employers), "employerMix": employers, "sourceConcentration": source_concentration, "entityResolution": entity_resolution_summary, "changes": changes, "compensationCoverage": round(len(compensated)/len(records), 3) if records else 0, "usdAnnualCompensationObservations": len(usd_annual_compensated), "medianAdvertisedPayMidpoint": median_pay, "medianAdvertisedPayCurrency": "USD" if median_pay is not None else None, "medianAdvertisedPayPeriod": "annual" if median_pay is not None else None, "topSkills": skill_counts.most_common(8), "domains": domains},
+        "coverage": {"sourceRegistryVersion": CONFIG.get("registryVersion"), "definition": CONFIG.get("coverageDefinition"), "sourcesConfigured": len(configured_sources), "sourcesSuccessful": len(retrieval), "sourceFailures": failures, "atsProviders": dict(Counter(item["ats"] for item in retrieval)), "sectors": dict(sector_counts), "assessment": coverage_assessment, "retrieval": retrieval, "eligibleObservations": len(candidates), "publishedObservations": len(records), "publicationCap": int(CONFIG["maximumObservations"])},
+        "summary": {"observations": len(records), "employers": len(employers), "employerMix": employers, "sourceConcentration": source_concentration, "entityResolution": entity_resolution_summary, "changes": changes, "compensationCoverage": compensation_coverage, "usdAnnualCompensationObservations": len(usd_annual_compensated), "medianAdvertisedPayMidpoint": median_pay, "medianAdvertisedPayCurrency": "USD" if median_pay is not None else None, "medianAdvertisedPayPeriod": "annual" if median_pay is not None else None, "topSkills": skill_counts.most_common(8), "domains": domains},
         "payBenchmarks": [
           {"occupation":"Data scientists","medianAnnualPay":112590,"year":2024,"source":"BLS OEWS","sourceUrl":"https://www.bls.gov/ooh/math/data-scientists.htm"},
           {"occupation":"Software developers","medianAnnualPay":133080,"year":2024,"source":"BLS OOH","sourceUrl":"https://www.bls.gov/ooh/computer-and-information-technology/software-developers.htm"},
