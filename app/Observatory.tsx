@@ -29,6 +29,7 @@ export default function Observatory() {
   const lastFocus = useRef<HTMLElement | null>(null);
 
   const closeButton = useRef<HTMLButtonElement>(null);
+  const drawer = useRef<HTMLElement>(null);
   const openObservation = (item: Observation) => { lastFocus.current = document.activeElement as HTMLElement; setSelected(item); };
   const closeObservation = () => { setSelected(null); requestAnimationFrame(() => lastFocus.current?.focus()); };
   useEffect(() => {
@@ -36,7 +37,22 @@ export default function Observatory() {
     fetch("/api/ml/retrieval-metrics.json").then(r => r.json()).then(setMetrics).catch(() => undefined);
   }, []);
   useEffect(() => { if (selected) closeButton.current?.focus(); }, [selected]);
-  useEffect(() => { if (!selected) return; const escape = (event: KeyboardEvent) => { if (event.key === "Escape") closeObservation(); }; window.addEventListener("keydown", escape); return () => window.removeEventListener("keydown", escape); }, [selected]);
+  useEffect(() => {
+    if (!selected) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") { closeObservation(); return; }
+      if (event.key !== "Tab") return;
+      const focusable = Array.from(drawer.current?.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])') || []).filter(element => !element.hasAttribute("hidden"));
+      if (!focusable.length) { event.preventDefault(); return; }
+      const first = focusable[0], last = focusable.at(-1)!;
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => { window.removeEventListener("keydown", handleKey); document.body.style.overflow = previousOverflow; };
+  }, [selected]);
   const domains = data ? Object.keys(data.summary.domains).sort() : [];
   const hybridIndex = useMemo(() => data ? createHybridIndex(data.observations) : null, [data]);
   const filtered = useMemo(() => {
@@ -112,12 +128,12 @@ export default function Observatory() {
       </section>
 
       {selected && <div className="drawer-backdrop" role="presentation" onMouseDown={event=>{ if (event.target === event.currentTarget) closeObservation(); }}>
-        <aside className="drawer" role="dialog" aria-modal="true" aria-labelledby="observation-title">
+        <aside ref={drawer} className="drawer" role="dialog" aria-modal="true" aria-labelledby="observation-title" aria-describedby="observation-caution">
           <button ref={closeButton} className="close" onClick={closeObservation}>CLOSE ×</button>
           <span className="drawer-kicker">OBSERVATION · VERSIONED</span><h2 id="observation-title">{selected.title}</h2><h3>{selected.employer} · {selected.location}</h3>
           <div className="fact-grid"><div><span>DOMAIN</span><b>{selected.domain}</b></div><div><span>SENIORITY</span><b>{selected.seniority}</b></div><div><span>PAY</span><b>{selected.compensation?`${money(selected.compensation.minimum)}–${money(selected.compensation.maximum)}`:"Not disclosed"}</b></div><div><span>CONTENT HASH</span><b>{selected.contentHash.slice(7,19)}…</b></div><div><span>TITLE FAMILY</span><b>{selected.entityResolution.familySize} observation{selected.entityResolution.familySize===1?"":"s"}</b></div><div><span>EXACT VARIANT CANDIDATES</span><b>{selected.entityResolution.exactVariantGroupSize}</b></div></div>
           <h4>Evidence-backed signals</h4>{[...selected.classifications.aiRelationship,...selected.classifications.systemLayer,...selected.classifications.skills].slice(0,6).map((hit,i)=><blockquote key={`${hit.label}-${i}`}><b>{hit.label}</b><p>“{hit.evidence}”</p><small>RULE-DERIVED · SOURCE SPAN</small></blockquote>)}
-          <h4>Unreviewed interpretation</h4><div className="inferences"><span>{selected.classifications.laborEffect.label}</span><span>{selected.classifications.humanRole.label}</span><span>{selected.classifications.maturity.label}</span></div><p className="caution">These labels are unreviewed hypotheses derived by versioned rules, not employer assertions or validated model outputs. {selected.entityResolution.semantics}</p><a className="source-button" href={selected.sourceUrl} target="_blank" rel="noreferrer">Open source listing ↗</a>
+          <h4>Unreviewed interpretation</h4><div className="inferences"><span>{selected.classifications.laborEffect.label}</span><span>{selected.classifications.humanRole.label}</span><span>{selected.classifications.maturity.label}</span></div><p className="caution" id="observation-caution">These labels are unreviewed hypotheses derived by versioned rules, not employer assertions or validated model outputs. {selected.entityResolution.semantics}</p><a className="source-button" href={selected.sourceUrl} target="_blank" rel="noreferrer">Open source listing ↗</a>
         </aside>
       </div>}
     </>
