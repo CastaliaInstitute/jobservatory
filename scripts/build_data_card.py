@@ -33,6 +33,7 @@ card = {
         "sectors": corpus["coverage"]["sectors"],
         "largestEmployerShare": corpus["summary"]["sourceConcentration"]["largestEmployerShare"],
         "herfindahlHirschmanIndex": corpus["summary"]["sourceConcentration"]["herfindahlHirschmanIndex"],
+        "entityResolution": corpus["summary"]["entityResolution"],
     },
     "provenance": {
         "sourceRegistryVersion": corpus["coverage"]["sourceRegistryVersion"],
@@ -60,7 +61,7 @@ card = {
     },
     "intendedUses": ["labor-market research within the declared source universe", "retrieval and classification evaluation", "aggregate term and compensation analysis with coverage warnings"],
     "prohibitedUses": ["automated employment decisions", "candidate screening or rejection", "claims of labor-market representativeness", "model training on source content until rights approval"],
-    "knownLimitations": ["Curated employer cohort", "source and employer concentration", "one-day longitudinal history at initial publication", "unreviewed weak labels", "missing compensation is not missing at random", "reposts and location variants are not fully resolved"],
+    "knownLimitations": ["Curated employer cohort", "source and employer concentration", "one-day longitudinal history at initial publication", "unreviewed weak labels", "missing compensation is not missing at random", "repost and location-variant groups are unreviewed metadata candidates, not verified shared requisitions"],
 }
 OUTPUT_PATH.write_text(json.dumps(card, indent=2) + "\n")
 print(f"data card: {card['coverage']['observations']} observations; rights approved={card['rights']['allSourcesApproved']}")

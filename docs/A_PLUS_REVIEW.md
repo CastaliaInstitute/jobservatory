@@ -9,7 +9,7 @@ The current implementation is materially more honest than the initial prototype:
 | Area | Grade | Evidence and judgment |
 |---|---:|---|
 | Research validity | B+ | Unit of analysis, declared source universe, three-ATS/eighteen-sector coverage, source API versions, and concentration diagnostics are explicit. Twenty-six selected employers remain a curated cohort that cannot support labor-market prevalence claims. |
-| Longitudinal design | B | Append-only source/analysis ledger and full eligible-set daily snapshots now exist. Only one distinct day is observed; repost/entity resolution and deadline history remain incomplete. |
+| Longitudinal design | B+ | Append-only source/analysis ledger and full eligible-set daily snapshots now exist. Stable posting-family and exact-variant candidate keys expose location variants and protect split construction, with explicit confidence and non-identity semantics. Only one distinct day is observed; candidate clusters remain unreviewed and deadline history is incomplete. |
 | Extraction/classification | B− | A frozen 1,709-record weak-label snapshot now trains a versioned five-family hierarchical logistic baseline with Platt calibration, threshold-band abstention, parent consistency, and tail-label metrics. Its gate correctly rejects weak targets, non-longitudinal splitting, and pending training rights; the 13-record manual set remains far too small and unadjudicated. |
 | Retrieval/ranking ML | B− | Pinned MiniLM embeddings and an MS MARCO cross-encoder now run against a content-addressed 750-observation snapshot with per-query metrics and offline latency. The cross-encoder improves development MRR/nDCG but regresses recall, so the machine-readable gate rejects it. Six single-reviewer queries remain far below a held-out promotion test. |
 | O*NET normalization | B− | Conservative occupation candidates cover 915/2,173. Exact occupation-linked O*NET 30.3 software examples normalize 1,330 observed skill mentions on 634 listings, while inherited essential/transferable profiles are explicitly separated from listing facts. Occupation and crosswalk mappings remain unreviewed and only six occupations are profiled. |
@@ -33,7 +33,7 @@ The current implementation is materially more honest than the initial prototype:
 ## High-priority engineering (P1)
 
 - Store HTTP status, ETag/Last-Modified, response hash, latency, and feed schema version in retrieval manifests.
-- Add canonical repost clusters using normalized employer/title/location plus content similarity and explicit confidence.
+- Validate candidate repost clusters with independently reviewed pairs and content similarity; current normalized employer/title/location families carry explicit confidence but do not claim requisition identity.
 - Extend the published JSON Schema contracts to snapshots and every baseline metric artifact; keep strict validation in CI.
 - Add hand-built source fixtures for HTML cleaning, compensation units, title relevance, evidence selection, and ontology regressions.
 - Run ML evaluation in CI and fail on missing qrels, metric calculation errors, unexplained large regressions, or test-set mutation.

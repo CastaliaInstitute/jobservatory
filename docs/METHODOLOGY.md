@@ -28,6 +28,8 @@ Every rule-derived field must expose method and ontology versions. Unsupported l
 
 The append-only version ledger preserves new source or analysis versions. Daily presence snapshots cover the full eligible set, so disappearance is not inferred from movement across the 5,000-record publication cap. Same-day refreshes replace that day's aggregate frame.
 
+Entity resolution uses two stable, versioned metadata keys. A posting family matches normalized employer and title and may span locations; an exact-variant group additionally matches normalized location. Family and exact-variant confidence values describe the strength of that metadata rule, not the probability of a shared requisition. Every group remains `unreviewed`, and the public record explicitly states that a match does not prove a repost. Exact-variant groups can prevent obvious train/evaluation leakage while human adjudication and content-similarity validation remain pending.
+
 Trend publication requires at least 30 distinct daily frames, a stable source cohort, per-source denominators, and sensitivity analysis for feed outages and cohort changes. Term counts from one date are frequencies, not emergence. A removed listing is “no longer observed,” not “filled” or “eliminated.”
 
 ## Evaluation

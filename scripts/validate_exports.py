@@ -26,6 +26,8 @@ assert all(item["feedSchemaVersion"] and item["accessBasis"].startswith("officia
 assert sum(corpus["coverage"]["atsProviders"].values()) == corpus["coverage"]["sourcesSuccessful"]
 assert corpus["summary"]["sourceConcentration"]["largestEmployerShare"] <= 1
 assert corpus["summary"]["sourceConcentration"]["herfindahlHirschmanIndex"] <= 1
+assert corpus["summary"]["entityResolution"]["methodVersion"].startswith("jobservatory-entity-resolution-")
+assert corpus["summary"]["entityResolution"]["postingFamilies"] <= len(records)
 assert len({item["observationId"] for item in records}) == len(records)
 assert len({item["analysisId"] for item in records}) == len(records)
 for item in records:
@@ -34,6 +36,9 @@ for item in records:
     assert item["descriptionPolicy"] == "metadata-and-evidence-only"
     assert item["classifications"]["laborEffect"]["label"] == "unclassified"
     assert item["extraction"]["reviewStatus"] == "unreviewed"
+    assert item["duplicateGroup"] == item["entityResolution"]["exactVariantGroupId"]
+    assert item["entityResolution"]["reviewStatus"] == "unreviewed"
+    assert item["entityResolution"]["familySize"] >= item["entityResolution"]["exactVariantGroupSize"] >= 1
     assert "<" not in json.dumps(item["classifications"])
     for skill in item["classifications"]["skills"]:
         if "onetSoftwareSkill" in skill:

@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from collect_listings import normalize_job, structured_compensation  # noqa: E402
+from collect_listings import entity_resolution, normalize_job, structured_compensation  # noqa: E402
 
 
 class SourceAdapterTests(unittest.TestCase):
@@ -54,6 +54,16 @@ class SourceAdapterTests(unittest.TestCase):
 
     def test_nonannual_structured_pay_is_not_annualized(self):
         self.assertIsNone(structured_compensation("lever", {"salaryRange": {"currency": "USD", "interval": "hour", "min": 50, "max": 75}}))
+
+    def test_entity_resolution_is_stable_but_does_not_claim_identity(self):
+        first = entity_resolution("Example, Inc.", "Senior ML Engineer", "New York, NY")
+        normalized = entity_resolution("example inc", "SENIOR—ML ENGINEER", "new york ny")
+        remote = entity_resolution("Example, Inc.", "Senior ML Engineer", "Remote — US")
+        self.assertEqual(first["postingFamilyId"], normalized["postingFamilyId"])
+        self.assertEqual(first["exactVariantGroupId"], normalized["exactVariantGroupId"])
+        self.assertEqual(first["postingFamilyId"], remote["postingFamilyId"])
+        self.assertNotEqual(first["exactVariantGroupId"], remote["exactVariantGroupId"])
+        self.assertIn("does not prove", first["semantics"])
 
 
 if __name__ == "__main__":

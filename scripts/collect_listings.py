@@ -29,9 +29,10 @@ APOCALYPSO_PATH = ROOT / "public" / "api" / "apocalypso" / "jobs-signal.json"
 HISTORY_PATH = ROOT / "data" / "history.ndjson"
 LEDGER_PATH = ROOT / "data" / "observation_versions.ndjson"
 SNAPSHOT_DIR = ROOT / "data" / "snapshots"
-METHOD_VERSION = "jobservatory-rules-0.2.3"
+METHOD_VERSION = "jobservatory-rules-0.2.4"
 ONTOLOGY_VERSION = "jobservatory-ontology-0.3.0"
 ONET_VERSION = "30.3"
+ENTITY_RESOLUTION_VERSION = "jobservatory-entity-resolution-0.1.0"
 
 SKILLS = {
     "Python": ["python"], "PyTorch": ["pytorch"], "TensorFlow": ["tensorflow"],
@@ -106,6 +107,30 @@ def contains(text: str, term: str) -> bool:
     if len(term.strip()) <= 4:
         return bool(re.search(r"(?<![a-z0-9])" + re.escape(term.strip()) + r"(?![a-z0-9])", text, re.I))
     return term.lower() in text.lower()
+
+def canonical_entity_text(value: str) -> str:
+    """Stable, conservative normalization for metadata identity keys."""
+    value = html.unescape(value or "").casefold()
+    value = re.sub(r"[^a-z0-9]+", " ", value)
+    return re.sub(r"\s+", " ", value).strip()
+
+def entity_resolution(employer: str, title: str, location: str) -> dict:
+    canonical_employer = canonical_entity_text(employer)
+    canonical_title = canonical_entity_text(title)
+    canonical_location = canonical_entity_text(location)
+    family_key = f"{canonical_employer}|{canonical_title}"
+    variant_key = f"{family_key}|{canonical_location}"
+    return {
+        "methodVersion": ENTITY_RESOLUTION_VERSION,
+        "postingFamilyId": "family:" + hashlib.sha256(family_key.encode()).hexdigest()[:20],
+        "exactVariantGroupId": "variant:" + hashlib.sha256(variant_key.encode()).hexdigest()[:20],
+        "canonicalTitle": canonical_title,
+        "canonicalLocation": canonical_location,
+        "familyMatchConfidence": 0.70,
+        "exactVariantMatchConfidence": 0.90,
+        "reviewStatus": "unreviewed",
+        "semantics": "Candidate grouping only; matching employer/title/location metadata does not prove a repost or shared requisition.",
+    }
 
 def evidence(text: str, terms: list[str]) -> str | None:
     sentences = re.split(r"(?<=[.!?])\s+", text)
@@ -362,6 +387,7 @@ def main() -> int:
             digest = hashlib.sha256((title + "\n" + body).encode()).hexdigest()
             analysis_id = "analysis:" + hashlib.sha256(f"{source_id}:{digest}:{METHOD_VERSION}:{ONTOLOGY_VERSION}".encode()).hexdigest()[:20]
             occupation = onet_occupation(title)
+            resolution = entity_resolution(source["employer"], title, clean_html(job.get("location", "Remote / unspecified")))
             skill_hits = normalize_onet_software_skills(matches(f"{title}. {role_text}", SKILLS), occupation)
             layer_hits = matches(f"{title}. {role_text}", LAYERS)
             relationship_hits = matches(f"{title}. {role_text}", RELATIONSHIPS)
@@ -385,7 +411,8 @@ def main() -> int:
                 },
                 "extraction": {"methodVersion": METHOD_VERSION, "ontologyVersion": ONTOLOGY_VERSION, "reviewStatus": "unreviewed"},
                 "descriptionPolicy": "metadata-and-evidence-only",
-                "duplicateGroup": hashlib.sha256(f"{source['employer']}|{title.lower()}|{clean_html(job.get('location', ''))}".encode()).hexdigest()[:16]
+                "duplicateGroup": resolution["exactVariantGroupId"],
+                "entityResolution": resolution,
             }
             candidates.append(record)
         policy = CONFIG.get("atsPolicies", {}).get(ats, {})
@@ -397,6 +424,15 @@ def main() -> int:
     thin = [item for item in retrieval if item["eligible"] < minimum]
     if thin and os.environ.get("JOBSERVATORY_ALLOW_PARTIAL") != "1":
         raise RuntimeError(f"refusing publication; source(s) below {minimum} eligible records: {thin}")
+
+    family_counts = Counter(record["entityResolution"]["postingFamilyId"] for record in candidates)
+    variant_counts = Counter(record["entityResolution"]["exactVariantGroupId"] for record in candidates)
+    for record in candidates:
+        resolution = record["entityResolution"]
+        resolution["familySize"] = family_counts[resolution["postingFamilyId"]]
+        resolution["exactVariantGroupSize"] = variant_counts[resolution["exactVariantGroupId"]]
+        resolution["repostCandidate"] = resolution["exactVariantGroupSize"] > 1
+        resolution["hasLocationVariants"] = resolution["familySize"] > resolution["exactVariantGroupSize"]
 
     candidates.sort(key=lambda x: (x.get("sourceUpdatedAt") or "", x["title"]), reverse=True)
     maximum = int(CONFIG["maximumObservations"])
@@ -469,6 +505,16 @@ def main() -> int:
         "herfindahlHirschmanIndex": round(sum(share * share for share in employer_shares.values()), 4),
         "interpretation": "Published-record concentration diagnostic; not a labor-market estimate.",
     }
+    entity_resolution_summary = {
+        "methodVersion": ENTITY_RESOLUTION_VERSION,
+        "postingFamilies": len(family_counts),
+        "multiObservationFamilies": sum(count > 1 for count in family_counts.values()),
+        "exactVariantGroups": len(variant_counts),
+        "repostCandidateGroups": sum(count > 1 for count in variant_counts.values()),
+        "observationsInRepostCandidateGroups": sum(count for count in variant_counts.values() if count > 1),
+        "reviewStatus": "unreviewed",
+        "interpretation": "Candidate metadata clusters for leakage control and review; not verified requisitions or reposts.",
+    }
     changes = Counter(r["changeType"] for r in records)
     SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
     prior_snapshots = sorted(path for path in SNAPSHOT_DIR.glob("*.json") if path.stem < now[:10])
@@ -506,7 +552,7 @@ def main() -> int:
             "profileSemantics": "Occupation-inherited profiles are context, not listing-stated requirements. Record-level software mappings require listing evidence and an exact occupation-linked crosswalk.",
         },
         "coverage": {"sourceRegistryVersion": CONFIG.get("registryVersion"), "definition": CONFIG.get("coverageDefinition"), "sourcesConfigured": len(configured_sources), "sourcesSuccessful": len(retrieval), "sourceFailures": failures, "atsProviders": dict(Counter(item["ats"] for item in retrieval)), "sectors": dict(Counter(item["sector"] for item in retrieval)), "retrieval": retrieval, "eligibleObservations": len(candidates), "publishedObservations": len(records), "publicationCap": int(CONFIG["maximumObservations"])},
-        "summary": {"observations": len(records), "employers": len(employers), "employerMix": employers, "sourceConcentration": source_concentration, "changes": changes, "compensationCoverage": round(len(compensated)/len(records), 3) if records else 0, "usdAnnualCompensationObservations": len(usd_annual_compensated), "medianAdvertisedPayMidpoint": median_pay, "medianAdvertisedPayCurrency": "USD" if median_pay is not None else None, "medianAdvertisedPayPeriod": "annual" if median_pay is not None else None, "topSkills": skill_counts.most_common(8), "domains": domains},
+        "summary": {"observations": len(records), "employers": len(employers), "employerMix": employers, "sourceConcentration": source_concentration, "entityResolution": entity_resolution_summary, "changes": changes, "compensationCoverage": round(len(compensated)/len(records), 3) if records else 0, "usdAnnualCompensationObservations": len(usd_annual_compensated), "medianAdvertisedPayMidpoint": median_pay, "medianAdvertisedPayCurrency": "USD" if median_pay is not None else None, "medianAdvertisedPayPeriod": "annual" if median_pay is not None else None, "topSkills": skill_counts.most_common(8), "domains": domains},
         "payBenchmarks": [
           {"occupation":"Data scientists","medianAnnualPay":112590,"year":2024,"source":"BLS OEWS","sourceUrl":"https://www.bls.gov/ooh/math/data-scientists.htm"},
           {"occupation":"Software developers","medianAnnualPay":133080,"year":2024,"source":"BLS OOH","sourceUrl":"https://www.bls.gov/ooh/computer-and-information-technology/software-developers.htm"},

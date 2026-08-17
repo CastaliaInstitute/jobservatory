@@ -39,8 +39,14 @@
         }}}
       }
     },
-    "summary": {"type": "object", "required": ["observations", "employers", "employerMix", "sourceConcentration", "changes", "compensationCoverage", "domains"], "properties": {
-      "observations": {}, "employers": {}, "employerMix": {}, "sourceConcentration": {}, "changes": {}, "compensationCoverage": {}, "domains": {}
+    "summary": {"type": "object", "required": ["observations", "employers", "employerMix", "sourceConcentration", "entityResolution", "changes", "compensationCoverage", "domains"], "properties": {
+      "observations": {}, "employers": {}, "employerMix": {}, "sourceConcentration": {},
+      "entityResolution": {"type": "object", "required": ["methodVersion", "postingFamilies", "multiObservationFamilies", "exactVariantGroups", "repostCandidateGroups", "observationsInRepostCandidateGroups", "reviewStatus", "interpretation"], "properties": {
+        "methodVersion": {"type": "string"}, "postingFamilies": {"type": "integer", "minimum": 1}, "multiObservationFamilies": {"type": "integer", "minimum": 0},
+        "exactVariantGroups": {"type": "integer", "minimum": 1}, "repostCandidateGroups": {"type": "integer", "minimum": 0},
+        "observationsInRepostCandidateGroups": {"type": "integer", "minimum": 0}, "reviewStatus": {"const": "unreviewed"}, "interpretation": {"type": "string"}
+      }},
+      "changes": {}, "compensationCoverage": {}, "domains": {}
     }},
     "onet": {
       "type": "object",
@@ -56,7 +62,7 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["observationId", "analysisId", "sourceId", "employer", "title", "location", "sourceUrl", "retrievedAt", "contentHash", "roleRelevance", "classifications", "extraction", "descriptionPolicy", "version", "firstSeen", "lastSeen"],
+        "required": ["observationId", "analysisId", "sourceId", "employer", "title", "location", "sourceUrl", "retrievedAt", "contentHash", "roleRelevance", "classifications", "extraction", "entityResolution", "descriptionPolicy", "version", "firstSeen", "lastSeen"],
         "properties": {
           "observationId": {"type": "string"}, "analysisId": {"type": "string"}, "sourceId": {"type": "string"},
           "employer": {"type": "string"}, "title": {"type": "string"}, "location": {"type": "string"}, "sourceUrl": {"type": "string", "format": "uri"},
@@ -64,6 +70,13 @@
           "contentHash": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
           "roleRelevance": {"type": "object", "properties": {"tier": {"enum": ["direct", "applied"]}}},
           "classifications": {"type": "object"}, "extraction": {"type": "object"},
+          "entityResolution": {"type": "object", "required": ["methodVersion", "postingFamilyId", "exactVariantGroupId", "canonicalTitle", "canonicalLocation", "familyMatchConfidence", "exactVariantMatchConfidence", "reviewStatus", "semantics", "familySize", "exactVariantGroupSize", "repostCandidate", "hasLocationVariants"], "properties": {
+            "methodVersion": {"type": "string"}, "postingFamilyId": {"type": "string", "pattern": "^family:[a-f0-9]{20}$"},
+            "exactVariantGroupId": {"type": "string", "pattern": "^variant:[a-f0-9]{20}$"}, "canonicalTitle": {"type": "string"}, "canonicalLocation": {"type": "string"},
+            "familyMatchConfidence": {"type": "number", "minimum": 0, "maximum": 1}, "exactVariantMatchConfidence": {"type": "number", "minimum": 0, "maximum": 1},
+            "reviewStatus": {"const": "unreviewed"}, "semantics": {"type": "string"}, "familySize": {"type": "integer", "minimum": 1},
+            "exactVariantGroupSize": {"type": "integer", "minimum": 1}, "repostCandidate": {"type": "boolean"}, "hasLocationVariants": {"type": "boolean"}
+          }},
           "version": {"type": "integer", "minimum": 1},
           "retrievedAt": {"type": "string", "format": "date-time"},
           "firstSeen": {"type": "string", "format": "date-time"},

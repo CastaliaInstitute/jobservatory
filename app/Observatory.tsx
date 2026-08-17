@@ -8,6 +8,7 @@ type Observation = {
   observationId: string; employer: string; title: string; location: string; sourceUrl: string;
   retrievedAt: string; sourceUpdatedAt?: string; contentHash: string; seniority: string; domain: string;
   compensation: { minimum: number; maximum: number } | null;
+  entityResolution: { postingFamilyId: string; exactVariantGroupId: string; familySize: number; exactVariantGroupSize: number; repostCandidate: boolean; hasLocationVariants: boolean; reviewStatus: string; semantics: string };
   classifications: { aiRelationship: Evidence[]; systemLayer: Evidence[]; skills: Evidence[]; laborEffect: { label: string; inferred: boolean; basis: string }; humanRole: { label: string; inferred: boolean }; maturity: { label: string; inferred: boolean } };
 };
 type Term = { term: string; category: string; count: number; share: number; change: number | null; firstSeen: string; lastSeen: string };
@@ -54,7 +55,7 @@ export default function Observatory() {
   return (
     <>
       <section className="dashboard" id="signals">
-        <div className="section-head"><div><span>01 / CURRENT CORPUS</span><h2>What selected employers<br />ask for now.</h2></div><p>Every row is a dated observation—not a timeless job record. Revisions and removals become signal; repost resolution is still experimental.</p></div>
+        <div className="section-head"><div><span>01 / CURRENT CORPUS</span><h2>What selected employers<br />ask for now.</h2></div><p>Every row is a dated observation—not a timeless job record. Revisions and removals become signal; unreviewed metadata families expose possible reposts and location variants.</p></div>
         <div className="kpi-grid">
           <article><span>Observed listings</span><strong>{data?.summary.observations ?? "—"}</strong><small>current curated slice</small></article>
           <article><span>Employers</span><strong>{data?.summary.employers ?? "—"}</strong><small>public career feeds</small></article>
@@ -114,9 +115,9 @@ export default function Observatory() {
         <aside className="drawer" role="dialog" aria-modal="true" aria-labelledby="observation-title">
           <button ref={closeButton} className="close" onClick={closeObservation}>CLOSE ×</button>
           <span className="drawer-kicker">OBSERVATION · VERSIONED</span><h2 id="observation-title">{selected.title}</h2><h3>{selected.employer} · {selected.location}</h3>
-          <div className="fact-grid"><div><span>DOMAIN</span><b>{selected.domain}</b></div><div><span>SENIORITY</span><b>{selected.seniority}</b></div><div><span>PAY</span><b>{selected.compensation?`${money(selected.compensation.minimum)}–${money(selected.compensation.maximum)}`:"Not disclosed"}</b></div><div><span>CONTENT HASH</span><b>{selected.contentHash.slice(7,19)}…</b></div></div>
+          <div className="fact-grid"><div><span>DOMAIN</span><b>{selected.domain}</b></div><div><span>SENIORITY</span><b>{selected.seniority}</b></div><div><span>PAY</span><b>{selected.compensation?`${money(selected.compensation.minimum)}–${money(selected.compensation.maximum)}`:"Not disclosed"}</b></div><div><span>CONTENT HASH</span><b>{selected.contentHash.slice(7,19)}…</b></div><div><span>TITLE FAMILY</span><b>{selected.entityResolution.familySize} observation{selected.entityResolution.familySize===1?"":"s"}</b></div><div><span>EXACT VARIANT CANDIDATES</span><b>{selected.entityResolution.exactVariantGroupSize}</b></div></div>
           <h4>Evidence-backed signals</h4>{[...selected.classifications.aiRelationship,...selected.classifications.systemLayer,...selected.classifications.skills].slice(0,6).map((hit,i)=><blockquote key={`${hit.label}-${i}`}><b>{hit.label}</b><p>“{hit.evidence}”</p><small>RULE-DERIVED · SOURCE SPAN</small></blockquote>)}
-          <h4>Unreviewed interpretation</h4><div className="inferences"><span>{selected.classifications.laborEffect.label}</span><span>{selected.classifications.humanRole.label}</span><span>{selected.classifications.maturity.label}</span></div><p className="caution">These labels are unreviewed hypotheses derived by versioned rules, not employer assertions or validated model outputs.</p><a className="source-button" href={selected.sourceUrl} target="_blank" rel="noreferrer">Open source listing ↗</a>
+          <h4>Unreviewed interpretation</h4><div className="inferences"><span>{selected.classifications.laborEffect.label}</span><span>{selected.classifications.humanRole.label}</span><span>{selected.classifications.maturity.label}</span></div><p className="caution">These labels are unreviewed hypotheses derived by versioned rules, not employer assertions or validated model outputs. {selected.entityResolution.semantics}</p><a className="source-button" href={selected.sourceUrl} target="_blank" rel="noreferrer">Open source listing ↗</a>
         </aside>
       </div>}
     </>

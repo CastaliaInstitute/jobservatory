@@ -24,4 +24,4 @@ Rule-derived classifications and O*NET mappings are unreviewed hypotheses unless
 
 ## Known limitations
 
-The cohort remains curated and concentrated; employer language measures stated intent rather than realized hiring or displacement; compensation disclosure is selective; missing pay is not random; and repost/location-family resolution is incomplete. Longitudinal and forecasting outputs must abstain until their stated history and evaluation gates pass.
+The cohort remains curated and concentrated; employer language measures stated intent rather than realized hiring or displacement; compensation disclosure is selective; and missing pay is not random. Repost and location-variant families are stable, unreviewed metadata candidates—not verified shared requisitions. Longitudinal and forecasting outputs must abstain until their stated history and evaluation gates pass.

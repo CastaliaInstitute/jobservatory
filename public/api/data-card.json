@@ -1,9 +1,9 @@
 {
   "schemaVersion": "jobservatory.data-card.v1",
-  "generatedAt": "2026-08-17T10:56:26+00:00",
+  "generatedAt": "2026-08-17T11:01:11+00:00",
   "corpus": {
     "schemaVersion": "0.2.0",
-    "sha256": "sha256:c7fca07b374688986d3de98c6cfaa8f83d2ce2ef97223a82e4534cc33d2bc7b7",
+    "sha256": "sha256:771ea5a03c1db1ca2902037748ba391cf432957ba459659891d85c758d5acde6",
     "unitOfAnalysis": "A public job-listing observation retrieved at a particular time.",
     "descriptionPolicy": "metadata-and-evidence-only"
   },
@@ -38,7 +38,17 @@
       "healthcare-ai": 1
     },
     "largestEmployerShare": 0.2306,
-    "herfindahlHirschmanIndex": 0.0997
+    "herfindahlHirschmanIndex": 0.0997,
+    "entityResolution": {
+      "methodVersion": "jobservatory-entity-resolution-0.1.0",
+      "postingFamilies": 1897,
+      "multiObservationFamilies": 174,
+      "exactVariantGroups": 2128,
+      "repostCandidateGroups": 37,
+      "observationsInRepostCandidateGroups": 82,
+      "reviewStatus": "unreviewed",
+      "interpretation": "Candidate metadata clusters for leakage control and review; not verified requisitions or reposts."
+    }
   },
   "provenance": {
     "sourceRegistryVersion": "jobservatory-sources-2026-08-17.3",
@@ -63,7 +73,7 @@
     "notice": "A documented public API establishes technical access, not permission to redistribute employer-authored content or train models. Those reviews remain separate and fail closed."
   },
   "labels": {
-    "extractionVersion": "jobservatory-rules-0.2.3",
+    "extractionVersion": "jobservatory-rules-0.2.4",
     "ontologyVersion": "jobservatory-ontology-0.3.0",
     "reviewStatus": "unreviewed",
     "onetVersion": "30.3",
@@ -87,6 +97,6 @@
     "one-day longitudinal history at initial publication",
     "unreviewed weak labels",
     "missing compensation is not missing at random",
-    "reposts and location variants are not fully resolved"
+    "repost and location-variant groups are unreviewed metadata candidates, not verified shared requisitions"
   ]
 }

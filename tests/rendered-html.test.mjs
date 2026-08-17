@@ -37,6 +37,9 @@ test("publishes provenance, evaluation, and safely abstaining signal feeds", asy
   assert.equal(corpus.observations[0].descriptionPolicy, "metadata-and-evidence-only");
   assert.ok(corpus.observations[0].firstSeen);
   assert.ok(corpus.observations.every(item => item.analysisId && item.extraction.methodVersion && item.extraction.ontologyVersion));
+  assert.ok(corpus.observations.every(item => item.duplicateGroup === item.entityResolution.exactVariantGroupId));
+  assert.ok(corpus.observations.every(item => item.entityResolution.familySize >= item.entityResolution.exactVariantGroupSize));
+  assert.equal(corpus.summary.entityResolution.reviewStatus, "unreviewed");
   assert.ok(corpus.observations.every(item => ["direct", "applied"].includes(item.roleRelevance.tier)));
   assert.ok(corpus.observations.every(item => item.classifications.laborEffect.label === "unclassified"));
   assert.ok(corpus.observations.every(item => !JSON.stringify(item.classifications).match(/<[^>]+>/)));
