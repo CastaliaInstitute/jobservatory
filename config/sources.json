@@ -1,0 +1,9 @@
+{
+  "greenhouse": [
+    { "employer": "Anthropic", "board": "anthropic" },
+    { "employer": "Scale AI", "board": "scaleai" },
+    { "employer": "Anduril", "board": "andurilindustries" },
+    { "employer": "Glean", "board": "gleanwork" }
+  ],
+  "maximumObservations": 250
+}

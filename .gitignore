@@ -1,0 +1,8 @@
+node_modules/
+.next/
+.wrangler/
+.vinext/
+dist/
+data/*.sqlite
+data/*.sqlite-*
+.DS_Store
