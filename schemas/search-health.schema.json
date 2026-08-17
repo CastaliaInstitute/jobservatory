@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jobservatory.castalia.institute/schemas/search-health.schema.json",
+  "oneOf": [
+    {
+      "type": "object", "additionalProperties": false,
+      "required": ["schemaVersion", "status", "serviceVersion", "modelId", "indexSha256", "corpusGeneratedAt", "documents", "indexCacheHit", "responseMs"],
+      "properties": {
+        "schemaVersion": {"const": "jobservatory.search-health.v1"},
+        "status": {"const": "ok"},
+        "serviceVersion": {"const": "jobservatory-search-api-v1"},
+        "modelId": {"const": "bm25-production-baseline-1.0.0"},
+        "indexSha256": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "corpusGeneratedAt": {"type": "string", "format": "date-time"},
+        "documents": {"type": "integer", "minimum": 1},
+        "indexCacheHit": {"type": "boolean"},
+        "responseMs": {"type": "number", "minimum": 0}
+      }
+    },
+    {
+      "type": "object", "additionalProperties": false,
+      "required": ["schemaVersion", "status", "serviceVersion"],
+      "properties": {
+        "schemaVersion": {"const": "jobservatory.search-health.v1"},
+        "status": {"const": "unavailable"},
+        "serviceVersion": {"const": "jobservatory-search-api-v1"}
+      }
+    }
+  ]
+}

@@ -26,6 +26,8 @@ Rule-derived labels are explicitly marked as unreviewed inferences. Unsupported 
 - Apocalypso signal at `/api/apocalypso/jobs-signal.json`
 - fail-closed A+ release ledger at `/api/ml/release-readiness.json`
 - bounded production delivery benchmark at `/api/ops/production-benchmark.json`
+- versioned Cloudflare Pages retrieval service at `/api/v1/search` with health at `/api/v1/health`
+- content-addressed BM25 baseline index and manifest under `/api/search/`
 - published JSON Schema contracts under `/schemas/`
 
 ## Development
@@ -42,16 +44,17 @@ The collector uses only Python's standard library. Local SQLite is a convenience
 
 ## Deployment
 
-The site is a static Vite build for Cloudflare Pages:
+The site is a Vite application with a Cloudflare Pages Function for versioned retrieval:
 
 - build command: `npm run build`
 - output directory: `dist`
 - production branch: `main`
+- pinned runtime configuration: `wrangler.toml`
 
-The scheduled GitHub Action refreshes observations daily, reruns ML evaluation, verifies lint/build/tests, and commits changed research artifacts. Production is published at `jobservatory.castalia.institute` through a Cloudflare Pages direct-upload project. Automated deployment is not yet configured because the repository has no Cloudflare credentials; a successful refresh therefore does not prove the live deployment was updated.
+The scheduled GitHub Action refreshes observations daily, rebuilds the content-addressed serving index, reruns ML evaluation, verifies lint/build/tests—including the actual local Pages runtime—and commits changed research artifacts. Production is published at `jobservatory.castalia.institute` through a Cloudflare Pages direct-upload project. Automated deployment is not yet configured because the repository has no Cloudflare credentials; a successful refresh therefore does not prove the live deployment was updated.
 
 ## Method limits
 
 The corpus is curated rather than statistically representative. Listing language measures employer intent and organizational design, not realized hiring, productivity, or displacement. No numeric forecast is currently published. Apocalypso returns a null signal until longitudinal requirements are met.
 
-The current evaluation sets are small, single-reviewer development fixtures. They are useful for regression detection but insufficient for scientific or CV performance claims. See [the methodology](docs/METHODOLOGY.md), [architecture](docs/ARCHITECTURE.md), [evaluation standard](docs/MODEL_EVALUATION_STANDARD.md), [responsible-AI controls](docs/RESPONSIBLE_AI.md), and [A+ critical review](docs/A_PLUS_REVIEW.md).
+The current evaluation sets are small, single-reviewer development fixtures. They are useful for regression detection but insufficient for scientific or CV performance claims. The production service therefore exposes the BM25 baseline and identifies the learned candidate as rejected. See [the methodology](docs/METHODOLOGY.md), [architecture](docs/ARCHITECTURE.md), [serving contract](docs/SERVING.md), [evaluation standard](docs/MODEL_EVALUATION_STANDARD.md), [responsible-AI controls](docs/RESPONSIBLE_AI.md), and [A+ critical review](docs/A_PLUS_REVIEW.md).

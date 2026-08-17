@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
 
@@ -12,13 +12,18 @@ const pairs = [
   ["schemas/release-readiness.schema.json", "public/api/ml/release-readiness.json"],
   ["schemas/production-benchmark.schema.json", "public/api/ops/production-benchmark.json"],
   ["schemas/accessibility-audit.schema.json", "public/api/ops/accessibility-audit.json"],
+  ["schemas/serving-index-manifest.schema.json", "public/api/search/manifest-v1.json"],
+  ["schemas/serving-index.schema.json", "public/api/search/index-v1.json"],
 ];
 const ajv = new Ajv2020({ allErrors: true, strict: true });
 addFormats(ajv);
+const schemaFiles = (await readdir("schemas")).filter(name => name.endsWith(".schema.json"));
+for (const name of schemaFiles) ajv.addSchema(JSON.parse(await readFile(`schemas/${name}`, "utf8")));
 for (const [schemaPath, artifactPath] of pairs) {
   const schema = JSON.parse(await readFile(schemaPath, "utf8"));
   const artifact = JSON.parse(await readFile(artifactPath, "utf8"));
-  const validate = ajv.compile(schema);
+  const validate = ajv.getSchema(schema.$id);
+  if (!validate) throw new Error(`schema was not registered: ${schemaPath}`);
   if (!validate(artifact)) throw new Error(`${artifactPath} violates ${schemaPath}: ${ajv.errorsText(validate.errors, { separator: "\n" })}`);
 }
 console.log(`validated ${pairs.length} public artifacts against JSON Schema 2020-12 contracts`);

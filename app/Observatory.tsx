@@ -14,6 +14,7 @@ type Observation = {
 type Term = { term: string; category: string; count: number; share: number; change: number | null; firstSeen: string; lastSeen: string };
 type Dataset = { generatedAt: string; summary: { observations: number; employers: number; compensationCoverage: number; medianAdvertisedPayMidpoint: number; topSkills: [string, number][]; domains: Record<string, number> }; termIndex: Term[]; termTimeline: { date: string; terms: Record<string, number> }[]; payBenchmarks: { occupation: string; medianAnnualPay: number; sourceUrl: string }[]; observations: Observation[] };
 type Metrics = { evaluation: { queries: number; judgmentPolicy: string }; aggregate: Record<string, Record<string, number>>; limitations: string[] };
+type SearchResponse = { schemaVersion: string; totalCandidates: number; results: { observationId: string }[] };
 
 const money = (value: number) => `$${Math.round(value / 1000)}K`;
 export default function Observatory() {
@@ -22,6 +23,8 @@ export default function Observatory() {
   const [loadError, setLoadError] = useState(false);
   const [query, setQuery] = useState("");
   const [domain, setDomain] = useState("All domains");
+  const [serverSearch, setServerSearch] = useState<{ key: string; ids: string[]; total: number } | null>(null);
+  const [searchStatus, setSearchStatus] = useState<"idle" | "loading" | "server" | "fallback">("idle");
   const [selected, setSelected] = useState<Observation | null>(null);
   const [termCategory, setTermCategory] = useState("All terms");
   const [selectedTerm, setSelectedTerm] = useState<string | null>(null);
@@ -36,6 +39,26 @@ export default function Observatory() {
     fetch("/api/observatory.json").then(r => { if (!r.ok) throw new Error(String(r.status)); return r.json(); }).then((next: Dataset) => { setData(next); setSelectedTerm(next.termIndex?.[0]?.term || null); setSelectedDate(next.termTimeline?.at(-1)?.date || null); }).catch(() => setLoadError(true));
     fetch("/api/ml/retrieval-metrics.json").then(r => r.json()).then(setMetrics).catch(() => undefined);
   }, []);
+  useEffect(() => {
+    const normalized = query.trim().replace(/\s+/g, " ");
+    if (normalized.length < 2) return;
+    const key = `${normalized}\u0000${domain}`;
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => {
+      setSearchStatus("loading");
+      const parameters = new URLSearchParams({ q: normalized, limit: "50" });
+      if (domain !== "All domains") parameters.set("domain", domain);
+      fetch(`/api/v1/search?${parameters}`, { signal: controller.signal })
+        .then(response => { if (!response.ok) throw new Error(String(response.status)); return response.json(); })
+        .then((response: SearchResponse) => {
+          if (response.schemaVersion !== "jobservatory.search-response.v1" || !Array.isArray(response.results)) throw new Error("search contract mismatch");
+          setServerSearch({ key, ids: response.results.map(result => result.observationId), total: response.totalCandidates });
+          setSearchStatus("server");
+        })
+        .catch(error => { if (error.name !== "AbortError") { setServerSearch(null); setSearchStatus("fallback"); } });
+    }, 200);
+    return () => { window.clearTimeout(timeout); controller.abort(); };
+  }, [domain, query]);
   useEffect(() => { if (selected) closeButton.current?.focus(); }, [selected]);
   useEffect(() => {
     if (!selected) return;
@@ -56,9 +79,17 @@ export default function Observatory() {
   const domains = data ? Object.keys(data.summary.domains).sort() : [];
   const hybridIndex = useMemo(() => data ? createHybridIndex(data.observations) : null, [data]);
   const filtered = useMemo(() => {
-    const ranked = query.trim() && hybridIndex ? hybridIndex.search(query).map(result => result.item as Observation) : (data?.observations || []);
+    const normalized = query.trim().replace(/\s+/g, " ");
+    const searchKey = `${normalized}\u0000${domain}`;
+    const byId = new Map((data?.observations || []).map(item => [item.observationId, item]));
+    const serverRanked = serverSearch?.key === searchKey ? serverSearch.ids.map(id => byId.get(id)).filter((item): item is Observation => Boolean(item)) : null;
+    const ranked = normalized && serverRanked ? serverRanked : normalized && hybridIndex ? hybridIndex.search(query).map(result => result.item as Observation) : (data?.observations || []);
     return ranked.filter(item => domain === "All domains" || item.domain === domain);
-  }, [data, domain, hybridIndex, query]);
+  }, [data, domain, hybridIndex, query, serverSearch]);
+  const normalizedQuery = query.trim().replace(/\s+/g, " ");
+  const activeSearchKey = `${normalizedQuery}\u0000${domain}`;
+  const resultTotal = normalizedQuery && serverSearch?.key === activeSearchKey ? serverSearch.total : filtered.length;
+  const effectiveSearchStatus = normalizedQuery.length < 2 ? (normalizedQuery ? "fallback" : "idle") : serverSearch?.key === activeSearchKey ? "server" : searchStatus === "fallback" ? "fallback" : "loading";
   const maxSkill = data?.summary.topSkills[0]?.[1] || 1;
   const termCategories = data ? Array.from(new Set(data.termIndex.map(item => item.category))) : [];
   const datedCounts = data?.termTimeline.find(item => item.date === selectedDate)?.terms || {};
@@ -105,13 +136,13 @@ export default function Observatory() {
 
       <section className="ledger" id="ledger">
         <div className="section-head light"><div><span>03 / EVIDENCE LEDGER</span><h2>Inspect the<br />observations.</h2></div><p>Open any listing to see source facts, evidence-bearing rule matches, and explicitly unreviewed inferences.</p></div>
-        <div className="filters"><label><span>HYBRID SEARCH · BM25 + DENSE HASH + RRF</span><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Principal ML retrieval architecture, remote US…" /></label><label><span>DOMAIN</span><select value={domain} onChange={e=>setDomain(e.target.value)}><option>All domains</option>{domains.map(d=><option key={d}>{d}</option>)}</select></label><div className="result-count"><strong>{filtered.length}</strong><span>{query ? "ranked observations" : "observations"}</span></div></div>
+        <div className="filters"><label><span>VERSIONED SEARCH API · BM25 PRODUCTION BASELINE</span><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Principal ML retrieval architecture, remote US…" /></label><label><span>DOMAIN</span><select value={domain} onChange={e=>setDomain(e.target.value)}><option>All domains</option>{domains.map(d=><option key={d}>{d}</option>)}</select></label><div className="result-count" aria-live="polite"><strong>{resultTotal}</strong><span>{query ? effectiveSearchStatus === "server" ? "API-ranked observations" : effectiveSearchStatus === "loading" ? "ranking…" : "browser fallback" : "observations"}</span></div></div>
         {loadError && <p className="data-error" role="alert">The observation corpus could not be loaded. Try again later or inspect the public JSON endpoint.</p>}
         <div className="table" role="table" aria-label="Job listing observations">
           <div className="tr table-head" role="row"><span role="columnheader">EMPLOYER / ROLE</span><span role="columnheader">DOMAIN</span><span role="columnheader">SENIORITY</span><span role="columnheader">PAY</span><span role="columnheader" /></div>
           {filtered.slice(0,30).map(item=><div className="tr" role="row" key={item.observationId}><span role="cell"><b>{item.employer}</b><button className="row-title" onClick={()=>openObservation(item)}>{item.title}</button><small>{item.location}</small></span><span role="cell"><i className="dot" />{item.domain}</span><span role="cell">{item.seniority}</span><span role="cell">{item.compensation ? `${money(item.compensation.minimum)}–${money(item.compensation.maximum)}` : "Not disclosed"}</span><span role="cell"><button className="open" aria-label={`Inspect ${item.title} at ${item.employer}`} onClick={()=>openObservation(item)}>↗</button></span></div>)}
         </div>
-        {filtered.length > 30 && <p className="table-note">Showing 30 of {filtered.length} matches. Refine the filters to inspect the remaining records.</p>}
+        {resultTotal > 30 && <p className="table-note">Showing 30 of {resultTotal} matches. Refine the filters to inspect the remaining records.</p>}
       </section>
 
       <section className="forecast" id="lab">

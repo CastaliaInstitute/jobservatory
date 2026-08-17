@@ -7,9 +7,9 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build && node scripts/copy_schemas.mjs",
+    "build": "npm run serving:index && tsc --noEmit && vite build && node scripts/copy_schemas.mjs",
     "preview": "vite preview",
-    "test": "npm run data:validate && npm run ml:evaluate && npm run data:card && npm run build && npm run accessibility:audit && npm run release:status && npm run schema:validate && npm run build && node --test tests/rendered-html.test.mjs",
+    "test": "npm run data:validate && npm run ml:evaluate && npm run data:card && npm run build && npm run accessibility:audit && npm run release:status && npm run schema:validate && npm run build && node --test tests/rendered-html.test.mjs tests/search-service.test.mjs tests/pages-runtime.test.mjs",
     "lint": "eslint . --ignore-pattern dist",
     "data:collect": "python3 scripts/collect_listings.py",
     "data:onet": "uv run python scripts/build_onet_ontology.py",
@@ -18,6 +18,8 @@
     "schema:validate": "node scripts/validate_json_schemas.mjs",
     "release:status": "python3 scripts/build_release_readiness.py",
     "benchmark:production": "python3 scripts/benchmark_production.py --write",
+    "benchmark:retrieval": "python3 scripts/benchmark_retrieval_service.py --write",
+    "serving:index": "python3 scripts/build_serving_index.py",
     "accessibility:audit": "node scripts/audit_accessibility.mjs",
     "ml:evaluate": "python3 ml/retrieval_lab.py --write && python3 ml/classification_lab.py && python3 ml/validate_learned_artifacts.py && python3 ml/validate_hierarchical_artifacts.py && python3 ml/counterfactual_audit.py",
     "ml:freeze": "uv run python ml/freeze_evaluation.py",
@@ -46,7 +48,8 @@
     "playwright": "^1.55.1",
     "typescript": "5.9.3",
     "typescript-eslint": "8.59.3",
-    "vite": "8.2.1"
+    "vite": "8.2.1",
+    "wrangler": "^4.123.0"
   },
   "type": "module"
 }

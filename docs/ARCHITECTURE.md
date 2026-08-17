@@ -14,13 +14,14 @@ public career feeds
   -> version ledger + daily presence snapshot
   -> versioned rule analysis + evidence excerpts
   -> current public corpus
-       -> retrieval evaluation -> deployed hybrid search
+       -> content-addressed BM25 index -> versioned Pages Function
+       -> retrieval evaluation -> rejected/promoted learned candidates
        -> classification evaluation
        -> term frames
        -> Apocalypso signal (withholds value until valid)
 ```
 
-The current static Cloudflare Pages deployment runs retrieval in the browser over more than 2,100 compact observations. This is appropriate for the prototype, not the target serving architecture.
+The production Cloudflare Pages deployment exposes `/api/v1/search` and `/api/v1/health`. The Function loads a content-addressed 2,100+ observation inverted index through the Pages `ASSETS` binding, verifies its SHA-256 and lineage, caches the loaded index and up to 100 candidate sets per isolate, and returns version/timing headers. The browser retains the prior hybrid implementation only as a network-failure fallback.
 
 ## Data and model contracts
 
@@ -30,7 +31,7 @@ The current static Cloudflare Pages deployment runs retrieval in the browser ove
 | Observation identity | `sourceId`, full-content SHA-256, `observationId`, first/last seen, listing version | Implemented; daily presence snapshots make disappearances independent of the 5,000-record publication cap |
 | Analysis identity | `analysisId`, extraction and ontology versions, review state, evidence | Implemented; analysis revisions are distinct from listing revisions |
 | Occupation and skill mapping | O*NET-SOC code/version, inferred flag, review state, listing-evidence crosswalk, inherited-profile semantics | Conservative title rules mapped 915/2,174; 1,330 skill mentions on 634 listings map to exact occupation-linked O*NET 30.3 software examples; mappings remain unreviewed |
-| Retrieval | query, corpus/index version, ranked IDs, component scores, latency | Rankings implemented; component scores and timing are not yet exposed by the UI |
+| Retrieval | query, corpus/index version, ranked IDs, component scores, latency | Versioned BM25 baseline API exposes result scores, model/index/corpus lineage, cache state, and service/application timing; learned retrieval remains rejected |
 | Evaluation | immutable queries/qrels, split, model/index version, Recall@K, MRR, nDCG | Small single-reviewer development set implemented; no held-out or adjudicated set yet |
 | Classification | hierarchical label IDs, probabilities, threshold version, evidence | Versioned title/location logistic baseline implements five label families, Platt calibration, threshold-band abstention, tail metrics, and deterministic parents; weak-label and rights gates reject promotion |
 | Apocalypso | signal definition, unit, cohort, history threshold, uncertainty, null semantics | Version 2 emits `insufficient_history` and `null`; no fabricated pressure score |
@@ -38,7 +39,7 @@ The current static Cloudflare Pages deployment runs retrieval in the browser ove
 
 ## Retrieval stack
 
-The deployed baseline uses BM25, a 512-dimensional fixed feature-hashed word unigram/bigram representation, reciprocal-rank fusion, and a transparent title/metadata interaction reranker. The fixed dense representation is not called a semantic embedding, and the interaction model is not called a cross-encoder.
+The production service uses the BM25 baseline because it is the only candidate currently justified by the evaluation evidence. Its compact inverted index is generated deterministically from the public metadata-and-evidence corpus. The earlier browser baseline combines BM25, a 512-dimensional fixed feature-hashed representation, reciprocal-rank fusion, and a transparent title/metadata interaction reranker; it remains a network-failure fallback rather than the authoritative production ranker. The fixed representation is not called a semantic embedding, and the interaction model is not called a cross-encoder.
 
 The first offline learned candidate uses pinned MiniLM sentence embeddings and an MS MARCO cross-encoder. It improves development MRR and nDCG but regresses recall, so the promotion gate rejects it. The target production stack remains:
 
@@ -46,12 +47,12 @@ The first offline learned candidate uses pinned MiniLM sentence embeddings and a
 2. OpenSearch or Tantivy for BM25 and faceting.
 3. pgvector or a dedicated ANN index for versioned learned embeddings.
 4. A small cross-encoder over the fused top 50.
-5. A Go retrieval service returning component scores, evidence, model versions, and timing.
+5. A separately scalable Go or Workers retrieval service returning component scores, evidence, model versions, and timing once measured scale exceeds the Pages Function envelope.
 6. Python/PyTorch training and evaluation jobs with frozen datasets and model cards.
 
 Promotion requires a held-out improvement, no protected-attribute proxy regression, and a measured latency/cost budget. A more complicated model does not ship merely because it is more fashionable.
 
-The current production benchmark covers Cloudflare Pages static delivery only. Its committed report records p50/p95/p99, throughput, errors, bytes, route mix, cost assumptions, and measurement limitations. It is not evidence about the planned retrieval/model service; that service needs a separate versioned workload and latency/cost gate.
+Static delivery and the versioned retrieval service have separate production benchmarks. The retrieval workload checks response schemas, result ordering, filters, lineage headers, cache behavior, p50/p95/p99 external and application time, throughput, errors, and an explicitly assumption-bound Cloudflare cost model. Neither benchmark is relevance-promotion evidence.
 
 ## 10× and 100× scale
 

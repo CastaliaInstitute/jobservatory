@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jobservatory.castalia.institute/schemas/serving-index.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "generatedAt", "indexBuildVersion", "model", "corpus", "statistics", "documents", "invertedIndex"],
+  "properties": {
+    "schemaVersion": {"const": "jobservatory.serving-index.v1"},
+    "generatedAt": {"type": "string", "format": "date-time"},
+    "indexBuildVersion": {"const": "jobservatory-serving-index-1.0.0"},
+    "model": {"$ref": "serving-index-manifest.schema.json#/$defs/model"},
+    "corpus": {"$ref": "serving-index-manifest.schema.json#/$defs/corpus"},
+    "statistics": {
+      "type": "object", "additionalProperties": false,
+      "required": ["documents", "terms", "uniqueTerms", "averageDocumentLength"],
+      "properties": {
+        "documents": {"type": "integer", "minimum": 1},
+        "terms": {"type": "integer", "minimum": 1},
+        "uniqueTerms": {"type": "integer", "minimum": 1},
+        "averageDocumentLength": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "documents": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/document"}},
+    "invertedIndex": {
+      "type": "object", "minProperties": 1,
+      "additionalProperties": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/posting"}}
+    }
+  },
+  "$defs": {
+    "document": {
+      "type": "object", "additionalProperties": false,
+      "required": ["observationId", "employer", "title", "location", "seniority", "domain", "compensation", "sourceUrl", "length"],
+      "properties": {
+        "observationId": {"type": "string", "minLength": 1},
+        "employer": {"type": "string", "minLength": 1},
+        "title": {"type": "string", "minLength": 1},
+        "location": {"type": "string", "minLength": 1},
+        "seniority": {"type": "string", "minLength": 1},
+        "domain": {"type": "string", "minLength": 1},
+        "compensation": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/compensation"}]},
+        "sourceUrl": {"type": "string", "format": "uri"},
+        "length": {"type": "integer", "minimum": 1}
+      }
+    },
+    "compensation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["currency", "minimum", "maximum", "period", "explicit"],
+      "properties": {
+        "currency": {"type": "string", "minLength": 3},
+        "minimum": {"type": "number", "minimum": 0},
+        "maximum": {"type": "number", "minimum": 0},
+        "period": {"type": "string", "minLength": 1},
+        "explicit": {"type": "boolean"},
+        "source": {"type": "string", "minLength": 1}
+      }
+    },
+    "posting": {
+      "type": "array", "prefixItems": [{"type": "integer", "minimum": 0}, {"type": "integer", "minimum": 1}],
+      "minItems": 2, "maxItems": 2
+    }
+  }
+}

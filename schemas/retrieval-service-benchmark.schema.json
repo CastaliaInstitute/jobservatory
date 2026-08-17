@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jobservatory.castalia.institute/schemas/retrieval-service-benchmark.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schemaVersion", "generatedAt", "target", "lineage", "workload", "criteria", "aggregate", "costModel", "status", "limitations"],
+  "properties": {
+    "schemaVersion": {"const": "jobservatory.retrieval-service-benchmark.v1"},
+    "generatedAt": {"type": "string", "format": "date-time"},
+    "target": {"type": "string", "format": "uri"},
+    "lineage": {
+      "type": "object", "additionalProperties": false,
+      "required": ["serviceVersion", "modelId", "indexSha256", "corpusGeneratedAt"],
+      "properties": {
+        "serviceVersion": {"const": "jobservatory-search-api-v1"},
+        "modelId": {"const": "bm25-production-baseline-1.0.0"},
+        "indexSha256": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "corpusGeneratedAt": {"type": "string", "format": "date-time"}
+      }
+    },
+    "workload": {"type": "object", "required": ["requests", "concurrency", "warmupRequests", "queries", "limit", "clientRegion", "cacheState"]},
+    "criteria": {
+      "type": "object", "additionalProperties": false,
+      "required": ["errors", "contractFailures", "externalP95MsMaximum", "applicationP95MsMaximum"],
+      "properties": {
+        "errors": {"const": 0}, "contractFailures": {"const": 0},
+        "externalP95MsMaximum": {"type": "number", "exclusiveMinimum": 0},
+        "applicationP95MsMaximum": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "aggregate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["requests", "successes", "errors", "contractFailures", "durationSeconds", "requestsPerSecond", "bytesTransferred", "external", "application", "indexCacheHitRate", "resultCacheHitRate"],
+      "properties": {
+        "requests": {"type": "integer", "minimum": 1}, "successes": {"type": "integer", "minimum": 0},
+        "errors": {"type": "integer", "minimum": 0}, "contractFailures": {"type": "integer", "minimum": 0},
+        "durationSeconds": {"type": "number", "exclusiveMinimum": 0}, "requestsPerSecond": {"type": "number", "exclusiveMinimum": 0},
+        "bytesTransferred": {"type": "integer", "minimum": 0},
+        "external": {"$ref": "#/$defs/timing"}, "application": {"$ref": "#/$defs/timing"},
+        "indexCacheHitRate": {"type": "number", "minimum": 0, "maximum": 1},
+        "resultCacheHitRate": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "costModel": {
+      "type": "object", "additionalProperties": false,
+      "required": ["architecture", "pricingSource", "pricingCheckedAt", "freePlanRequestsPerDay", "paidPlanMinimumMonthlyUSD", "paidPlanIncludedRequestsPerMonth", "paidPlanAdditionalUSDPerMillionRequests", "paidPlanIncludedCpuMillisecondsPerMonth", "paidPlanAdditionalUSDPerMillionCpuMilliseconds", "measuredTotalMsAsConservativeCpuUpperBound", "estimatedPaidCostUSDAtOneMillionMonthlyRequests", "assumptions"],
+      "properties": {
+        "architecture": {"type": "string"}, "pricingSource": {"type": "string", "format": "uri"},
+        "pricingCheckedAt": {"type": "string", "format": "date"},
+        "freePlanRequestsPerDay": {"type": "integer", "minimum": 1}, "paidPlanMinimumMonthlyUSD": {"type": "number", "minimum": 0},
+        "paidPlanIncludedRequestsPerMonth": {"type": "integer", "minimum": 1}, "paidPlanAdditionalUSDPerMillionRequests": {"type": "number", "minimum": 0},
+        "paidPlanIncludedCpuMillisecondsPerMonth": {"type": "integer", "minimum": 1}, "paidPlanAdditionalUSDPerMillionCpuMilliseconds": {"type": "number", "minimum": 0},
+        "measuredTotalMsAsConservativeCpuUpperBound": {"type": "number", "minimum": 0}, "estimatedPaidCostUSDAtOneMillionMonthlyRequests": {"type": "number", "minimum": 0},
+        "assumptions": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      }
+    },
+    "status": {"enum": ["pass", "fail"]},
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+  },
+  "$defs": {
+    "timing": {
+      "type": "object", "additionalProperties": false, "required": ["p50Ms", "p95Ms", "p99Ms", "meanMs"],
+      "properties": {
+        "p50Ms": {"type": "number", "minimum": 0}, "p95Ms": {"type": "number", "minimum": 0},
+        "p99Ms": {"type": "number", "minimum": 0}, "meanMs": {"type": "number", "minimum": 0}
+      }
+    }
+  }
+}

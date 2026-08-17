@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "jobservatory.serving-index-manifest.v1",
+  "generatedAt": "2026-08-17T11:25:34+00:00",
+  "serviceVersion": "jobservatory-search-api-v1",
+  "route": "/api/v1/search",
+  "index": {
+    "path": "/api/search/index-v1.json",
+    "sha256": "sha256:f614dff0b4a3d2201a1bf9ff4bf199fcb12d59e81978c6c16b10a22dad68ed86",
+    "bytes": 2178319,
+    "documents": 2174,
+    "indexBuildVersion": "jobservatory-serving-index-1.0.0"
+  },
+  "model": {
+    "modelId": "bm25-production-baseline-1.0.0",
+    "algorithm": "Okapi BM25",
+    "parameters": {
+      "k1": 1.2,
+      "b": 0.75
+    }
+  },
+  "corpus": {
+    "schemaVersion": "0.2.0",
+    "generatedAt": "2026-08-17T11:25:34+00:00",
+    "observations": 2174,
+    "descriptionPolicy": "metadata-and-evidence-only"
+  },
+  "promotion": {
+    "status": "baseline_only",
+    "reason": "The learned candidate remains rejected; production serves the explicit BM25 baseline until held-out promotion evidence exists."
+  }
+}
