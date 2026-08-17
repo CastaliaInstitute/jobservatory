@@ -57,6 +57,8 @@ def validate_body(body: dict, spec: dict, headers) -> list[str]:
         failures.append("index_sha256")
     if lineage.get("corpusGeneratedAt") != MANIFEST["corpus"]["generatedAt"]:
         failures.append("corpus_generated_at")
+    if lineage.get("corpusContentSha256") != MANIFEST["corpus"]["contentSha256"]:
+        failures.append("corpus_content_sha256")
     if headers.get("X-Jobservatory-Service") != MANIFEST["serviceVersion"]:
         failures.append("service_header")
     if headers.get("X-Jobservatory-Model") != MANIFEST["model"]["modelId"]:
@@ -149,6 +151,7 @@ def main() -> int:
         "lineage": {
             "serviceVersion": MANIFEST["serviceVersion"], "modelId": MANIFEST["model"]["modelId"],
             "indexSha256": MANIFEST["index"]["sha256"], "corpusGeneratedAt": MANIFEST["corpus"]["generatedAt"],
+            "corpusContentSha256": MANIFEST["corpus"]["contentSha256"],
         },
         "workload": {
             "requests": args.requests, "concurrency": args.concurrency, "warmupRequests": 4,

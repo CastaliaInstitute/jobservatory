@@ -4,7 +4,7 @@
   "oneOf": [
     {
       "type": "object", "additionalProperties": false,
-      "required": ["schemaVersion", "status", "serviceVersion", "modelId", "indexSha256", "corpusGeneratedAt", "documents", "indexCacheHit", "responseMs"],
+      "required": ["schemaVersion", "status", "serviceVersion", "modelId", "indexSha256", "corpusGeneratedAt", "corpusContentSha256", "documents", "indexCacheHit", "responseMs"],
       "properties": {
         "schemaVersion": {"const": "jobservatory.search-health.v1"},
         "status": {"const": "ok"},
@@ -12,6 +12,7 @@
         "modelId": {"const": "bm25-production-baseline-1.0.0"},
         "indexSha256": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
         "corpusGeneratedAt": {"type": "string", "format": "date-time"},
+        "corpusContentSha256": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
         "documents": {"type": "integer", "minimum": 1},
         "indexCacheHit": {"type": "boolean"},
         "responseMs": {"type": "number", "minimum": 0}

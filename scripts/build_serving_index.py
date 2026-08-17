@@ -14,7 +14,7 @@ CORPUS_PATH = ROOT / "public" / "api" / "observatory.json"
 INDEX_PATH = ROOT / "public" / "api" / "search" / "index-v1.json"
 MANIFEST_PATH = ROOT / "public" / "api" / "search" / "manifest-v1.json"
 TOKEN_PATTERN = re.compile(r"[a-z0-9+#.]{2,}")
-INDEX_BUILD_VERSION = "jobservatory-serving-index-1.0.0"
+INDEX_BUILD_VERSION = "jobservatory-serving-index-1.1.0"
 MODEL_ID = "bm25-production-baseline-1.0.0"
 
 
@@ -69,25 +69,29 @@ def main() -> int:
             inverted[term].append([index, frequency])
 
     document_count = len(documents)
+    statistics = {
+        "documents": document_count,
+        "terms": total_terms,
+        "uniqueTerms": len(inverted),
+        "averageDocumentLength": round(total_terms / max(document_count, 1), 8),
+    }
+    inverted_index = dict(sorted(inverted.items()))
+    content_digest = hashlib.sha256(
+        compact_json({"documents": documents, "statistics": statistics, "invertedIndex": inverted_index})
+    ).hexdigest()
     index_artifact = {
         "schemaVersion": "jobservatory.serving-index.v1",
-        "generatedAt": corpus["generatedAt"],
         "indexBuildVersion": INDEX_BUILD_VERSION,
         "model": {"modelId": MODEL_ID, "algorithm": "Okapi BM25", "parameters": {"k1": 1.2, "b": 0.75}},
         "corpus": {
             "schemaVersion": corpus["schemaVersion"],
-            "generatedAt": corpus["generatedAt"],
             "observations": document_count,
             "descriptionPolicy": corpus["observations"][0]["descriptionPolicy"],
+            "contentSha256": f"sha256:{content_digest}",
         },
-        "statistics": {
-            "documents": document_count,
-            "terms": total_terms,
-            "uniqueTerms": len(inverted),
-            "averageDocumentLength": round(total_terms / max(document_count, 1), 8),
-        },
+        "statistics": statistics,
         "documents": documents,
-        "invertedIndex": dict(sorted(inverted.items())),
+        "invertedIndex": inverted_index,
     }
     payload = compact_json(index_artifact)
     digest = hashlib.sha256(payload).hexdigest()
@@ -104,7 +108,10 @@ def main() -> int:
             "indexBuildVersion": INDEX_BUILD_VERSION,
         },
         "model": index_artifact["model"],
-        "corpus": index_artifact["corpus"],
+        "corpus": {
+            **index_artifact["corpus"],
+            "generatedAt": corpus["generatedAt"],
+        },
         "promotion": {
             "status": "baseline_only",
             "reason": "The learned candidate remains rejected; production serves the explicit BM25 baseline until held-out promotion evidence exists.",

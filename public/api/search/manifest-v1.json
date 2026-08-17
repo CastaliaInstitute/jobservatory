@@ -5,10 +5,10 @@
   "route": "/api/v1/search",
   "index": {
     "path": "/api/search/index-v1.json",
-    "sha256": "sha256:638f0d0317ac1cce08ca38251c26a0ce2b3c226ea77ad4a3d704892a341bd30b",
-    "bytes": 2178319,
+    "sha256": "sha256:c4798a956639ddecd806bdba71be0de09f6d4aa19a0dbbe4b912d8f060f9fae0",
+    "bytes": 2178325,
     "documents": 2174,
-    "indexBuildVersion": "jobservatory-serving-index-1.0.0"
+    "indexBuildVersion": "jobservatory-serving-index-1.1.0"
   },
   "model": {
     "modelId": "bm25-production-baseline-1.0.0",
@@ -20,9 +20,10 @@
   },
   "corpus": {
     "schemaVersion": "0.2.0",
-    "generatedAt": "2026-08-17T11:42:52+00:00",
     "observations": 2174,
-    "descriptionPolicy": "metadata-and-evidence-only"
+    "descriptionPolicy": "metadata-and-evidence-only",
+    "contentSha256": "sha256:35c0d1368d035a757de9bf24f4a86489aacd867a79d9d8e269e6f82986ddb62f",
+    "generatedAt": "2026-08-17T11:42:52+00:00"
   },
   "promotion": {
     "status": "baseline_only",

@@ -3,13 +3,12 @@
   "$id": "https://jobservatory.castalia.institute/schemas/serving-index.schema.json",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schemaVersion", "generatedAt", "indexBuildVersion", "model", "corpus", "statistics", "documents", "invertedIndex"],
+  "required": ["schemaVersion", "indexBuildVersion", "model", "corpus", "statistics", "documents", "invertedIndex"],
   "properties": {
     "schemaVersion": {"const": "jobservatory.serving-index.v1"},
-    "generatedAt": {"type": "string", "format": "date-time"},
-    "indexBuildVersion": {"const": "jobservatory-serving-index-1.0.0"},
+    "indexBuildVersion": {"const": "jobservatory-serving-index-1.1.0"},
     "model": {"$ref": "serving-index-manifest.schema.json#/$defs/model"},
-    "corpus": {"$ref": "serving-index-manifest.schema.json#/$defs/corpus"},
+    "corpus": {"$ref": "serving-index-manifest.schema.json#/$defs/indexCorpus"},
     "statistics": {
       "type": "object", "additionalProperties": false,
       "required": ["documents", "terms", "uniqueTerms", "averageDocumentLength"],

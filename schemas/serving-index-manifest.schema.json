@@ -17,11 +17,11 @@
         "sha256": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
         "bytes": {"type": "integer", "minimum": 1},
         "documents": {"type": "integer", "minimum": 1},
-        "indexBuildVersion": {"const": "jobservatory-serving-index-1.0.0"}
+        "indexBuildVersion": {"const": "jobservatory-serving-index-1.1.0"}
       }
     },
     "model": {"$ref": "#/$defs/model"},
-    "corpus": {"$ref": "#/$defs/corpus"},
+    "corpus": {"$ref": "#/$defs/manifestCorpus"},
     "promotion": {
       "type": "object", "additionalProperties": false, "required": ["status", "reason"],
       "properties": {"status": {"const": "baseline_only"}, "reason": {"type": "string", "minLength": 1}}
@@ -39,14 +39,25 @@
         }
       }
     },
-    "corpus": {
+    "indexCorpus": {
       "type": "object", "additionalProperties": false,
-      "required": ["schemaVersion", "generatedAt", "observations", "descriptionPolicy"],
+      "required": ["schemaVersion", "observations", "descriptionPolicy", "contentSha256"],
+      "properties": {
+        "schemaVersion": {"type": "string", "minLength": 1},
+        "observations": {"type": "integer", "minimum": 1},
+        "descriptionPolicy": {"const": "metadata-and-evidence-only"},
+        "contentSha256": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+      }
+    },
+    "manifestCorpus": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schemaVersion", "generatedAt", "observations", "descriptionPolicy", "contentSha256"],
       "properties": {
         "schemaVersion": {"type": "string", "minLength": 1},
         "generatedAt": {"type": "string", "format": "date-time"},
         "observations": {"type": "integer", "minimum": 1},
-        "descriptionPolicy": {"const": "metadata-and-evidence-only"}
+        "descriptionPolicy": {"const": "metadata-and-evidence-only"},
+        "contentSha256": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
       }
     }
   }

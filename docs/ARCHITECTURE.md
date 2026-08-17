@@ -35,7 +35,7 @@ The production Cloudflare Pages deployment exposes `/api/v1/search` and `/api/v1
 | Evaluation | immutable queries/qrels, split, model/index version, Recall@K, MRR, nDCG | Small single-reviewer development set implemented; no held-out or adjudicated set yet |
 | Classification | hierarchical label IDs, probabilities, threshold version, evidence | Versioned title/location logistic baseline implements five label families, Platt calibration, threshold-band abstention, tail metrics, and deterministic parents; weak-label and rights gates reject promotion |
 | Apocalypso | signal definition, unit, cohort, history threshold, uncertainty, null semantics | Version 2 emits `insufficient_history` and `null`; no fabricated pressure score |
-| Release assurance | strict artifact schemas, evidence-bearing gates, prohibited-use policy, manual assurance state | Public 13-gate ledger fails closed; source-universe completeness, static-delivery benchmarking, scoped counterfactual testing, and automated accessibility currently pass |
+| Release assurance | strict artifact schemas, evidence-bearing gates, prohibited-use policy, manual assurance state | Public 13-gate ledger fails closed; source-universe completeness, static-delivery benchmarking, scoped counterfactual testing, automated accessibility, and versioned baseline serving currently pass |
 
 ## Retrieval stack
 

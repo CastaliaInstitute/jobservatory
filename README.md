@@ -26,6 +26,7 @@ Rule-derived labels are explicitly marked as unreviewed inferences. Unsupported 
 - Apocalypso signal at `/api/apocalypso/jobs-signal.json`
 - fail-closed A+ release ledger at `/api/ml/release-readiness.json`
 - bounded production delivery benchmark at `/api/ops/production-benchmark.json`
+- bounded retrieval-service latency, contract, cache, and cost benchmark at `/api/ops/retrieval-service-benchmark.json`
 - versioned Cloudflare Pages retrieval service at `/api/v1/search` with health at `/api/v1/health`
 - content-addressed BM25 baseline index and manifest under `/api/search/`
 - published JSON Schema contracts under `/schemas/`

@@ -10,7 +10,7 @@ test("builds a Cloudflare Pages-ready static site", async () => {
 });
 
 test("publishes provenance, evaluation, and safely abstaining signal feeds", async () => {
-  const [observatory, dataCard, apocalypso, retrieval, classification, learnedRetrieval, hierarchical, counterfactual, readiness, benchmark, accessibility, servingManifest, servingIndex] = await Promise.all([
+  const [observatory, dataCard, apocalypso, retrieval, classification, learnedRetrieval, hierarchical, counterfactual, readiness, benchmark, accessibility, servingManifest, servingIndex, retrievalServiceBenchmark] = await Promise.all([
     readFile(new URL("../dist/api/observatory.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/data-card.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/apocalypso/jobs-signal.json", import.meta.url), "utf8"),
@@ -24,6 +24,7 @@ test("publishes provenance, evaluation, and safely abstaining signal feeds", asy
     readFile(new URL("../dist/api/ops/accessibility-audit.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/search/manifest-v1.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/search/index-v1.json", import.meta.url), "utf8"),
+    readFile(new URL("../dist/api/ops/retrieval-service-benchmark.json", import.meta.url), "utf8"),
   ]);
   const corpus = JSON.parse(observatory);
   const card = JSON.parse(dataCard);
@@ -38,6 +39,7 @@ test("publishes provenance, evaluation, and safely abstaining signal feeds", asy
   const accessibilityAudit = JSON.parse(accessibility);
   const searchManifest = JSON.parse(servingManifest);
   const searchIndex = JSON.parse(servingIndex);
+  const searchBenchmark = JSON.parse(retrievalServiceBenchmark);
   assert.ok(corpus.observations.length >= 100);
   assert.ok(corpus.termIndex.length >= 20);
   assert.ok(corpus.termTimeline.length >= 1);
@@ -96,7 +98,17 @@ test("publishes provenance, evaluation, and safely abstaining signal feeds", asy
   assert.equal(searchManifest.promotion.status, "baseline_only");
   assert.equal(searchManifest.index.documents, corpus.observations.length);
   assert.equal(searchIndex.statistics.documents, corpus.observations.length);
-  assert.equal(searchIndex.corpus.generatedAt, corpus.generatedAt);
+  assert.equal(searchIndex.corpus.contentSha256, searchManifest.corpus.contentSha256);
+  assert.equal(searchBenchmark.status, "pass");
+  assert.equal(searchBenchmark.aggregate.errors, 0);
+  assert.equal(searchBenchmark.aggregate.contractFailures, 0);
+  assert.ok(searchBenchmark.aggregate.application.p95Ms <= searchBenchmark.criteria.applicationP95MsMaximum);
+  const benchmarkMatchesCurrentIndex = searchBenchmark.lineage.indexSha256 === searchManifest.index.sha256
+    && searchBenchmark.lineage.corpusContentSha256 === searchManifest.corpus.contentSha256;
+  assert.equal(
+    releaseReadiness.gates.find(gate => gate.id === "serving.architecture").status,
+    benchmarkMatchesCurrentIndex ? "pass" : "fail",
+  );
   assert.equal(productionBenchmark.aggregate.errors, 0);
   assert.ok(productionBenchmark.aggregate.p95Ms > 0);
   assert.ok(productionBenchmark.aggregate.requestsPerSecond > 0);

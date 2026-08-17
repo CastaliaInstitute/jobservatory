@@ -44,7 +44,7 @@ async function loadIndex(env, requestUrl) {
         || index.documents.length !== manifest.index.documents
         || index.statistics.documents !== manifest.index.documents
         || index.model.modelId !== manifest.model.modelId
-        || index.corpus.generatedAt !== manifest.corpus.generatedAt
+        || index.corpus.contentSha256 !== manifest.corpus.contentSha256
       ) throw new Error("serving index lineage mismatch");
       return { manifest, index };
     })().catch(error => {
@@ -174,7 +174,7 @@ export async function handleSearch(context) {
       filters: parsed.filters,
       totalCandidates: ranked.totalCandidates,
       results: ranked.results,
-      lineage: { serviceVersion: SERVICE_VERSION, modelId: manifest.model.modelId, indexSha256: manifest.index.sha256, corpusGeneratedAt: manifest.corpus.generatedAt, promotionStatus: manifest.promotion.status },
+      lineage: { serviceVersion: SERVICE_VERSION, modelId: manifest.model.modelId, indexSha256: manifest.index.sha256, corpusGeneratedAt: manifest.corpus.generatedAt, corpusContentSha256: manifest.corpus.contentSha256, promotionStatus: manifest.promotion.status },
       timing,
     }, 200, allKeyboardSafeHeaders(requestId, manifest, timing));
   } catch (error) {
@@ -194,6 +194,7 @@ export async function handleHealth(context) {
       modelId: manifest.model.modelId,
       indexSha256: manifest.index.sha256,
       corpusGeneratedAt: manifest.corpus.generatedAt,
+      corpusContentSha256: manifest.corpus.contentSha256,
       documents: index.statistics.documents,
       indexCacheHit: cacheHit,
       responseMs: Number((performance.now() - started).toFixed(3)),

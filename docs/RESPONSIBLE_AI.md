@@ -16,6 +16,6 @@ The gates cover source rights, O*NET mapping review, independent annotation and 
 - The retrieval development set has one reviewer and is not promotion evidence.
 - Forecasting abstains until sufficient longitudinal history exists.
 - Production currently serves static research artifacts; it does not run a low-latency online model service.
-- The live delivery benchmark measures one client and uncontrolled CDN cache state, not global model-serving latency.
+- The live static and retrieval-service benchmarks measure one client and uncontrolled CDN/isolate state, not global capacity or relevance quality.
 
 These boundaries must remain visible in data cards, model cards, UI copy, and downstream Apocalypso integrations.

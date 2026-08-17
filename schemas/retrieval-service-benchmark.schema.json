@@ -9,15 +9,25 @@
     "target": {"type": "string", "format": "uri"},
     "lineage": {
       "type": "object", "additionalProperties": false,
-      "required": ["serviceVersion", "modelId", "indexSha256", "corpusGeneratedAt"],
+      "required": ["serviceVersion", "modelId", "indexSha256", "corpusGeneratedAt", "corpusContentSha256"],
       "properties": {
         "serviceVersion": {"const": "jobservatory-search-api-v1"},
         "modelId": {"const": "bm25-production-baseline-1.0.0"},
         "indexSha256": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
-        "corpusGeneratedAt": {"type": "string", "format": "date-time"}
+        "corpusGeneratedAt": {"type": "string", "format": "date-time"},
+        "corpusContentSha256": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
       }
     },
-    "workload": {"type": "object", "required": ["requests", "concurrency", "warmupRequests", "queries", "limit", "clientRegion", "cacheState"]},
+    "workload": {
+      "type": "object", "additionalProperties": false,
+      "required": ["requests", "concurrency", "warmupRequests", "queries", "limit", "clientRegion", "cacheState"],
+      "properties": {
+        "requests": {"type": "integer", "minimum": 1}, "concurrency": {"type": "integer", "minimum": 1},
+        "warmupRequests": {"type": "integer", "minimum": 0}, "queries": {"type": "integer", "minimum": 1},
+        "limit": {"type": "integer", "minimum": 1, "maximum": 50}, "clientRegion": {"type": "string", "minLength": 1},
+        "cacheState": {"type": "string", "minLength": 1}
+      }
+    },
     "criteria": {
       "type": "object", "additionalProperties": false,
       "required": ["errors", "contractFailures", "externalP95MsMaximum", "applicationP95MsMaximum"],

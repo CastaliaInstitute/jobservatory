@@ -16,6 +16,9 @@ benchmark_path = PUBLIC / "ops" / "production-benchmark.json"
 benchmark = json.loads(benchmark_path.read_text()) if benchmark_path.exists() else None
 accessibility_path = PUBLIC / "ops" / "accessibility-audit.json"
 accessibility = json.loads(accessibility_path.read_text()) if accessibility_path.exists() else None
+serving_manifest = json.loads((PUBLIC / "search" / "manifest-v1.json").read_text())
+retrieval_benchmark_path = PUBLIC / "ops" / "retrieval-service-benchmark.json"
+retrieval_benchmark = json.loads(retrieval_benchmark_path.read_text()) if retrieval_benchmark_path.exists() else None
 
 
 def gate(identifier: str, name: str, passed: bool, evidence: str) -> dict:
@@ -37,7 +40,7 @@ gates = [
     gate("classification.promotion", "Calibrated hierarchical classifier clears evidence gates", classifier["promotion"]["status"] == "eligible", "public/api/ml/hierarchical-classifier-metrics.json"),
     gate("responsible_ai.counterfactuals", "Scoped protected-attribute counterfactual tests pass", counterfactual["status"] == "pass" and assurance["protectedAttributeCounterfactualTestsComplete"], "public/api/ml/counterfactual-audit.json plus config/assurance.json"),
     gate("longitudinal.signal", "Longitudinal signal has sufficient valid history", signal["signal"]["status"] == "available" and signal["signal"]["observedHistoryDays"] >= signal["signal"]["minimumHistoryDays"], "public/api/apocalypso/jobs-signal.json"),
-    gate("serving.architecture", "Versioned production retrieval service is deployed", assurance["productionServingArchitecture"] == "versioned-service", "config/assurance.json"),
+    gate("serving.architecture", "Versioned production baseline retrieval service is deployed and benchmarked", assurance["productionServingArchitecture"] == "versioned-service" and bool(retrieval_benchmark) and retrieval_benchmark["status"] == "pass" and retrieval_benchmark["target"] == "https://jobservatory.castalia.institute" and retrieval_benchmark["lineage"]["serviceVersion"] == serving_manifest["serviceVersion"] and retrieval_benchmark["lineage"]["modelId"] == serving_manifest["model"]["modelId"] and retrieval_benchmark["lineage"]["indexSha256"] == serving_manifest["index"]["sha256"] and retrieval_benchmark["lineage"]["corpusContentSha256"] == serving_manifest["corpus"]["contentSha256"] and retrieval_benchmark["aggregate"]["errors"] == 0 and retrieval_benchmark["aggregate"]["contractFailures"] == 0, "public/api/search/manifest-v1.json plus public/api/ops/retrieval-service-benchmark.json plus config/assurance.json"),
     gate("serving.benchmark", "Production benchmark has zero errors", bool(benchmark) and benchmark["aggregate"]["errors"] == 0, "public/api/ops/production-benchmark.json"),
     gate("accessibility.automated", "Built UI passes automated WCAG and keyboard interaction audits", bool(accessibility) and accessibility["status"] == "pass" and assurance["automatedAccessibilityAuditComplete"], "public/api/ops/accessibility-audit.json plus config/assurance.json"),
     gate("accessibility.assistive_technology", "Qualified human assistive-technology audit passes", assurance["manualAssistiveTechnologyAuditComplete"], "config/assurance.json plus linked human audit report"),

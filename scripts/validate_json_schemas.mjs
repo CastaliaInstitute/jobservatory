@@ -14,6 +14,7 @@ const pairs = [
   ["schemas/accessibility-audit.schema.json", "public/api/ops/accessibility-audit.json"],
   ["schemas/serving-index-manifest.schema.json", "public/api/search/manifest-v1.json"],
   ["schemas/serving-index.schema.json", "public/api/search/index-v1.json"],
+  ["schemas/retrieval-service-benchmark.schema.json", "public/api/ops/retrieval-service-benchmark.json"],
 ];
 const ajv = new Ajv2020({ allErrors: true, strict: true });
 addFormats(ajv);
