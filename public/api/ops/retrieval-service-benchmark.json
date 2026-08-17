@@ -1,6 +1,6 @@
 {
   "schemaVersion": "jobservatory.retrieval-service-benchmark.v1",
-  "generatedAt": "2026-08-17T13:18:20+00:00",
+  "generatedAt": "2026-08-17T13:24:27+00:00",
   "target": "https://jobservatory.castalia.institute",
   "lineage": {
     "serviceVersion": "jobservatory-search-api-v1",
@@ -28,24 +28,24 @@
     "requests": 80,
     "successes": 80,
     "errors": 0,
-    "contractFailures": 80,
-    "durationSeconds": 1.932,
-    "requestsPerSecond": 41.403,
-    "bytesTransferred": 430595,
+    "contractFailures": 0,
+    "durationSeconds": 2.083,
+    "requestsPerSecond": 38.407,
+    "bytesTransferred": 429280,
     "external": {
-      "p50Ms": 152.995,
-      "p95Ms": 370.733,
-      "p99Ms": 405.875,
-      "meanMs": 180.509
+      "p50Ms": 164.752,
+      "p95Ms": 402.789,
+      "p99Ms": 415.108,
+      "meanMs": 192.044
     },
     "application": {
       "p50Ms": 0,
-      "p95Ms": 24,
-      "p99Ms": 29,
-      "meanMs": 5.825
+      "p95Ms": 31,
+      "p99Ms": 112,
+      "meanMs": 7.475
     },
-    "indexCacheHitRate": 0.825,
-    "resultCacheHitRate": 0.2625
+    "indexCacheHitRate": 0.8125,
+    "resultCacheHitRate": 0.2875
   },
   "costModel": {
     "architecture": "Cloudflare Pages Function with two static-asset reads per cold isolate and in-isolate index/result caches",
@@ -57,7 +57,7 @@
     "paidPlanAdditionalUSDPerMillionRequests": 0.3,
     "paidPlanIncludedCpuMillisecondsPerMonth": 30000000,
     "paidPlanAdditionalUSDPerMillionCpuMilliseconds": 0.02,
-    "measuredTotalMsAsConservativeCpuUpperBound": 5.825,
+    "measuredTotalMsAsConservativeCpuUpperBound": 7.475,
     "estimatedPaidCostUSDAtOneMillionMonthlyRequests": 5.0,
     "assumptions": [
       "The estimate assumes this service is the only account workload and uses measured application wall time as a conservative upper bound on billable CPU time.",
@@ -65,7 +65,7 @@
       "Cloudflare states there are no additional Workers Paid data-transfer charges; static assets remain free, while every Function request counts as a Workers request."
     ]
   },
-  "status": "fail",
+  "status": "pass",
   "limitations": [
     "This is a bounded single-client US East test, not a globally distributed capacity test.",
     "Cloudflare isolate placement and CDN state are uncontrolled; warmups do not guarantee every concurrent request reaches a warm isolate.",
