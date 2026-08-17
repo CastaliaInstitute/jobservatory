@@ -191,6 +191,7 @@ def write_packages(protocol: dict, retrieval: list[dict], classification: list[d
             path.write_bytes(canonical(package))
             result["packages"][kind][slot] = {
                 "path": str(path.relative_to(ROOT)),
+                "publicUrl": f"/api/ml/annotation-packages/{kind}-reviewer-{slot}.json",
                 "sha256": file_digest(path),
                 "tasks": len(tasks),
             }

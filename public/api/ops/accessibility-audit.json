@@ -3,10 +3,16 @@
   "generatedAt": "2026-08-17T12:12:59+00:00",
   "target": {
     "artifact": "built Cloudflare Pages static bundle served by Vite preview",
-    "route": "/",
+    "routes": [
+      "/",
+      "/annotation.html"
+    ],
     "states": [
       "ledger-loaded",
-      "evidence-dialog-open"
+      "evidence-dialog-open",
+      "annotation-package-selection",
+      "annotation-retrieval-loaded",
+      "annotation-classification-loaded"
     ],
     "viewports": [
       {
@@ -38,12 +44,13 @@
     "violationNodes": 0,
     "seriousOrCriticalNodes": 0,
     "incompleteNodes": 0,
-    "keyboardChecksMustAllPass": true
+    "keyboardChecksMustAllPass": true,
+    "annotationInteractionChecksMustAllPass": true
   },
   "aggregate": {
-    "auditedStates": 4,
-    "rulesEvaluated": 248,
-    "passedRuleResults": 112,
+    "auditedStates": 10,
+    "rulesEvaluated": 620,
+    "passedRuleResults": 256,
     "violationNodes": 0,
     "seriousOrCriticalNodes": 0,
     "incompleteRuleResults": 0,
@@ -67,6 +74,26 @@
       "restoresFocus": true
     }
   ],
+  "annotationInteractionChecks": [
+    {
+      "viewport": "desktop",
+      "retrievalGradeSelection": true,
+      "nextTaskNavigation": true,
+      "classificationLabelSelection": true,
+      "classificationEvidenceDecision": true,
+      "retrievalDraftPersists": true,
+      "classificationDraftPersists": true
+    },
+    {
+      "viewport": "mobile",
+      "retrievalGradeSelection": true,
+      "nextTaskNavigation": true,
+      "classificationLabelSelection": true,
+      "classificationEvidenceDecision": true,
+      "retrievalDraftPersists": true,
+      "classificationDraftPersists": true
+    }
+  ],
   "results": [
     {
       "viewport": "desktop",
@@ -85,6 +112,30 @@
       "violations": []
     },
     {
+      "viewport": "desktop",
+      "state": "annotation-package-selection",
+      "rulesEvaluated": 62,
+      "passes": 22,
+      "incomplete": [],
+      "violations": []
+    },
+    {
+      "viewport": "desktop",
+      "state": "annotation-retrieval-loaded",
+      "rulesEvaluated": 62,
+      "passes": 25,
+      "incomplete": [],
+      "violations": []
+    },
+    {
+      "viewport": "desktop",
+      "state": "annotation-classification-loaded",
+      "rulesEvaluated": 62,
+      "passes": 25,
+      "incomplete": [],
+      "violations": []
+    },
+    {
       "viewport": "mobile",
       "state": "ledger-loaded",
       "rulesEvaluated": 62,
@@ -99,6 +150,30 @@
       "passes": 29,
       "incomplete": [],
       "violations": []
+    },
+    {
+      "viewport": "mobile",
+      "state": "annotation-package-selection",
+      "rulesEvaluated": 62,
+      "passes": 22,
+      "incomplete": [],
+      "violations": []
+    },
+    {
+      "viewport": "mobile",
+      "state": "annotation-retrieval-loaded",
+      "rulesEvaluated": 62,
+      "passes": 25,
+      "incomplete": [],
+      "violations": []
+    },
+    {
+      "viewport": "mobile",
+      "state": "annotation-classification-loaded",
+      "rulesEvaluated": 62,
+      "passes": 25,
+      "incomplete": [],
+      "violations": []
     }
   ],
   "manualAssurance": {
@@ -108,7 +183,7 @@
   "status": "pass",
   "limitations": [
     "Automated rules cannot prove conformance or replace evaluation by people who use assistive technologies.",
-    "The audit covers the primary route after corpus load and with the evidence dialog open at desktop and mobile viewports.",
+    "The audit covers the primary route after corpus load and with the evidence dialog open, plus package-selection and loaded retrieval/classification states in the annotation workbench at desktop and mobile viewports.",
     "External source pages and downloaded JSON artifacts are outside this UI audit.",
     "Axe incomplete results require review but do not count as violations in this automated gate."
   ]

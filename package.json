@@ -10,7 +10,7 @@
     "build": "npm run serving:index && tsc --noEmit && vite build && node scripts/copy_schemas.mjs",
     "preview": "vite preview",
     "test": "npm run data:validate && npm run ml:evaluate && npm run data:card && npm run data:rights && npm run build && npm run accessibility:audit && npm run release:status && npm run schema:validate && npm run build && node --test tests/rendered-html.test.mjs tests/search-service.test.mjs tests/pages-runtime.test.mjs",
-    "lint": "eslint . --ignore-pattern dist",
+    "lint": "eslint . --ignore-pattern dist --ignore-pattern .wrangler",
     "data:collect": "python3 scripts/collect_listings.py",
     "data:onet": "uv run python scripts/build_onet_ontology.py",
     "data:validate": "python3 scripts/validate_onet_ontology.py && python3 scripts/validate_exports.py && python3 -m unittest tests/test_source_adapters.py",

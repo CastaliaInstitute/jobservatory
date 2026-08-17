@@ -1,16 +1,20 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { access, readFile, readdir } from "node:fs/promises";
 import test from "node:test";
 
 test("builds a Cloudflare Pages-ready static site", async () => {
   const html = await readFile(new URL("../dist/index.html", import.meta.url), "utf8");
+  const annotation = await readFile(new URL("../dist/annotation.html", import.meta.url), "utf8");
   assert.match(html, /Jobservatory — Castalia AI Labor Observatory/);
   assert.match(html, /canonical/);
+  assert.match(annotation, /Annotation Workbench — Jobservatory/);
+  assert.match(annotation, /LOCAL-ONLY JUDGMENTS/);
   await access(new URL("../dist/assets/", import.meta.url));
 });
 
 test("publishes provenance, evaluation, and safely abstaining signal feeds", async () => {
-  const [observatory, dataCard, apocalypso, retrieval, classification, learnedRetrieval, hierarchical, counterfactual, readiness, benchmark, accessibility, servingManifest, servingIndex, retrievalServiceBenchmark, sourceRightsRegister] = await Promise.all([
+  const [observatory, dataCard, apocalypso, retrieval, classification, learnedRetrieval, hierarchical, counterfactual, readiness, independentReadiness, benchmark, accessibility, servingManifest, servingIndex, retrievalServiceBenchmark, sourceRightsRegister] = await Promise.all([
     readFile(new URL("../dist/api/observatory.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/data-card.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/apocalypso/jobs-signal.json", import.meta.url), "utf8"),
@@ -20,6 +24,7 @@ test("publishes provenance, evaluation, and safely abstaining signal feeds", asy
     readFile(new URL("../dist/api/ml/hierarchical-classifier-metrics.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/ml/counterfactual-audit.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/ml/release-readiness.json", import.meta.url), "utf8"),
+    readFile(new URL("../dist/api/ml/independent-evaluation-readiness.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/ops/production-benchmark.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/ops/accessibility-audit.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/search/manifest-v1.json", import.meta.url), "utf8"),
@@ -36,6 +41,7 @@ test("publishes provenance, evaluation, and safely abstaining signal feeds", asy
   const hierarchicalMetrics = JSON.parse(hierarchical);
   const counterfactualAudit = JSON.parse(counterfactual);
   const releaseReadiness = JSON.parse(readiness);
+  const independentEvaluation = JSON.parse(independentReadiness);
   const productionBenchmark = JSON.parse(benchmark);
   const accessibilityAudit = JSON.parse(accessibility);
   const searchManifest = JSON.parse(servingManifest);
@@ -97,11 +103,26 @@ test("publishes provenance, evaluation, and safely abstaining signal feeds", asy
   assert.equal(releaseReadiness.responsibleAI.candidateMatching, "disabled");
   assert.equal(releaseReadiness.gates.find(gate => gate.id === "corpus.rights").status, "fail");
   assert.equal(releaseReadiness.gates.find(gate => gate.id === "evaluation.independent").status, "fail");
+  assert.equal(independentEvaluation.temporalSplit.status, "pass");
+  assert.equal(independentEvaluation.temporalSplit.postingFamilyLeakage, 0);
+  assert.equal(independentEvaluation.eligibleForPromotionDecision, false);
+  for (const kind of ["retrieval", "classification"]) {
+    for (const slot of ["a", "b"]) {
+      const record = independentEvaluation.blindPackages.packages[kind][slot];
+      const packageText = await readFile(new URL(`../dist${record.publicUrl}`, import.meta.url), "utf8");
+      const annotationPackage = JSON.parse(packageText);
+      assert.equal(`sha256:${createHash("sha256").update(packageText).digest("hex")}`, record.sha256);
+      assert.equal(annotationPackage.tasks.length, record.tasks);
+      assert.equal(annotationPackage.reviewerSlot, slot);
+      assert.equal(annotationPackage.blind, true);
+    }
+  }
   assert.equal(releaseReadiness.gates.find(gate => gate.id === "responsible_ai.counterfactuals").status, "pass");
   assert.equal(accessibilityAudit.status, "pass");
   assert.equal(accessibilityAudit.aggregate.violationNodes, 0);
   assert.equal(accessibilityAudit.aggregate.incompleteNodes, 0);
   assert.ok(accessibilityAudit.keyboardChecks.every(check => check.initialFocusOnClose && check.wrapsForward && check.wrapsBackward && check.escapeCloses && check.restoresFocus));
+  assert.ok(accessibilityAudit.annotationInteractionChecks.every(check => check.retrievalGradeSelection && check.nextTaskNavigation && check.classificationLabelSelection && check.classificationEvidenceDecision && check.retrievalDraftPersists && check.classificationDraftPersists));
   assert.equal(accessibilityAudit.manualAssurance.status, "required");
   assert.equal(releaseReadiness.gates.find(gate => gate.id === "accessibility.automated").status, "pass");
   assert.equal(releaseReadiness.gates.find(gate => gate.id === "accessibility.assistive_technology").status, "fail");

@@ -3,17 +3,17 @@
   "$id": "https://jobservatory.castalia.institute/schemas/accessibility-audit.schema.json",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schemaVersion", "generatedAt", "target", "standard", "criteria", "aggregate", "keyboardChecks", "results", "manualAssurance", "status", "limitations"],
+  "required": ["schemaVersion", "generatedAt", "target", "standard", "criteria", "aggregate", "keyboardChecks", "annotationInteractionChecks", "results", "manualAssurance", "status", "limitations"],
   "properties": {
     "schemaVersion": {"const": "jobservatory.accessibility-audit.v1"},
     "generatedAt": {"type": "string", "format": "date-time"},
     "target": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["artifact", "route", "states", "viewports"],
+      "required": ["artifact", "routes", "states", "viewports"],
       "properties": {
         "artifact": {"type": "string", "minLength": 1},
-        "route": {"const": "/"},
+        "routes": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"enum": ["/", "/annotation.html"]}},
         "states": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string"}},
         "viewports": {"type": "array", "minItems": 2, "items": {"$ref": "#/$defs/viewport"}}
       }
@@ -33,12 +33,13 @@
     "criteria": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["violationNodes", "seriousOrCriticalNodes", "incompleteNodes", "keyboardChecksMustAllPass"],
+      "required": ["violationNodes", "seriousOrCriticalNodes", "incompleteNodes", "keyboardChecksMustAllPass", "annotationInteractionChecksMustAllPass"],
       "properties": {
         "violationNodes": {"const": 0},
         "seriousOrCriticalNodes": {"const": 0},
         "incompleteNodes": {"const": 0},
-        "keyboardChecksMustAllPass": {"const": true}
+        "keyboardChecksMustAllPass": {"const": true},
+        "annotationInteractionChecksMustAllPass": {"const": true}
       }
     },
     "aggregate": {
@@ -56,6 +57,7 @@
       }
     },
     "keyboardChecks": {"type": "array", "minItems": 2, "items": {"$ref": "#/$defs/keyboardCheck"}},
+    "annotationInteractionChecks": {"type": "array", "minItems": 2, "items": {"$ref": "#/$defs/annotationInteractionCheck"}},
     "results": {"type": "array", "minItems": 4, "items": {"$ref": "#/$defs/result"}},
     "manualAssurance": {
       "type": "object",
@@ -88,6 +90,20 @@
         "wrapsBackward": {"type": "boolean"},
         "escapeCloses": {"type": "boolean"},
         "restoresFocus": {"type": "boolean"}
+      }
+    },
+    "annotationInteractionCheck": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["viewport", "retrievalGradeSelection", "nextTaskNavigation", "classificationLabelSelection", "classificationEvidenceDecision", "retrievalDraftPersists", "classificationDraftPersists"],
+      "properties": {
+        "viewport": {"type": "string", "minLength": 1},
+        "retrievalGradeSelection": {"type": "boolean"},
+        "nextTaskNavigation": {"type": "boolean"},
+        "classificationLabelSelection": {"type": "boolean"},
+        "classificationEvidenceDecision": {"type": "boolean"},
+        "retrievalDraftPersists": {"type": "boolean"},
+        "classificationDraftPersists": {"type": "boolean"}
       }
     },
     "node": {

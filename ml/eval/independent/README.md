@@ -12,6 +12,12 @@ then adjudicates every disagreement. Copy the templates in `templates/` into
 `submissions/`; submission files are deliberately absent until real reviewers
 provide them.
 
+Reviewers can use the local-first workbench at
+`https://jobservatory.castalia.institute/annotation.html`. It loads the exact
+hashed packages published with the build, stores drafts only in browser local
+storage, and downloads the completed submission JSON. It has no submission API
+and does not transmit reviewer judgments to Jobservatory.
+
 After all submissions validate and the agreement thresholds pass, run
 `python3 ml/independent_evaluation.py --write --finalize`. Finalization refuses
 to write gold labels while any blocker remains; when ready it materializes

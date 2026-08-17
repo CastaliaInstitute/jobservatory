@@ -37,3 +37,5 @@ adjudication coverage gate live in `ml/eval/independent/`. The public readiness
 record is `/api/ml/independent-evaluation-readiness.json`. Package existence is
 not evidence of independent review: the gate remains closed until two distinct
 reviewers and a distinct adjudicator supply complete, valid submissions.
+The accessible `/annotation.html` workbench makes those packages operable while
+keeping judgments local until the reviewer explicitly downloads a submission.

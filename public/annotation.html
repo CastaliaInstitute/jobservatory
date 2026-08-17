@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Local-first blind annotation workbench for Jobservatory evaluation packages.">
+  <title>Annotation Workbench — Jobservatory</title>
+  <link rel="stylesheet" href="/annotation.css">
+</head>
+<body>
+  <a class="skip-link" href="#workspace">Skip to annotation workspace</a>
+  <header>
+    <a class="wordmark" href="/">JOBSERVATORY<span>/CASTALIA</span></a>
+    <p>Independent evaluation workbench</p>
+    <span class="local">LOCAL-ONLY JUDGMENTS</span>
+  </header>
+  <main id="workspace">
+    <section class="intro" aria-labelledby="title">
+      <p class="eyebrow">BLIND REVIEW · PROTOCOL 2026-07</p>
+      <h1 id="title">Annotate evidence,<br><em>not model output.</em></h1>
+      <p>This workbench processes the package in your browser. Judgments autosave on this device and leave it only when you download the completed submission.</p>
+    </section>
+
+    <section class="setup" id="setup" aria-labelledby="setup-title">
+      <div>
+        <p class="step">01 / PACKAGE</p>
+        <h2 id="setup-title">Choose your assigned package</h2>
+        <p>Reviewer A and Reviewer B must work independently. Load only the slot assigned to you.</p>
+      </div>
+      <div class="package-grid">
+        <button type="button" data-package="/api/ml/annotation-packages/retrieval-reviewer-a.json">Retrieval · Reviewer A <span>400 pairs</span></button>
+        <button type="button" data-package="/api/ml/annotation-packages/retrieval-reviewer-b.json">Retrieval · Reviewer B <span>400 pairs</span></button>
+        <button type="button" data-package="/api/ml/annotation-packages/classification-reviewer-a.json">Classification · Reviewer A <span>200 records</span></button>
+        <button type="button" data-package="/api/ml/annotation-packages/classification-reviewer-b.json">Classification · Reviewer B <span>200 records</span></button>
+      </div>
+      <label class="upload">Or load a package file <input id="package-file" type="file" accept="application/json,.json"></label>
+      <p id="load-status" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="reviewer hidden" id="reviewer" aria-labelledby="reviewer-title">
+      <div class="reviewer-copy">
+        <p class="step">02 / REVIEWER</p>
+        <h2 id="reviewer-title">Declare independent review</h2>
+      </div>
+      <label>Stable pseudonymous reviewer ID <input id="reviewer-id" autocomplete="off" spellcheck="false" placeholder="e.g. reviewer-orchid-7"></label>
+      <label class="check"><input id="independent" type="checkbox"> I will judge independently, without consulting another reviewer or model output.</label>
+    </section>
+
+    <section class="task-shell hidden" id="task-shell" aria-labelledby="task-heading">
+      <div class="progress-block">
+        <div><span id="task-kind">TASK</span><strong id="progress-text">0 / 0</strong></div>
+        <progress id="progress" max="1" value="0">0%</progress>
+        <div class="task-nav"><button id="previous" type="button">← Previous</button><button id="next-unanswered" type="button">Next unanswered</button><button id="next" type="button">Next →</button></div>
+      </div>
+      <article id="task-card">
+        <p class="query-stratum" id="stratum"></p>
+        <h2 id="task-heading"></h2>
+        <p class="query" id="query"></p>
+        <dl class="facts" id="facts"></dl>
+        <section aria-labelledby="evidence-title"><h3 id="evidence-title">Evidence excerpts</h3><div id="evidence"></div></section>
+        <form id="judgment-form">
+          <div id="judgment-controls"></div>
+          <label class="note">Optional reviewer note <textarea id="note" rows="3"></textarea></label>
+        </form>
+      </article>
+    </section>
+
+    <section class="export hidden" id="export" aria-labelledby="export-title">
+      <div><p class="step">03 / EXPORT</p><h2 id="export-title">Validate and export</h2><p id="export-help">Every task needs an explicit judgment before export.</p></div>
+      <button id="export-button" type="button">Download submission JSON</button>
+      <p id="export-status" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+  <footer><a href="/">← Return to Jobservatory</a><p>No reviewer judgments are sent to Jobservatory.</p><span>INDEPENDENT EVALUATION V1</span></footer>
+  <script type="module" src="/annotation.js"></script>
+</body>
+</html>

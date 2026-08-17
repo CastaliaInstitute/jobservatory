@@ -5,7 +5,7 @@ export default function Home() {
     <a className="skip-link" href="#main-content">Skip to main content</a>
     <header className="masthead">
       <a className="wordmark" href="#main-content">JOBSERVATORY<span>/CASTALIA</span></a>
-      <nav aria-label="Primary navigation"><a href="#signals">Signals</a><a href="#terms">Term map</a><a href="#ledger">Search</a><a href="#lab">ML lab</a><a href="#method">Method</a></nav>
+      <nav aria-label="Primary navigation"><a href="#signals">Signals</a><a href="#terms">Term map</a><a href="#ledger">Search</a><a href="#lab">ML lab</a><a href="#method">Method</a><a href="/annotation.html">Annotate</a></nav>
       <div className="live"><i /> OBSERVATORY ACTIVE</div>
     </header>
     <section className="hero" id="main-content">
