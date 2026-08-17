@@ -21,6 +21,9 @@ Rule-derived labels are explicitly marked as unreviewed inferences. Unsupported 
 - versioned hierarchical weak-label classifier with Platt calibration, abstention, tail-label metrics, and a machine-enforced rejection gate
 - public JSON corpus at `/api/observatory.json`
 - Apocalypso signal at `/api/apocalypso/jobs-signal.json`
+- fail-closed A+ release ledger at `/api/ml/release-readiness.json`
+- bounded production delivery benchmark at `/api/ops/production-benchmark.json`
+- published JSON Schema contracts under `/schemas/`
 
 ## Development
 
@@ -48,4 +51,4 @@ The scheduled GitHub Action refreshes observations daily, reruns ML evaluation, 
 
 The corpus is curated rather than statistically representative. Listing language measures employer intent and organizational design, not realized hiring, productivity, or displacement. No numeric forecast is currently published. Apocalypso returns a null signal until longitudinal requirements are met.
 
-The current evaluation sets are small, single-reviewer development fixtures. They are useful for regression detection but insufficient for scientific or CV performance claims. See [the methodology](docs/METHODOLOGY.md), [architecture](docs/ARCHITECTURE.md), [evaluation standard](docs/MODEL_EVALUATION_STANDARD.md), and [A+ critical review](docs/A_PLUS_REVIEW.md).
+The current evaluation sets are small, single-reviewer development fixtures. They are useful for regression detection but insufficient for scientific or CV performance claims. See [the methodology](docs/METHODOLOGY.md), [architecture](docs/ARCHITECTURE.md), [evaluation standard](docs/MODEL_EVALUATION_STANDARD.md), [responsible-AI controls](docs/RESPONSIBLE_AI.md), and [A+ critical review](docs/A_PLUS_REVIEW.md).

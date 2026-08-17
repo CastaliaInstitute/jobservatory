@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jobservatory.castalia.institute/schemas/learned-retrieval.schema.json",
+  "type": "object",
+  "required": ["schemaVersion", "corpus", "evaluation", "models", "aggregate", "perQuery", "promotion", "latency", "limitations"],
+  "properties": {
+    "schemaVersion": {"const": "jobservatory.learned-retrieval-eval.v1"},
+    "corpus": {"type": "object"}, "models": {"type": "object"}, "latency": {"type": "object"},
+    "evaluation": {"type": "object", "required": ["split", "queries", "annotationStatus", "adjudicationStatus", "eligibleForPromotionDecision"], "properties": {
+      "split": {"type": "string"}, "queries": {"type": "integer", "minimum": 1}, "annotationStatus": {"type": "string"},
+      "adjudicationStatus": {"type": "string"}, "eligibleForPromotionDecision": {"type": "boolean"}
+    }},
+    "aggregate": {"type": "object", "required": ["bm25", "learned_dense", "bm25_dense_rrf", "cross_encoder"], "properties": {
+      "bm25": {"type": "object"}, "learned_dense": {"type": "object"}, "bm25_dense_rrf": {"type": "object"}, "cross_encoder": {"type": "object"}
+    }},
+    "perQuery": {"type": "array", "minItems": 1},
+    "promotion": {"type": "object", "required": ["status", "qualityGatePass", "qualityCriteria", "evidenceGatePass", "reasons"], "properties": {
+      "status": {"enum": ["eligible", "not_eligible"]}, "qualityGatePass": {"type": "boolean"}, "qualityCriteria": {"type": "object"},
+      "evidenceGatePass": {"type": "boolean"}, "reasons": {"type": "array"}
+    }},
+    "limitations": {"type": "array", "minItems": 1}
+  }
+}

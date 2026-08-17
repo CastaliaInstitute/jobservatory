@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jobservatory.castalia.institute/schemas/hierarchical-classifier.schema.json",
+  "type": "object",
+  "required": ["schemaVersion", "task", "data", "hierarchy", "model", "abstention", "aggregate", "perLabel", "promotion", "limitations"],
+  "properties": {
+    "schemaVersion": {"const": "jobservatory.hierarchical-classifier-eval.v1"},
+    "task": {}, "data": {"type": "object"}, "model": {"type": "object"}, "perLabel": {"type": "object"}, "limitations": {"type": "array", "minItems": 1},
+    "hierarchy": {"type": "object", "required": ["parents", "leafLabels", "parentConsistency"], "properties": {"parents": {}, "leafLabels": {}, "parentConsistency": {"const": 1}}},
+    "abstention": {"type": "object", "required": ["policy", "margin", "microDecisionCoverage"], "properties": {"policy": {"type": "string"}, "margin": {"type": "number", "minimum": 0}, "microDecisionCoverage": {"type": "number", "minimum": 0, "maximum": 1}}},
+    "aggregate": {"type": "object", "required": ["microPrecision", "microRecall", "microF1", "macroF1", "tailLabelMacroF1", "brierScore", "expectedCalibrationError"], "properties": {
+      "microPrecision": {"type": "number", "minimum": 0, "maximum": 1}, "microRecall": {"type": "number", "minimum": 0, "maximum": 1},
+      "microF1": {"type": "number", "minimum": 0, "maximum": 1}, "macroF1": {"type": "number", "minimum": 0, "maximum": 1},
+      "tailLabelMacroF1": {"type": "number", "minimum": 0, "maximum": 1}, "brierScore": {"type": "number", "minimum": 0, "maximum": 1},
+      "expectedCalibrationError": {"type": "number", "minimum": 0, "maximum": 1}
+    }},
+    "promotion": {"type": "object", "required": ["status", "evidenceGatePass", "reasons"], "properties": {"status": {"enum": ["eligible", "not_eligible"]}, "evidenceGatePass": {"type": "boolean"}, "reasons": {"type": "array"}}}
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "jobservatory.release-readiness.v1",
+  "generatedAt": "2026-08-17T10:34:18+00:00",
+  "status": "blocked",
+  "passed": 2,
+  "total": 12,
+  "gates": [
+    {
+      "id": "corpus.source_universe",
+      "name": "Declared source universe is complete",
+      "status": "pass",
+      "evidence": "public/api/observatory.json coverage"
+    },
+    {
+      "id": "corpus.rights",
+      "name": "Every source has approved retrieval, retention, redistribution, and training rights",
+      "status": "fail",
+      "evidence": "source registry rightsReviewStatus plus config/assurance.json"
+    },
+    {
+      "id": "onet.human_review",
+      "name": "Occupation and skill mappings are human reviewed",
+      "status": "fail",
+      "evidence": "config/assurance.json"
+    },
+    {
+      "id": "evaluation.independent",
+      "name": "Retrieval and classification sets are independently annotated and adjudicated",
+      "status": "fail",
+      "evidence": "config/assurance.json and model evaluation manifests"
+    },
+    {
+      "id": "retrieval.promotion",
+      "name": "Learned retrieval clears BM25 quality and evidence gates",
+      "status": "fail",
+      "evidence": "public/api/ml/learned-retrieval-metrics.json"
+    },
+    {
+      "id": "classification.promotion",
+      "name": "Calibrated hierarchical classifier clears evidence gates",
+      "status": "fail",
+      "evidence": "public/api/ml/hierarchical-classifier-metrics.json"
+    },
+    {
+      "id": "responsible_ai.counterfactuals",
+      "name": "Protected-attribute counterfactual tests pass",
+      "status": "fail",
+      "evidence": "config/assurance.json"
+    },
+    {
+      "id": "longitudinal.signal",
+      "name": "Longitudinal signal has sufficient valid history",
+      "status": "fail",
+      "evidence": "public/api/apocalypso/jobs-signal.json"
+    },
+    {
+      "id": "serving.architecture",
+      "name": "Versioned production retrieval service is deployed",
+      "status": "fail",
+      "evidence": "config/assurance.json"
+    },
+    {
+      "id": "serving.benchmark",
+      "name": "Production benchmark has zero errors",
+      "status": "pass",
+      "evidence": "public/api/ops/production-benchmark.json"
+    },
+    {
+      "id": "accessibility.audit",
+      "name": "Automated and manual accessibility audits pass",
+      "status": "fail",
+      "evidence": "config/assurance.json"
+    },
+    {
+      "id": "deployment.automatic",
+      "name": "GitHub-to-Cloudflare deployment is automatic and verified",
+      "status": "fail",
+      "evidence": "config/assurance.json"
+    }
+  ],
+  "responsibleAI": {
+    "employmentDecisionUse": "prohibited",
+    "candidateMatching": "disabled",
+    "protectedAttributeFeatures": "prohibited",
+    "humanReviewRequired": true,
+    "explanationPolicy": "Only cited listing or candidate passages may support explanations; no candidate model is deployed."
+  }
+}

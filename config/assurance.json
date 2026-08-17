@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "jobservatory.assurance-input.v1",
+  "independentAdjudicationComplete": false,
+  "sourceRightsReviewComplete": false,
+  "occupationMappingHumanReviewComplete": false,
+  "protectedAttributeCounterfactualTestsComplete": false,
+  "automatedAccessibilityAuditComplete": false,
+  "productionServingArchitecture": "static-browser-prototype",
+  "automaticGitHubCloudflareDeploymentVerified": false,
+  "notes": "Manual evidence flags remain false until the named audit is completed and linked from the A+ review."
+}

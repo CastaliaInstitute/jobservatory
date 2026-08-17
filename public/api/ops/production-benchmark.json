@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "jobservatory.production-benchmark.v1",
+  "generatedAt": "2026-08-17T10:42:13+00:00",
+  "target": "https://jobservatory.castalia.institute",
+  "workload": {
+    "requests": 60,
+    "concurrency": 6,
+    "routeWeights": {
+      "/": 36,
+      "/api/ml/learned-retrieval-metrics.json": 6,
+      "/api/ml/hierarchical-classifier-metrics.json": 6,
+      "/api/apocalypso/jobs-signal.json": 6,
+      "/api/observatory.json": 6
+    },
+    "clientRegion": "US East",
+    "cacheState": "uncontrolled production CDN cache"
+  },
+  "aggregate": {
+    "requests": 60,
+    "successes": 60,
+    "errors": 0,
+    "p50Ms": 157.22,
+    "p95Ms": 421.15,
+    "p99Ms": 491.94,
+    "meanMs": 206.25,
+    "bytesTransferred": 36522474,
+    "durationSeconds": 2.385,
+    "requestsPerSecond": 25.16
+  },
+  "perRoute": {
+    "/": {
+      "requests": 36,
+      "successes": 36,
+      "errors": 0,
+      "p50Ms": 152.98,
+      "p95Ms": 321.36,
+      "p99Ms": 325.4,
+      "meanMs": 177.18,
+      "bytesTransferred": 38592
+    },
+    "/api/apocalypso/jobs-signal.json": {
+      "requests": 6,
+      "successes": 6,
+      "errors": 0,
+      "p50Ms": 157.22,
+      "p95Ms": 224.63,
+      "p99Ms": 224.63,
+      "meanMs": 170.78,
+      "bytesTransferred": 102180
+    },
+    "/api/ml/hierarchical-classifier-metrics.json": {
+      "requests": 6,
+      "successes": 6,
+      "errors": 0,
+      "p50Ms": 152.3,
+      "p95Ms": 308.23,
+      "p99Ms": 308.23,
+      "meanMs": 193.53,
+      "bytesTransferred": 73908
+    },
+    "/api/ml/learned-retrieval-metrics.json": {
+      "requests": 6,
+      "successes": 6,
+      "errors": 0,
+      "p50Ms": 130.04,
+      "p95Ms": 231.75,
+      "p99Ms": 231.75,
+      "meanMs": 153.06,
+      "bytesTransferred": 53460
+    },
+    "/api/observatory.json": {
+      "requests": 6,
+      "successes": 6,
+      "errors": 0,
+      "p50Ms": 421.15,
+      "p95Ms": 723.31,
+      "p99Ms": 723.31,
+      "meanMs": 482.02,
+      "bytesTransferred": 36254334
+    }
+  },
+  "costModel": {
+    "architecture": "Cloudflare Pages static assets with no Pages Functions directory",
+    "pricingSource": "https://developers.cloudflare.com/pages/functions/pricing/#static-asset-requests",
+    "pricingCheckedAt": "2026-08-17",
+    "staticAssetRequestCostUSD": 0,
+    "staticAssetBandwidthCostUSD": 0,
+    "estimatedIncrementalDeliveryCostUSDAtOneMillionMonthlyRequests": 0,
+    "exclusions": [
+      "domain registration",
+      "paid Cloudflare plan fees",
+      "build limits",
+      "future Functions, Workers, databases, vector indexes, model inference, logs, and egress outside static Pages"
+    ]
+  },
+  "limitations": [
+    "Single-client US East measurement is not a global latency study.",
+    "Latency includes response transfer time and is affected by uncontrolled CDN cache state and local network conditions.",
+    "This measures static delivery, not the proposed production retrieval/model-serving service.",
+    "A larger distributed load test requires a declared traffic budget and abuse-safe test window."
+  ]
+}

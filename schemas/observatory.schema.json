@@ -3,14 +3,50 @@
   "$id": "https://jobservatory.castalia.institute/schemas/observatory.schema.json",
   "title": "Jobservatory public corpus",
   "type": "object",
-  "required": ["schemaVersion", "generatedAt", "scope", "methods", "coverage", "summary", "termIndex", "termTimeline", "observations"],
+  "required": ["schemaVersion", "generatedAt", "scope", "methods", "coverage", "summary", "onet", "termIndex", "termTimeline", "observations"],
   "properties": {
     "schemaVersion": {"const": "0.2.0"},
     "generatedAt": {"type": "string", "format": "date-time"},
     "scope": {"type": "string"},
-    "methods": {"type": "object", "required": ["extraction", "ontology", "sampling", "labelReview"]},
-    "coverage": {"type": "object", "required": ["sourcesConfigured", "sourcesSuccessful", "sourceFailures", "retrieval", "eligibleObservations", "publishedObservations", "publicationCap"]},
-    "summary": {"type": "object", "required": ["observations", "employers", "employerMix", "changes", "compensationCoverage", "domains"]},
+    "methods": {
+      "type": "object",
+      "required": ["extraction", "ontology", "sampling", "labelReview"],
+      "properties": {
+        "extraction": {}, "ontology": {}, "sampling": {}, "labelReview": {}
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "required": ["sourceRegistryVersion", "definition", "sourcesConfigured", "sourcesSuccessful", "sourceFailures", "atsProviders", "sectors", "retrieval", "eligibleObservations", "publishedObservations", "publicationCap"],
+      "properties": {
+        "sourcesConfigured": {"type": "integer", "minimum": 1},
+        "sourcesSuccessful": {"type": "integer", "minimum": 0},
+        "sourceFailures": {"type": "array"},
+        "eligibleObservations": {"type": "integer", "minimum": 0},
+        "publishedObservations": {"type": "integer", "minimum": 0},
+        "sourceRegistryVersion": {"type": "string"},
+        "definition": {"type": "string"},
+        "atsProviders": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "integer", "minimum": 1}},
+        "sectors": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "integer", "minimum": 1}},
+        "publicationCap": {"type": ["integer", "null"], "minimum": 1},
+        "retrieval": {"type": "array", "items": {"type": "object", "required": ["employer", "ats", "sourceKey", "sector", "retrieved", "eligible", "status", "rightsReviewStatus", "responseHash"], "properties": {
+          "employer": {"type": "string"}, "ats": {"type": "string"}, "sourceKey": {"type": "string"}, "sector": {"type": "string"},
+          "retrieved": {"type": "integer", "minimum": 0}, "eligible": {"type": "integer", "minimum": 0}, "status": {"type": "string"},
+          "rightsReviewStatus": {"type": "string"}, "responseHash": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+        }}}
+      }
+    },
+    "summary": {"type": "object", "required": ["observations", "employers", "employerMix", "sourceConcentration", "changes", "compensationCoverage", "domains"], "properties": {
+      "observations": {}, "employers": {}, "employerMix": {}, "sourceConcentration": {}, "changes": {}, "compensationCoverage": {}, "domains": {}
+    }},
+    "onet": {
+      "type": "object",
+      "required": ["version", "license", "licenseUrl", "sourceUrl", "attribution", "skillProfiles", "profileSemantics"],
+      "properties": {
+        "version": {"const": "30.3"}, "license": {"const": "CC BY 4.0"}, "licenseUrl": {"type": "string", "format": "uri"},
+        "sourceUrl": {"type": "string", "format": "uri"}, "attribution": {"type": "string"}, "skillProfiles": {}, "profileSemantics": {}
+      }
+    },
     "termIndex": {"type": "array"},
     "termTimeline": {"type": "array"},
     "observations": {
@@ -19,10 +55,16 @@
         "type": "object",
         "required": ["observationId", "analysisId", "sourceId", "employer", "title", "location", "sourceUrl", "retrievedAt", "contentHash", "roleRelevance", "classifications", "extraction", "descriptionPolicy", "version", "firstSeen", "lastSeen"],
         "properties": {
+          "observationId": {"type": "string"}, "analysisId": {"type": "string"}, "sourceId": {"type": "string"},
+          "employer": {"type": "string"}, "title": {"type": "string"}, "location": {"type": "string"}, "sourceUrl": {"type": "string", "format": "uri"},
           "descriptionPolicy": {"const": "metadata-and-evidence-only"},
           "contentHash": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
           "roleRelevance": {"type": "object", "properties": {"tier": {"enum": ["direct", "applied"]}}},
-          "version": {"type": "integer", "minimum": 1}
+          "classifications": {"type": "object"}, "extraction": {"type": "object"},
+          "version": {"type": "integer", "minimum": 1},
+          "retrievedAt": {"type": "string", "format": "date-time"},
+          "firstSeen": {"type": "string", "format": "date-time"},
+          "lastSeen": {"type": "string", "format": "date-time"}
         }
       }
     }

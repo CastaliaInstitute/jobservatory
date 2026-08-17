@@ -6,15 +6,27 @@
   "required": ["schemaVersion", "generatedAt", "module", "source", "signal", "context", "sourceUrl"],
   "properties": {
     "schemaVersion": {"const": "apocalypso.signal.v2"},
+    "generatedAt": {"type": "string", "format": "date-time"},
     "module": {"const": "AI"},
+    "source": {"type": "string"},
+    "context": {"type": "object"},
+    "sourceUrl": {"type": "string", "format": "uri"},
     "signal": {
       "type": "object",
       "required": ["id", "name", "status", "value", "unit", "minimumHistoryDays", "observedHistoryDays", "comparison", "direction"],
       "properties": {
+        "id": {"type": "string"}, "name": {"type": "string"},
         "status": {"enum": ["available", "insufficient_history"]},
         "value": {"type": ["number", "null"]},
-        "unit": {"const": "percentage_points"}
-      }
+        "unit": {"const": "percentage_points"},
+        "minimumHistoryDays": {"type": "integer", "minimum": 30},
+        "observedHistoryDays": {"type": "integer", "minimum": 0},
+        "comparison": {"type": "string"}, "direction": {"type": "string"}
+      },
+      "allOf": [
+        {"if": {"properties": {"status": {"const": "insufficient_history"}}}, "then": {"properties": {"value": {"type": "null"}}}},
+        {"if": {"properties": {"status": {"const": "available"}}}, "then": {"properties": {"value": {"type": "number"}}}}
+      ]
     }
   }
 }

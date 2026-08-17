@@ -10,13 +10,15 @@ test("builds a Cloudflare Pages-ready static site", async () => {
 });
 
 test("publishes provenance, evaluation, and safely abstaining signal feeds", async () => {
-  const [observatory, apocalypso, retrieval, classification, learnedRetrieval, hierarchical] = await Promise.all([
+  const [observatory, apocalypso, retrieval, classification, learnedRetrieval, hierarchical, readiness, benchmark] = await Promise.all([
     readFile(new URL("../dist/api/observatory.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/apocalypso/jobs-signal.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/ml/retrieval-metrics.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/ml/classification-metrics.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/ml/learned-retrieval-metrics.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/ml/hierarchical-classifier-metrics.json", import.meta.url), "utf8"),
+    readFile(new URL("../dist/api/ml/release-readiness.json", import.meta.url), "utf8"),
+    readFile(new URL("../dist/api/ops/production-benchmark.json", import.meta.url), "utf8"),
   ]);
   const corpus = JSON.parse(observatory);
   const signal = JSON.parse(apocalypso);
@@ -24,6 +26,8 @@ test("publishes provenance, evaluation, and safely abstaining signal feeds", asy
   const classificationMetrics = JSON.parse(classification);
   const learnedRetrievalMetrics = JSON.parse(learnedRetrieval);
   const hierarchicalMetrics = JSON.parse(hierarchical);
+  const releaseReadiness = JSON.parse(readiness);
+  const productionBenchmark = JSON.parse(benchmark);
   assert.ok(corpus.observations.length >= 100);
   assert.ok(corpus.termIndex.length >= 20);
   assert.ok(corpus.termTimeline.length >= 1);
@@ -52,6 +56,16 @@ test("publishes provenance, evaluation, and safely abstaining signal feeds", asy
   assert.equal(hierarchicalMetrics.promotion.status, "not_eligible");
   assert.equal(hierarchicalMetrics.hierarchy.parentConsistency, 1);
   assert.ok(hierarchicalMetrics.abstention.microDecisionCoverage < 1);
+  assert.equal(releaseReadiness.status, "blocked");
+  assert.ok(releaseReadiness.passed < releaseReadiness.total);
+  assert.equal(releaseReadiness.responsibleAI.employmentDecisionUse, "prohibited");
+  assert.equal(releaseReadiness.responsibleAI.candidateMatching, "disabled");
+  assert.equal(releaseReadiness.gates.find(gate => gate.id === "corpus.rights").status, "fail");
+  assert.equal(releaseReadiness.gates.find(gate => gate.id === "evaluation.independent").status, "fail");
+  assert.equal(productionBenchmark.aggregate.errors, 0);
+  assert.ok(productionBenchmark.aggregate.p95Ms > 0);
+  assert.ok(productionBenchmark.aggregate.requestsPerSecond > 0);
+  await access(new URL("../dist/schemas/observatory.schema.json", import.meta.url));
 });
 
 test("commits durable observation lineage and full eligible-set presence", async () => {

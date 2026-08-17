@@ -16,9 +16,9 @@ The current implementation is materially more honest than the initial prototype:
 | Licensing/provenance | B− | Metadata/evidence-only export, source links, hashes, manifests, and O*NET attribution are present. Source-by-source terms decisions and legal review of excerpts/training use are missing. |
 | Forecasting discipline | B | Unsupported numeric forecasts were removed and the signal is null pending 30 days. No backtested forecast exists—which is preferable to a false one. |
 | UX/accessibility | B | Natural-language hybrid search, explicit error state, skip link, Escape-close, dialog semantics, pressed term state, safe external links, and visible mobile navigation improved the surface. Automated accessibility tests and a complete assistive-technology audit remain. |
-| Reliability/automation | B− | Source count gates, build, lint, baseline ML evaluation, tests, and data refresh run in CI. The costly learned benchmark is reproducible locally but not yet a scheduled isolated workflow. CI does not deploy the direct-upload Cloudflare Pages project after a data commit, and source schema fixture tests and alerting remain. |
+| Reliability/automation | B | Source count gates, strict public JSON Schema validation, build, lint, baseline ML evaluation, tests, and data refresh run in CI. A bounded live benchmark records static delivery latency, throughput, and cost scope. The costly learned benchmark is reproducible locally but not yet a scheduled isolated workflow; CI still does not deploy the direct-upload Cloudflare Pages project after a data commit. |
 | Apocalypso integration | B | Version 2 uses explicit null semantics, history threshold, unit, cohort warning, and coverage context. A validated value and consumer contract test remain. |
-| Publication readiness | C+ | Methods, architecture, evaluation standard, limitations, and public machine-readable metrics now exist. Dataset DOI/release, license file, data dictionary/schema, gold set, adjudication, and reproducible environment are still missing. |
+| Publication readiness | B− | Methods, architecture, evaluation standard, responsible-AI boundaries, strict public JSON Schemas, machine-readable metrics, and a fail-closed 12-gate readiness ledger now exist. Dataset DOI/release, license file, full data dictionary, gold set, adjudication, and reproducible environment are still missing. |
 
 ## Publication blockers (P0)
 
@@ -34,7 +34,7 @@ The current implementation is materially more honest than the initial prototype:
 
 - Store HTTP status, ETag/Last-Modified, response hash, latency, and feed schema version in retrieval manifests.
 - Add canonical repost clusters using normalized employer/title/location plus content similarity and explicit confidence.
-- Introduce JSON Schema for public corpus, snapshots, metrics, and Apocalypso; validate in CI.
+- Extend the published JSON Schema contracts to snapshots and every baseline metric artifact; keep strict validation in CI.
 - Add hand-built source fixtures for HTML cleaning, compensation units, title relevance, evidence selection, and ontology regressions.
 - Run ML evaluation in CI and fail on missing qrels, metric calculation errors, unexplained large regressions, or test-set mutation.
 - Measure browser search p50/p95/p99 now; move retrieval to a versioned service before corpus size makes client computation expensive.
@@ -46,3 +46,5 @@ The current implementation is materially more honest than the initial prototype:
 The defensible CV bullet today is limited: Jobservatory has a provenance-aware 1,700+ record public corpus from 19 Greenhouse/Lever feeds across 14 declared sectors, durable version/analysis lineage, source-concentration diagnostics, a browser hybrid retrieval baseline, and a reproducible pinned semantic-retrieval/cross-encoder experiment with explicit rejection gates. It is not yet defensible to claim production semantic retrieval, superior cross-encoder reranking, extreme multi-label classification, calibrated predictions, low-latency serving, market trends, or forecasting.
 
 The application-ready bar is reached only when the P0 items are completed and a clean checkout reproduces the held-out metrics and latency report. The most valuable current result is negative but rigorous: generic MiniLM embeddings substantially underperform BM25 on the small development set, while cross-encoder reranking trades better MRR/nDCG for worse recall and is rejected.
+
+The public release ledger currently passes only source-universe completeness and a bounded zero-error static delivery benchmark. It deliberately remains `blocked`; a checklist entry cannot pass without its evidence artifact and manual assurance where required.

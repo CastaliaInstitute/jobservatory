@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jobservatory.castalia.institute/schemas/production-benchmark.schema.json",
+  "type": "object",
+  "required": ["schemaVersion", "generatedAt", "target", "workload", "aggregate", "perRoute", "costModel", "limitations"],
+  "properties": {
+    "schemaVersion": {"const": "jobservatory.production-benchmark.v1"},
+    "generatedAt": {"type": "string", "format": "date-time"},
+    "target": {"type": "string", "format": "uri"}, "workload": {"type": "object"}, "perRoute": {"type": "object"},
+    "aggregate": {"type": "object", "required": ["requests", "successes", "errors", "requestsPerSecond", "p50Ms", "p95Ms", "p99Ms", "bytesTransferred"], "properties": {
+      "requests": {"type": "integer", "minimum": 1}, "successes": {"type": "integer", "minimum": 0}, "errors": {"type": "integer", "minimum": 0},
+      "requestsPerSecond": {"type": "number", "exclusiveMinimum": 0}, "p50Ms": {"type": "number", "minimum": 0}, "p95Ms": {"type": "number", "minimum": 0},
+      "p99Ms": {"type": "number", "minimum": 0}, "bytesTransferred": {"type": "integer", "minimum": 0}
+    }},
+    "costModel": {"type": "object", "required": ["architecture", "pricingSource", "pricingCheckedAt", "staticAssetRequestCostUSD", "staticAssetBandwidthCostUSD", "exclusions"], "properties": {
+      "architecture": {"type": "string"}, "pricingSource": {"type": "string", "format": "uri"}, "pricingCheckedAt": {"type": "string", "format": "date"},
+      "staticAssetRequestCostUSD": {"type": "number", "minimum": 0}, "staticAssetBandwidthCostUSD": {"type": "number", "minimum": 0}, "exclusions": {"type": "array"}
+    }},
+    "limitations": {"type": "array", "minItems": 1}
+  }
+}

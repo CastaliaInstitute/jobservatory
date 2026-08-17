@@ -34,6 +34,7 @@ The current static Cloudflare Pages deployment runs retrieval in the browser ove
 | Evaluation | immutable queries/qrels, split, model/index version, Recall@K, MRR, nDCG | Small single-reviewer development set implemented; no held-out or adjudicated set yet |
 | Classification | hierarchical label IDs, probabilities, threshold version, evidence | Versioned title/location logistic baseline implements five label families, Platt calibration, threshold-band abstention, tail metrics, and deterministic parents; weak-label and rights gates reject promotion |
 | Apocalypso | signal definition, unit, cohort, history threshold, uncertainty, null semantics | Version 2 emits `insufficient_history` and `null`; no fabricated pressure score |
+| Release assurance | strict artifact schemas, evidence-bearing gates, prohibited-use policy, manual assurance state | Public 12-gate ledger fails closed; currently only source-universe completeness and static-delivery benchmarking pass |
 
 ## Retrieval stack
 
@@ -49,6 +50,8 @@ The first offline learned candidate uses pinned MiniLM sentence embeddings and a
 6. Python/PyTorch training and evaluation jobs with frozen datasets and model cards.
 
 Promotion requires a held-out improvement, no protected-attribute proxy regression, and a measured latency/cost budget. A more complicated model does not ship merely because it is more fashionable.
+
+The current production benchmark covers Cloudflare Pages static delivery only. Its committed report records p50/p95/p99, throughput, errors, bytes, route mix, cost assumptions, and measurement limitations. It is not evidence about the planned retrieval/model service; that service needs a separate versioned workload and latency/cost gate.
 
 ## 10× and 100× scale
 
