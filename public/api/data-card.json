@@ -1,9 +1,9 @@
 {
   "schemaVersion": "jobservatory.data-card.v1",
-  "generatedAt": "2026-08-17T11:14:48+00:00",
+  "generatedAt": "2026-08-17T11:25:34+00:00",
   "corpus": {
     "schemaVersion": "0.2.0",
-    "sha256": "sha256:439786f2ebc0aa98207e647230157b2f76d1ab172bb6b075a6bc3c9eed3293f1",
+    "sha256": "sha256:84b856ff8bbe6a06931d9bee25fbd58b670c846aa469355df78c0dd78f1abbce",
     "unitOfAnalysis": "A public job-listing observation retrieved at a particular time.",
     "descriptionPolicy": "metadata-and-evidence-only"
   },
