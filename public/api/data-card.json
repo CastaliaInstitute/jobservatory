@@ -1,21 +1,22 @@
 {
   "schemaVersion": "jobservatory.data-card.v1",
-  "generatedAt": "2026-08-17T12:12:59+00:00",
+  "generatedAt": "2026-08-17T13:14:33+00:00",
   "corpus": {
     "schemaVersion": "0.2.0",
-    "sha256": "sha256:3ce533af39682239a30d4124fbe14c434e2dd0b67e7fb85359f6329c55dadcb9",
+    "sha256": "sha256:612304289f5f79fcc03c6cc5aaf232cab57970e851d763266f19d212141370cf",
     "unitOfAnalysis": "A public job-listing observation retrieved at a particular time.",
     "descriptionPolicy": "metadata-and-evidence-only"
   },
   "coverage": {
-    "employers": 53,
-    "observations": 2701,
-    "configuredSources": 53,
-    "successfulSources": 53,
+    "employers": 54,
+    "observations": 2635,
+    "configuredSources": 54,
+    "successfulSources": 54,
     "atsProviders": {
       "greenhouse": 41,
       "lever": 5,
-      "ashby": 7
+      "ashby": 7,
+      "smartrecruiters": 1
     },
     "sectors": {
       "frontier-model-lab": 5,
@@ -54,7 +55,8 @@
       "media-and-entertainment": 1,
       "ai-search": 1,
       "robotics-foundation-models": 1,
-      "enterprise-ai-agents": 2
+      "enterprise-ai-agents": 2,
+      "public-sector": 1
     },
     "assessment": {
       "status": "expanding",
@@ -83,38 +85,36 @@
         ]
       },
       "actual": {
-        "employers": 53,
-        "sectors": 37,
-        "largestEmployerShare": 0.1855,
-        "compensationCoverage": 0.626
+        "employers": 54,
+        "sectors": 38,
+        "largestEmployerShare": 0.1894,
+        "compensationCoverage": 0.617
       },
       "checks": {
         "minimumEmployers": true,
         "minimumSectors": true,
         "maximumLargestEmployerShare": false,
         "minimumCompensationCoverage": false,
-        "requiredSectors": false
+        "requiredSectors": true
       },
-      "missingRequiredSectors": [
-        "public-sector"
-      ]
+      "missingRequiredSectors": []
     },
-    "largestEmployerShare": 0.1855,
-    "herfindahlHirschmanIndex": 0.0665,
+    "largestEmployerShare": 0.1894,
+    "herfindahlHirschmanIndex": 0.0672,
     "entityResolution": {
       "methodVersion": "jobservatory-entity-resolution-0.1.0",
-      "postingFamilies": 2333,
-      "multiObservationFamilies": 246,
-      "exactVariantGroups": 2653,
+      "postingFamilies": 2273,
+      "multiObservationFamilies": 242,
+      "exactVariantGroups": 2588,
       "repostCandidateGroups": 40,
-      "observationsInRepostCandidateGroups": 88,
+      "observationsInRepostCandidateGroups": 87,
       "reviewStatus": "unreviewed",
       "interpretation": "Candidate metadata clusters for leakage control and review; not verified requisitions or reposts."
     }
   },
   "provenance": {
-    "sourceRegistryVersion": "jobservatory-sources-2026-08-17.5",
-    "sourceManifests": 53,
+    "sourceRegistryVersion": "jobservatory-sources-2026-08-17.6",
+    "sourceManifests": 54,
     "allFeedsSuccessful": true,
     "allFeedResponsesHashed": true,
     "durableVersionLedger": "data/observation_versions.ndjson",
@@ -122,12 +122,13 @@
   },
   "rights": {
     "reviewStatusCounts": {
-      "pending": 53
+      "pending": 54
     },
     "allSourcesApproved": false,
     "accessBasis": [
       "official-public-job-board-api",
       "official-public-job-posting-api",
+      "official-public-posting-api",
       "official-public-postings-api"
     ],
     "fullDescriptionsRepublished": false,
@@ -135,7 +136,7 @@
     "notice": "A documented public API establishes technical access, not permission to redistribute employer-authored content or train models. Those reviews remain separate and fail closed."
   },
   "labels": {
-    "extractionVersion": "jobservatory-rules-0.2.4",
+    "extractionVersion": "jobservatory-rules-0.2.5",
     "ontologyVersion": "jobservatory-ontology-0.3.0",
     "reviewStatus": "unreviewed",
     "onetVersion": "30.3",

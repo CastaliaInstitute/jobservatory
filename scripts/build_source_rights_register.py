@@ -19,6 +19,8 @@ def board_url(ats: str, source_key: str) -> str:
         return f"https://job-boards.greenhouse.io/{source_key}"
     if ats == "lever":
         return f"https://jobs.lever.co/{source_key}"
+    if ats == "smartrecruiters":
+        return f"https://jobs.smartrecruiters.com/{source_key}"
     return f"https://jobs.ashbyhq.com/{source_key}"
 
 
@@ -30,10 +32,10 @@ def main() -> int:
     corpus = json.loads(CORPUS_PATH.read_text())
     retrieved = {(item["ats"], item["sourceKey"]): item for item in corpus["coverage"]["retrieval"]}
     reviews = []
-    for ats in ("greenhouse", "lever", "ashby"):
+    for ats in ("greenhouse", "lever", "ashby", "smartrecruiters"):
         policy = config["atsPolicies"][ats]
         for source in config.get(ats, []):
-            source_key = source.get("board") or source.get("site")
+            source_key = source.get("board") or source.get("site") or source.get("company")
             evidence = retrieved[(ats, source_key)]
             registry_decisions = {
                 "retrieval": source["rightsReviewStatus"],

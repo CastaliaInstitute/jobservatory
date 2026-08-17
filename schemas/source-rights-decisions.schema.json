@@ -7,7 +7,7 @@
     "schemaVersion": {"const": "jobservatory.source-rights-decisions.v1"},
     "reviews": {
       "type": "object",
-      "propertyNames": {"pattern": "^(greenhouse|lever|ashby):[a-zA-Z0-9_-]+$"},
+      "propertyNames": {"pattern": "^(greenhouse|lever|ashby|smartrecruiters):[a-zA-Z0-9_-]+$"},
       "additionalProperties": {"$ref": "#/$defs/reviewInput"}
     }
   },

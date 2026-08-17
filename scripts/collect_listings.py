@@ -16,6 +16,7 @@ import sys
 import time
 import urllib.request
 from collections import Counter, defaultdict
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 import os
 from pathlib import Path
@@ -29,7 +30,7 @@ APOCALYPSO_PATH = ROOT / "public" / "api" / "apocalypso" / "jobs-signal.json"
 HISTORY_PATH = ROOT / "data" / "history.ndjson"
 LEDGER_PATH = ROOT / "data" / "observation_versions.ndjson"
 SNAPSHOT_DIR = ROOT / "data" / "snapshots"
-METHOD_VERSION = "jobservatory-rules-0.2.4"
+METHOD_VERSION = "jobservatory-rules-0.2.5"
 ONTOLOGY_VERSION = "jobservatory-ontology-0.3.0"
 ONET_VERSION = "30.3"
 ENTITY_RESOLUTION_VERSION = "jobservatory-entity-resolution-0.1.0"
@@ -150,7 +151,11 @@ def matches(text: str, ontology: dict[str, list[str]]) -> list[dict]:
 
 def role_relevance(title: str, text: str) -> dict:
     padded_title = f" {title.lower()} "
-    title_hits = sorted({term.strip() for term in TITLE_TERMS if contains(padded_title, term)})
+    title_hits = sorted({
+        term.strip() for term in TITLE_TERMS
+        if contains(padded_title, term)
+        and (term.strip() != "search" or bool(re.search(r"(?<![a-z0-9])search(?![a-z0-9])", padded_title, re.I)))
+    })
     body_hits = sorted({term for term in AI_ROLE_TERMS if evidence(text, [term])})
     tier = "direct" if title_hits else "applied" if len(body_hits) >= 2 else "contextual"
     return {
@@ -278,6 +283,74 @@ def fetch_ashby(board: str) -> tuple[list[dict], dict]:
         }
         return jobs, metadata
 
+def fetch_smartrecruiters(company: str) -> tuple[list[dict], dict]:
+    """Retrieve every public posting and its detail record from the public Posting API."""
+    base = f"https://api.smartrecruiters.com/v1/companies/{company}/postings"
+    headers = {"User-Agent": "Jobservatory/0.1 (+https://jobservatory.castalia.institute)"}
+    started = time.perf_counter()
+    response_bodies: list[bytes] = []
+    first_headers = None
+
+    def request_json(url: str) -> tuple[dict, bytes, object]:
+        last_error = None
+        for attempt in range(4):
+            try:
+                request = urllib.request.Request(url, headers=headers)
+                with urllib.request.urlopen(request, timeout=40) as response:
+                    payload = response.read()
+                    return json.loads(payload), payload, response.headers
+            except Exception as exc:
+                last_error = exc
+                if attempt < 3:
+                    time.sleep(0.5 * (attempt + 1))
+        raise last_error  # type: ignore[misc]
+
+    listings: list[dict] = []
+    offset = 0
+    total = None
+    while total is None or offset < total:
+        parsed, payload, response_headers = request_json(f"{base}?limit=100&offset={offset}&destination=PUBLIC")
+        if first_headers is None:
+            first_headers = response_headers
+        response_bodies.append(payload)
+        page = parsed.get("content", [])
+        if not isinstance(page, list) or not isinstance(parsed.get("totalFound"), int):
+            raise ValueError("SmartRecruiters response does not match PostingList")
+        listings.extend(page)
+        total = parsed["totalFound"]
+        offset += len(page)
+        if not page and offset < total:
+            raise ValueError("SmartRecruiters pagination ended before totalFound")
+
+    def fetch_detail(item: dict) -> tuple[dict, bytes]:
+        detail, payload, _ = request_json(f"{base}/{item['id']}")
+        return detail, payload
+
+    details: list[dict] = []
+    with ThreadPoolExecutor(max_workers=8) as executor:
+        for detail, payload in executor.map(fetch_detail, listings):
+            details.append(detail)
+            response_bodies.append(payload)
+
+    aggregate_hash = hashlib.sha256()
+    response_bytes = 0
+    for payload in response_bodies:
+        aggregate_hash.update(len(payload).to_bytes(8, "big"))
+        aggregate_hash.update(payload)
+        response_bytes += len(payload)
+    return details, {
+        "url": f"{base}?limit=100&offset=0&destination=PUBLIC",
+        "httpStatus": 200,
+        "etag": first_headers.get("ETag") if first_headers else None,
+        "lastModified": first_headers.get("Last-Modified") if first_headers else None,
+        "responseHash": "sha256:" + aggregate_hash.hexdigest(),
+        "responseBytes": response_bytes,
+        "latencyMs": round((time.perf_counter() - started) * 1000),
+        "feedSchemaVersion": "smartrecruiters-posting-api-v1-list-and-detail",
+        "requests": len(response_bodies),
+        "retrievalScope": "all-public-listings-with-detail",
+    }
+
 def structured_compensation(ats: str, job: dict) -> dict | None:
     """Normalize explicitly structured annual salary ranges; do not annualize other units."""
     if ats == "lever":
@@ -292,6 +365,12 @@ def structured_compensation(ats: str, job: dict) -> dict | None:
         value = next((item for item in components if item.get("compensationType") == "Salary" and str(item.get("interval", "")).upper() == "1 YEAR"), {})
         minimum, maximum = value.get("minValue"), value.get("maxValue")
         currency = value.get("currencyCode")
+    elif ats == "smartrecruiters":
+        value = job.get("compensation") or {}
+        if str(value.get("period", "")).upper() not in {"YEARLY", "ANNUAL", "ANNUALLY", "1 YEAR"}:
+            return None
+        minimum, maximum = value.get("min"), value.get("max")
+        currency = value.get("currency")
     else:
         return None
     if not isinstance(minimum, (int, float)) or not isinstance(maximum, (int, float)) or minimum > maximum:
@@ -312,6 +391,24 @@ def normalize_job(ats: str, job: dict) -> dict:
             "id": str(job["id"]), "title": job.get("title", ""), "content": job.get("descriptionPlain", ""),
             "location": " · ".join(dict.fromkeys(value for value in locations if value)) or "Remote / unspecified",
             "url": job.get("jobUrl"), "sourceUpdatedAt": None, "sourcePublishedAt": job.get("publishedAt"),
+            "structuredCompensation": structured_compensation(ats, job),
+        }
+    if ats == "smartrecruiters":
+        sections = ((job.get("jobAd") or {}).get("sections") or {})
+        content = " ".join(
+            f"{section.get('title', '')}. {section.get('text', '')}"
+            for section in sections.values() if isinstance(section, dict)
+        )
+        location = job.get("location") or {}
+        full_location = clean_html(location.get("fullLocation", ""))
+        if not full_location or not re.search(r"[a-z0-9]", full_location, re.I):
+            full_location = ", ".join(value for value in (
+                location.get("city"), location.get("region"), location.get("country")
+            ) if value)
+        return {
+            "id": str(job["id"]), "title": job.get("name", ""), "content": content,
+            "location": full_location or "Remote / unspecified", "url": job.get("postingUrl"),
+            "sourceUpdatedAt": None, "sourcePublishedAt": job.get("releasedDate"),
             "structuredCompensation": structured_compensation(ats, job),
         }
     categories = job.get("categories") or {}
@@ -358,14 +455,20 @@ def main() -> int:
     candidates = []
     retrieval = []
     failures = []
-    configured_sources = [("greenhouse", source) for source in CONFIG.get("greenhouse", [])] + [("lever", source) for source in CONFIG.get("lever", [])] + [("ashby", source) for source in CONFIG.get("ashby", [])]
+    configured_sources = [
+        (ats, source)
+        for ats in ("greenhouse", "lever", "ashby", "smartrecruiters")
+        for source in CONFIG.get(ats, [])
+    ]
     for ats, source in configured_sources:
-        source_key = source.get("board") or source.get("site")
+        source_key = source.get("board") or source.get("site") or source.get("company")
         try:
             if ats == "greenhouse":
                 jobs, fetch_metadata = fetch_board(source_key)
             elif ats == "lever":
                 jobs, fetch_metadata = fetch_lever(source_key)
+            elif ats == "smartrecruiters":
+                jobs, fetch_metadata = fetch_smartrecruiters(source_key)
             else:
                 jobs, fetch_metadata = fetch_ashby(source_key)
         except Exception as exc:

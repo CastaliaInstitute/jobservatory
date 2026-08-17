@@ -1,8 +1,8 @@
 {
   "schemaVersion": "jobservatory.source-rights-register.v1",
-  "generatedAt": "2026-08-17T12:12:59+00:00",
-  "sourceRegistryVersion": "jobservatory-sources-2026-08-17.5",
-  "sourceRegistrySha256": "sha256:ee32bd1a455451879ee1e92cde50aa6872bf2559096e771c94fc8ca4d867e4ab",
+  "generatedAt": "2026-08-17T13:14:33+00:00",
+  "sourceRegistryVersion": "jobservatory-sources-2026-08-17.6",
+  "sourceRegistrySha256": "sha256:ddcf29cbcca03a23126909888b2e09abf39bc5c671d37744062df40d1968fb19",
   "reviewInputSha256": "sha256:6bb7f41af3de502d2dade9ecc43a91cb238a5fe823ea24cf996d8813a5dcd737",
   "policy": {
     "fullDescriptionsRepublished": false,
@@ -11,10 +11,10 @@
     "notice": "Public technical access is not a license. Every decision requires source-specific evidence and an accountable reviewer."
   },
   "summary": {
-    "sources": 53,
-    "actionableDecisions": 265,
+    "sources": 54,
+    "actionableDecisions": 270,
     "approvedDecisions": 0,
-    "pendingDecisions": 265,
+    "pendingDecisions": 270,
     "rejectedDecisions": 0,
     "status": "pending"
   },
@@ -68,7 +68,7 @@
         "accessBasis": "official-public-job-posting-api",
         "documentationUrl": "https://developers.ashbyhq.com/docs/public-job-posting-api",
         "documentationReviewedAt": "2026-08-17",
-        "lastSuccessfulResponseSha256": "sha256:0804ad8391e67c20ab9dbdcbaf3579262341d6105bedaedb31b84aae226b0c55",
+        "lastSuccessfulResponseSha256": "sha256:e2b7e1565e2b9aa1620ba3b40a9188177cfa2e2d3567f8651282216ca8eba3a3",
         "lastSuccessfulHttpStatus": 200
       },
       "retentionPolicy": "metadata-hash-short-evidence",
@@ -144,7 +144,7 @@
         "accessBasis": "official-public-job-posting-api",
         "documentationUrl": "https://developers.ashbyhq.com/docs/public-job-posting-api",
         "documentationReviewedAt": "2026-08-17",
-        "lastSuccessfulResponseSha256": "sha256:88849e37dcac428276ac42ed5d03669cab6cc37bd0d1c65ae504363da0f6bb73",
+        "lastSuccessfulResponseSha256": "sha256:3217eb52afeac60faa2283fb0a8a00a2d414a931b314f04675a66dd37021a4ac",
         "lastSuccessfulHttpStatus": 200
       },
       "retentionPolicy": "metadata-hash-short-evidence",
@@ -296,7 +296,7 @@
         "accessBasis": "official-public-job-board-api",
         "documentationUrl": "https://developers.greenhouse.io/job-board.html",
         "documentationReviewedAt": "2026-08-17",
-        "lastSuccessfulResponseSha256": "sha256:113b1d460005f2ebe01474f9678191ab78e40a9104156cf99c1f3738ac1edb04",
+        "lastSuccessfulResponseSha256": "sha256:019349128bf290bb339525db8b9fa87c8cbdc5df2ca78c7d5d609bdfaa5f3982",
         "lastSuccessfulHttpStatus": 200
       },
       "retentionPolicy": "metadata-hash-short-evidence",
@@ -334,7 +334,7 @@
         "accessBasis": "official-public-job-board-api",
         "documentationUrl": "https://developers.greenhouse.io/job-board.html",
         "documentationReviewedAt": "2026-08-17",
-        "lastSuccessfulResponseSha256": "sha256:6f7ac1804183b9af286065e12113508475c6042af157faf1dccf2a2b382054ee",
+        "lastSuccessfulResponseSha256": "sha256:cdd9a20e88b20c4d63105d0c1f1b3064776b52f7a919df42145031c02ac8aa31",
         "lastSuccessfulHttpStatus": 200
       },
       "retentionPolicy": "metadata-hash-short-evidence",
@@ -372,7 +372,7 @@
         "accessBasis": "official-public-job-board-api",
         "documentationUrl": "https://developers.greenhouse.io/job-board.html",
         "documentationReviewedAt": "2026-08-17",
-        "lastSuccessfulResponseSha256": "sha256:5da7fe131bdc3f66d6eee83ce74caa488ac1385e2fdaea1b728f92e3b637b66c",
+        "lastSuccessfulResponseSha256": "sha256:b872c060314a6361b661e14d728fbd4bf5e5995a0738544b5d38173e196e3af9",
         "lastSuccessfulHttpStatus": 200
       },
       "retentionPolicy": "metadata-hash-short-evidence",
@@ -410,7 +410,7 @@
         "accessBasis": "official-public-job-board-api",
         "documentationUrl": "https://developers.greenhouse.io/job-board.html",
         "documentationReviewedAt": "2026-08-17",
-        "lastSuccessfulResponseSha256": "sha256:d6919dfd3c58c45e0db834ec794073147f09f4ff287084efdd0f1ba1c7e53cd4",
+        "lastSuccessfulResponseSha256": "sha256:684303a35199442d2f01fa7c3c7c3632f6df788e7e4ec16fb8808bb0e09ad84b",
         "lastSuccessfulHttpStatus": 200
       },
       "retentionPolicy": "metadata-hash-short-evidence",
@@ -638,7 +638,7 @@
         "accessBasis": "official-public-job-board-api",
         "documentationUrl": "https://developers.greenhouse.io/job-board.html",
         "documentationReviewedAt": "2026-08-17",
-        "lastSuccessfulResponseSha256": "sha256:5a93c602df62a3505e04cabab074b683125b342a7b604215d662df336b4893ec",
+        "lastSuccessfulResponseSha256": "sha256:389ddf7eb09a48c3aca56b570bc94e5134dd18fc1339885b054a0762dc3a9f28",
         "lastSuccessfulHttpStatus": 200
       },
       "retentionPolicy": "metadata-hash-short-evidence",
@@ -752,7 +752,7 @@
         "accessBasis": "official-public-job-board-api",
         "documentationUrl": "https://developers.greenhouse.io/job-board.html",
         "documentationReviewedAt": "2026-08-17",
-        "lastSuccessfulResponseSha256": "sha256:56efca9612e242ccaed5a54152e03aab6426640c6d66baa8bb87425151a1063b",
+        "lastSuccessfulResponseSha256": "sha256:bc9851a60c655a239c5a82b20d4e0a22e686f3ff6df3904cb5038b8bb92478f5",
         "lastSuccessfulHttpStatus": 200
       },
       "retentionPolicy": "metadata-hash-short-evidence",
@@ -1018,7 +1018,7 @@
         "accessBasis": "official-public-job-board-api",
         "documentationUrl": "https://developers.greenhouse.io/job-board.html",
         "documentationReviewedAt": "2026-08-17",
-        "lastSuccessfulResponseSha256": "sha256:04d003bc41bbf90d5a0df5424bbb4a764d11464cb68b6eb016db0e09aa89c159",
+        "lastSuccessfulResponseSha256": "sha256:ad4c1927c5adb4cb0ed6cf8af28ed63fce6e4701d8b11ee1a3df903790d4a859",
         "lastSuccessfulHttpStatus": 200
       },
       "retentionPolicy": "metadata-hash-short-evidence",
@@ -1208,7 +1208,7 @@
         "accessBasis": "official-public-job-board-api",
         "documentationUrl": "https://developers.greenhouse.io/job-board.html",
         "documentationReviewedAt": "2026-08-17",
-        "lastSuccessfulResponseSha256": "sha256:3ff1f7d04d923a763e038c1db7accef5b60108476fffaaca55c12ae1646cc494",
+        "lastSuccessfulResponseSha256": "sha256:24af77af64bf567f2d526213e26624b41fe3398fc75d51ea72de987f586c1175",
         "lastSuccessfulHttpStatus": 200
       },
       "retentionPolicy": "metadata-hash-short-evidence",
@@ -1360,7 +1360,7 @@
         "accessBasis": "official-public-job-board-api",
         "documentationUrl": "https://developers.greenhouse.io/job-board.html",
         "documentationReviewedAt": "2026-08-17",
-        "lastSuccessfulResponseSha256": "sha256:ea32cd92786ba9dc1af68b830a820a87b38a2984785e05017ea66119ef6e57d4",
+        "lastSuccessfulResponseSha256": "sha256:d460701c08619b0f6e25c3f1bcbdf39ce0bb7c4640f6099177fdd04ec8a1b317",
         "lastSuccessfulHttpStatus": 200
       },
       "retentionPolicy": "metadata-hash-short-evidence",
@@ -1398,7 +1398,7 @@
         "accessBasis": "official-public-job-board-api",
         "documentationUrl": "https://developers.greenhouse.io/job-board.html",
         "documentationReviewedAt": "2026-08-17",
-        "lastSuccessfulResponseSha256": "sha256:b15efc3d27d91c0a8e84d20e6ecbc73b1ca1a4328ce08e208875d28dd54b9d0b",
+        "lastSuccessfulResponseSha256": "sha256:935ac157bfe777cd76bd10c35999da36ca23ea5e9986281cf485d2605fc72f56",
         "lastSuccessfulHttpStatus": 200
       },
       "retentionPolicy": "metadata-hash-short-evidence",
@@ -1436,7 +1436,7 @@
         "accessBasis": "official-public-job-board-api",
         "documentationUrl": "https://developers.greenhouse.io/job-board.html",
         "documentationReviewedAt": "2026-08-17",
-        "lastSuccessfulResponseSha256": "sha256:2b10a0121c35a8373baa4f046a5b0b9d904e9098ca9aed3fd261d58c9923dff3",
+        "lastSuccessfulResponseSha256": "sha256:36393231ab60b5d34bef1b42addce12835bb9a62118ac69bbf5f203322e11e24",
         "lastSuccessfulHttpStatus": 200
       },
       "retentionPolicy": "metadata-hash-short-evidence",
@@ -1474,7 +1474,7 @@
         "accessBasis": "official-public-job-board-api",
         "documentationUrl": "https://developers.greenhouse.io/job-board.html",
         "documentationReviewedAt": "2026-08-17",
-        "lastSuccessfulResponseSha256": "sha256:6a5aac9c15d2d8762086f70fd6a7ffbe0dc6c6ff13156c36b749a88cfc721d77",
+        "lastSuccessfulResponseSha256": "sha256:4168db0d6ea12e5655375308e7fc6a6ea5346a420f594c7dacbdfbace32ab032",
         "lastSuccessfulHttpStatus": 200
       },
       "retentionPolicy": "metadata-hash-short-evidence",
@@ -1512,7 +1512,7 @@
         "accessBasis": "official-public-job-board-api",
         "documentationUrl": "https://developers.greenhouse.io/job-board.html",
         "documentationReviewedAt": "2026-08-17",
-        "lastSuccessfulResponseSha256": "sha256:33d8c7e091ebd6f3e8beedf34a23ba23ecc56960d01d894bce5827032a9f0113",
+        "lastSuccessfulResponseSha256": "sha256:557d31fa03d4ef0ef5b4a4e493590aab2e1f66f6ddceb2269fe5819a1d4717a7",
         "lastSuccessfulHttpStatus": 200
       },
       "retentionPolicy": "metadata-hash-short-evidence",
@@ -1626,7 +1626,7 @@
         "accessBasis": "official-public-job-board-api",
         "documentationUrl": "https://developers.greenhouse.io/job-board.html",
         "documentationReviewedAt": "2026-08-17",
-        "lastSuccessfulResponseSha256": "sha256:9da2876d02c0bfae55c410f49ecd86cbc5a1a538a251484f0c161b9a2bb80246",
+        "lastSuccessfulResponseSha256": "sha256:981fa1aee0a9485aa252a8e2e50f696fd62908583792a8a4514ebafda7516366",
         "lastSuccessfulHttpStatus": 200
       },
       "retentionPolicy": "metadata-hash-short-evidence",
@@ -1702,7 +1702,7 @@
         "accessBasis": "official-public-job-board-api",
         "documentationUrl": "https://developers.greenhouse.io/job-board.html",
         "documentationReviewedAt": "2026-08-17",
-        "lastSuccessfulResponseSha256": "sha256:c3f34f1da8a92daae225d1d7c0a06f1e6493f097caaeaba3417a7384787c32b9",
+        "lastSuccessfulResponseSha256": "sha256:efd284724e9bc7a42cc98b956447808adb737c4766a6025d24c02a50cc69c27e",
         "lastSuccessfulHttpStatus": 200
       },
       "retentionPolicy": "metadata-hash-short-evidence",
@@ -1892,7 +1892,7 @@
         "accessBasis": "official-public-postings-api",
         "documentationUrl": "https://github.com/lever/postings-api",
         "documentationReviewedAt": "2026-08-17",
-        "lastSuccessfulResponseSha256": "sha256:aab661f8eaf867930511b771701d245ef1337268e99f14d3d0bf374d3b29e49b",
+        "lastSuccessfulResponseSha256": "sha256:e0ae899bf8d123efb027e915255bb91898e7eaa0b167afcf195b712b6c924cab",
         "lastSuccessfulHttpStatus": 200
       },
       "retentionPolicy": "metadata-hash-short-evidence",
@@ -1930,7 +1930,7 @@
         "accessBasis": "official-public-postings-api",
         "documentationUrl": "https://github.com/lever/postings-api",
         "documentationReviewedAt": "2026-08-17",
-        "lastSuccessfulResponseSha256": "sha256:4597e2d72fdadb16cd311242da16d7c8e0af86177c148e185f1e11d8fd534501",
+        "lastSuccessfulResponseSha256": "sha256:6037ccbde7ed148f8e7f4533b1bf624ab1215f3f36858faa8a8f0de0198e80e9",
         "lastSuccessfulHttpStatus": 200
       },
       "retentionPolicy": "metadata-hash-short-evidence",
@@ -2007,6 +2007,44 @@
         "documentationUrl": "https://github.com/lever/postings-api",
         "documentationReviewedAt": "2026-08-17",
         "lastSuccessfulResponseSha256": "sha256:61345434cc88647388887f67147a30a7270d3040c4a9387f4d6c90fcd4a0d64c",
+        "lastSuccessfulHttpStatus": 200
+      },
+      "retentionPolicy": "metadata-hash-short-evidence",
+      "decisions": {
+        "retrieval": "pending",
+        "metadataRetention": "pending",
+        "shortExcerptPublication": "pending",
+        "redistribution": "pending",
+        "modelTraining": "pending",
+        "rawResponseRetention": "not_requested"
+      },
+      "decisionEvidence": {
+        "employerTermsUrl": null,
+        "reviewer": null,
+        "reviewedAt": null,
+        "notes": "Technical public-API access is documented, but no legal conclusion is inferred from accessibility. Employer-specific terms and an accountable review are still required."
+      },
+      "registryAligned": true,
+      "blockers": [
+        "metadataRetention",
+        "modelTraining",
+        "redistribution",
+        "retrieval",
+        "shortExcerptPublication"
+      ]
+    },
+    {
+      "sourceId": "smartrecruiters:CityOfNewYork",
+      "employer": "City of New York",
+      "ats": "smartrecruiters",
+      "sourceKey": "CityOfNewYork",
+      "sector": "public-sector",
+      "jobBoardUrl": "https://jobs.smartrecruiters.com/CityOfNewYork",
+      "technicalAccess": {
+        "accessBasis": "official-public-posting-api",
+        "documentationUrl": "https://developers.smartrecruiters.com/docs/endpoints",
+        "documentationReviewedAt": "2026-08-17",
+        "lastSuccessfulResponseSha256": "sha256:07c45f3360c7636791e7b0cb1cb230d75ca133d93448146c7c7b05e03b1674e5",
         "lastSuccessfulHttpStatus": 200
       },
       "retentionPolicy": "metadata-hash-short-evidence",

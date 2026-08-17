@@ -42,7 +42,7 @@
         },
         "publicationCap": {"type": ["integer", "null"], "minimum": 1},
         "retrieval": {"type": "array", "items": {"type": "object", "required": ["employer", "ats", "sourceKey", "sector", "retrieved", "eligible", "status", "rightsReviewStatus", "responseHash", "feedSchemaVersion", "accessBasis", "documentationUrl", "documentationReviewedAt", "redistributionReviewStatus", "modelTrainingReviewStatus"], "properties": {
-          "employer": {"type": "string"}, "ats": {"enum": ["greenhouse", "lever", "ashby"]}, "sourceKey": {"type": "string"}, "sector": {"type": "string"},
+          "employer": {"type": "string"}, "ats": {"enum": ["greenhouse", "lever", "ashby", "smartrecruiters"]}, "sourceKey": {"type": "string"}, "sector": {"type": "string"},
           "retrieved": {"type": "integer", "minimum": 0}, "eligible": {"type": "integer", "minimum": 0}, "status": {"type": "string"},
           "rightsReviewStatus": {"enum": ["pending", "approved", "rejected"]}, "responseHash": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
           "feedSchemaVersion": {"type": "string"}, "accessBasis": {"type": "string", "pattern": "^official-public-"},

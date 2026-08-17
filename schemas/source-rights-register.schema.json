@@ -39,9 +39,9 @@
       "type": "object", "additionalProperties": false,
       "required": ["sourceId", "employer", "ats", "sourceKey", "sector", "jobBoardUrl", "technicalAccess", "retentionPolicy", "decisions", "decisionEvidence", "registryAligned", "blockers"],
       "properties": {
-        "sourceId": {"type": "string", "pattern": "^(greenhouse|lever|ashby):"},
+        "sourceId": {"type": "string", "pattern": "^(greenhouse|lever|ashby|smartrecruiters):"},
         "employer": {"type": "string", "minLength": 1},
-        "ats": {"enum": ["greenhouse", "lever", "ashby"]},
+        "ats": {"enum": ["greenhouse", "lever", "ashby", "smartrecruiters"]},
         "sourceKey": {"type": "string", "minLength": 1},
         "sector": {"type": "string", "minLength": 1},
         "jobBoardUrl": {"type": "string", "format": "uri"},

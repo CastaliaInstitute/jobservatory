@@ -1,13 +1,13 @@
 {
   "schemaVersion": "jobservatory.retrieval-service-benchmark.v1",
-  "generatedAt": "2026-08-17T12:17:58+00:00",
+  "generatedAt": "2026-08-17T13:18:20+00:00",
   "target": "https://jobservatory.castalia.institute",
   "lineage": {
     "serviceVersion": "jobservatory-search-api-v1",
     "modelId": "bm25-production-baseline-1.0.0",
-    "indexSha256": "sha256:79537c91348f97a86af24d6a67354e3b9217a0e8729ee1debb40db4bd56cea90",
-    "corpusGeneratedAt": "2026-08-17T12:12:59+00:00",
-    "corpusContentSha256": "sha256:2c7ca3bf9a2b84ba61a200ad5ab0e83bec03f1322d5777b6ad30c00906b1ed7e"
+    "indexSha256": "sha256:4d2ef43fb2850615b0ad852c45a4e461afd4870f62374a0763494b0c90a1970d",
+    "corpusGeneratedAt": "2026-08-17T13:14:33+00:00",
+    "corpusContentSha256": "sha256:9d7fc2d8f2006f766bdba748c59d150daa3890c089b4e8212d7ab09c15cefd67"
   },
   "workload": {
     "requests": 80,
@@ -28,24 +28,24 @@
     "requests": 80,
     "successes": 80,
     "errors": 0,
-    "contractFailures": 0,
-    "durationSeconds": 1.945,
-    "requestsPerSecond": 41.141,
-    "bytesTransferred": 430603,
+    "contractFailures": 80,
+    "durationSeconds": 1.932,
+    "requestsPerSecond": 41.403,
+    "bytesTransferred": 430595,
     "external": {
-      "p50Ms": 161.9,
-      "p95Ms": 313.461,
-      "p99Ms": 346.507,
-      "meanMs": 182.042
+      "p50Ms": 152.995,
+      "p95Ms": 370.733,
+      "p99Ms": 405.875,
+      "meanMs": 180.509
     },
     "application": {
       "p50Ms": 0,
-      "p95Ms": 21,
-      "p99Ms": 37,
-      "meanMs": 5.188
+      "p95Ms": 24,
+      "p99Ms": 29,
+      "meanMs": 5.825
     },
-    "indexCacheHitRate": 0.8125,
-    "resultCacheHitRate": 0.2
+    "indexCacheHitRate": 0.825,
+    "resultCacheHitRate": 0.2625
   },
   "costModel": {
     "architecture": "Cloudflare Pages Function with two static-asset reads per cold isolate and in-isolate index/result caches",
@@ -57,7 +57,7 @@
     "paidPlanAdditionalUSDPerMillionRequests": 0.3,
     "paidPlanIncludedCpuMillisecondsPerMonth": 30000000,
     "paidPlanAdditionalUSDPerMillionCpuMilliseconds": 0.02,
-    "measuredTotalMsAsConservativeCpuUpperBound": 5.188,
+    "measuredTotalMsAsConservativeCpuUpperBound": 5.825,
     "estimatedPaidCostUSDAtOneMillionMonthlyRequests": 5.0,
     "assumptions": [
       "The estimate assumes this service is the only account workload and uses measured application wall time as a conservative upper bound on billable CPU time.",
@@ -65,7 +65,7 @@
       "Cloudflare states there are no additional Workers Paid data-transfer charges; static assets remain free, while every Function request counts as a Workers request."
     ]
   },
-  "status": "pass",
+  "status": "fail",
   "limitations": [
     "This is a bounded single-client US East test, not a globally distributed capacity test.",
     "Cloudflare isolate placement and CDN state are uncontrolled; warmups do not guarantee every concurrent request reaches a warm isolate.",
