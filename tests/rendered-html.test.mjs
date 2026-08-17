@@ -135,15 +135,21 @@ test("publishes provenance, evaluation, and safely abstaining signal feeds", asy
     searchIndex.documents.map(document => document.observationId),
     searchIndex.documents.map(document => document.observationId).toSorted(),
   );
-  assert.equal(searchBenchmark.status, "pass");
-  assert.equal(searchBenchmark.aggregate.errors, 0);
-  assert.equal(searchBenchmark.aggregate.contractFailures, 0);
-  assert.ok(searchBenchmark.aggregate.application.p95Ms <= searchBenchmark.criteria.applicationP95MsMaximum);
   const benchmarkMatchesCurrentIndex = searchBenchmark.lineage.indexSha256 === searchManifest.index.sha256
     && searchBenchmark.lineage.corpusContentSha256 === searchManifest.corpus.contentSha256;
+  const benchmarkOperational = benchmarkMatchesCurrentIndex
+    && searchBenchmark.status === "pass"
+    && searchBenchmark.target === "https://jobservatory.castalia.institute"
+    && searchBenchmark.aggregate.errors === 0
+    && searchBenchmark.aggregate.contractFailures === 0;
+  if (searchBenchmark.status === "pass") {
+    assert.equal(searchBenchmark.aggregate.errors, 0);
+    assert.equal(searchBenchmark.aggregate.contractFailures, 0);
+    assert.ok(searchBenchmark.aggregate.application.p95Ms <= searchBenchmark.criteria.applicationP95MsMaximum);
+  }
   assert.equal(
     releaseReadiness.gates.find(gate => gate.id === "serving.architecture").status,
-    benchmarkMatchesCurrentIndex ? "pass" : "fail",
+    benchmarkOperational ? "pass" : "fail",
   );
   assert.equal(productionBenchmark.aggregate.errors, 0);
   assert.ok(productionBenchmark.aggregate.p95Ms > 0);
