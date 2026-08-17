@@ -1,13 +1,13 @@
 {
   "schemaVersion": "jobservatory.retrieval-service-benchmark.v1",
-  "generatedAt": "2026-08-17T12:00:56+00:00",
+  "generatedAt": "2026-08-17T12:04:50+00:00",
   "target": "https://jobservatory.castalia.institute",
   "lineage": {
     "serviceVersion": "jobservatory-search-api-v1",
     "modelId": "bm25-production-baseline-1.0.0",
-    "indexSha256": "sha256:fdc0a6d348b6eec54b4c916f025ec0838b5373d63ba50b5fbed75a224eb8ba69",
-    "corpusGeneratedAt": "2026-08-17T11:58:02+00:00",
-    "corpusContentSha256": "sha256:f765fbfa103ae55d900a4fa511b0ac12027c3a28d9f9e193787519e30358176a"
+    "indexSha256": "sha256:c9975d7bc85833b7126f39671ee17b142c77040c696471e902620f58c2013cc0",
+    "corpusGeneratedAt": "2026-08-17T12:02:01+00:00",
+    "corpusContentSha256": "sha256:ae2dc5c05ade6c094f2e26ce78fe31c77336644d469b4d4c11c20df6f0196249"
   },
   "workload": {
     "requests": 80,
@@ -29,23 +29,23 @@
     "successes": 80,
     "errors": 0,
     "contractFailures": 0,
-    "durationSeconds": 1.864,
-    "requestsPerSecond": 42.915,
-    "bytesTransferred": 421676,
+    "durationSeconds": 1.451,
+    "requestsPerSecond": 55.152,
+    "bytesTransferred": 421495,
     "external": {
-      "p50Ms": 148.291,
-      "p95Ms": 295.213,
-      "p99Ms": 321.553,
-      "meanMs": 167.552
+      "p50Ms": 133.276,
+      "p95Ms": 168.578,
+      "p99Ms": 198.739,
+      "meanMs": 137.976
     },
     "application": {
       "p50Ms": 0,
-      "p95Ms": 22,
-      "p99Ms": 26,
-      "meanMs": 4.412
+      "p95Ms": 0,
+      "p99Ms": 0,
+      "meanMs": 0.212
     },
-    "indexCacheHitRate": 0.7875,
-    "resultCacheHitRate": 0.3125
+    "indexCacheHitRate": 0.9875,
+    "resultCacheHitRate": 0.725
   },
   "costModel": {
     "architecture": "Cloudflare Pages Function with two static-asset reads per cold isolate and in-isolate index/result caches",
@@ -57,7 +57,7 @@
     "paidPlanAdditionalUSDPerMillionRequests": 0.3,
     "paidPlanIncludedCpuMillisecondsPerMonth": 30000000,
     "paidPlanAdditionalUSDPerMillionCpuMilliseconds": 0.02,
-    "measuredTotalMsAsConservativeCpuUpperBound": 4.412,
+    "measuredTotalMsAsConservativeCpuUpperBound": 0.212,
     "estimatedPaidCostUSDAtOneMillionMonthlyRequests": 5.0,
     "assumptions": [
       "The estimate assumes this service is the only account workload and uses measured application wall time as a conservative upper bound on billable CPU time.",

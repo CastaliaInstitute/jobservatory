@@ -10,7 +10,7 @@ Rule-derived labels are explicitly marked as unreviewed inferences. Unsupported 
 
 ## Current prototype
 
-- 2,296 published observations from 34 public feeds across Greenhouse, Lever, and Ashby, spanning 24 declared sectors
+- 2,200+ published observations from 34 public feeds across Greenhouse, Lever, and Ashby, spanning 24 declared sectors
 - machine-readable coverage targets and gaps; the cohort remains explicitly `expanding`, not labor-market representative
 - ML engineering, scientific AI, robotics, product leadership, education, safety, governance, and evaluation
 - append-only source/analysis versions, full eligible-set daily presence snapshots, and summary frames retained for up to two years

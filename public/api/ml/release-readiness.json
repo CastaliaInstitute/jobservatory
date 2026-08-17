@@ -2,7 +2,7 @@
   "schemaVersion": "jobservatory.release-readiness.v1",
   "generatedAt": "2026-08-17T12:02:01+00:00",
   "status": "blocked",
-  "passed": 4,
+  "passed": 5,
   "total": 13,
   "gates": [
     {
@@ -56,7 +56,7 @@
     {
       "id": "serving.architecture",
       "name": "Versioned production baseline retrieval service is deployed and benchmarked",
-      "status": "fail",
+      "status": "pass",
       "evidence": "public/api/search/manifest-v1.json plus public/api/ops/retrieval-service-benchmark.json plus config/assurance.json"
     },
     {
