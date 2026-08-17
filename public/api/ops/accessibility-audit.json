@@ -1,6 +1,6 @@
 {
   "schemaVersion": "jobservatory.accessibility-audit.v1",
-  "generatedAt": "2026-08-17T11:25:34+00:00",
+  "generatedAt": "2026-08-17T11:42:52+00:00",
   "target": {
     "artifact": "built Cloudflare Pages static bundle served by Vite preview",
     "route": "/",
