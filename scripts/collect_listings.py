@@ -196,6 +196,17 @@ def main() -> int:
     conn.commit()
 
     skill_counts = Counter(hit["label"] for r in records for hit in r["classifications"]["skills"])
+    term_counts = Counter()
+    term_categories = {}
+    for record in records:
+        for key, category in (("skills", "Skill"), ("systemLayer", "System layer")):
+            for hit in record["classifications"][key]:
+                term_counts[hit["label"]] += 1
+                term_categories[hit["label"]] = category
+        term_counts[record["seniority"]] += 1
+        term_categories[record["seniority"]] = "Seniority"
+        term_counts[record["domain"]] += 1
+        term_categories[record["domain"]] = "Job domain"
     domains = Counter(r["domain"] for r in records)
     employers = Counter(r["employer"] for r in records)
     changes = Counter(r["changeType"] for r in records)
@@ -203,6 +214,14 @@ def main() -> int:
     compensated = [r for r in records if r["compensation"]]
     midpoint = sorted((r["compensation"]["minimum"] + r["compensation"]["maximum"]) / 2 for r in compensated)
     median_pay = int(midpoint[len(midpoint)//2]) if midpoint else None
+    previous_terms = {item["term"]: item.get("count", 0) for item in previous_export.get("termIndex", [])}
+    term_index = [{
+        "term": term, "category": term_categories[term], "count": count,
+        "share": round(count / len(records), 4) if records else 0,
+        "change": count - previous_terms[term] if term in previous_terms else None,
+        "firstSeen": previous_export.get("generatedAt", now) if term in previous_terms else now,
+        "lastSeen": now
+    } for term, count in term_counts.most_common()]
     export = {
         "schemaVersion": "0.1.0", "generatedAt": now, "scope": "Curated public US-focused AI job listings",
         "methodNote": "Listings are observations, not unique jobs. Inferences are labeled and retain evidence where available.",
@@ -212,6 +231,8 @@ def main() -> int:
           {"occupation":"Software developers","medianAnnualPay":133080,"year":2024,"source":"BLS OOH","sourceUrl":"https://www.bls.gov/ooh/computer-and-information-technology/software-developers.htm"},
           {"occupation":"Computer and information research scientists","medianAnnualPay":140910,"year":2024,"source":"BLS OOH","sourceUrl":"https://www.bls.gov/ooh/computer-and-information-technology/computer-and-information-research-scientists.htm"}
         ],
+        "termIndex": term_index,
+        "termTimeline": [],
         "observations": records
     }
     PUBLIC_PATH.parent.mkdir(parents=True, exist_ok=True)
@@ -227,9 +248,11 @@ def main() -> int:
     history = []
     if HISTORY_PATH.exists():
         history = [json.loads(line) for line in HISTORY_PATH.read_text().splitlines() if line.strip()]
-    daily = {"date": now[:10], "generatedAt": now, **export["summary"]}
+    daily = {"date": now[:10], "generatedAt": now, **export["summary"], "termCounts": dict(term_counts)}
     history = [item for item in history if item.get("date") != daily["date"]] + [daily]
     HISTORY_PATH.write_text("".join(json.dumps(item, separators=(",", ":")) + "\n" for item in history[-730:]))
+    export["termTimeline"] = [{"date": item["date"], "terms": item.get("termCounts", {})} for item in history[-365:]]
+    PUBLIC_PATH.write_text(json.dumps(export, indent=2) + "\n")
     print(f"exported {len(records)} observations from {len(employers)} employers")
     return 0
 

@@ -17,6 +17,9 @@ test("publishes the evidence and Apocalypso feeds", async () => {
   const corpus = JSON.parse(observatory);
   const signal = JSON.parse(apocalypso);
   assert.ok(corpus.observations.length >= 100);
+  assert.ok(corpus.termIndex.length >= 20);
+  assert.ok(corpus.termTimeline.length >= 1);
+  assert.equal(corpus.termTimeline.at(-1).date, corpus.generatedAt.slice(0, 10));
   assert.equal(corpus.observations[0].descriptionPolicy, "metadata-and-evidence-only");
   assert.ok(corpus.observations[0].firstSeen);
   assert.equal(signal.module, "AI");

@@ -4,7 +4,7 @@ export default function Home() {
   return <main>
     <header className="masthead">
       <a className="wordmark" href="#top">JOBS<span>/CASTALIA</span></a>
-      <nav aria-label="Primary navigation"><a href="#signals">Signals</a><a href="#ledger">Ledger</a><a href="#forecast">Forecast</a><a href="#method">Method</a></nav>
+      <nav aria-label="Primary navigation"><a href="#signals">Signals</a><a href="#terms">Term map</a><a href="#ledger">Ledger</a><a href="#forecast">Forecast</a><a href="#method">Method</a></nav>
       <div className="live"><i /> OBSERVATORY ACTIVE</div>
     </header>
     <section className="hero" id="top">

@@ -1,12 +1,12 @@
 {
   "schemaVersion": "apocalypso.signal.v1",
-  "generatedAt": "2026-08-17T09:13:17+00:00",
+  "generatedAt": "2026-08-17T09:20:45+00:00",
   "module": "AI",
   "source": "jobs.castalia.institute",
   "signal": {
     "id": "labor.ai_job_design",
     "name": "AI job-design pressure",
-    "value": 0.864,
+    "value": 0.892,
     "unit": "index_0_1",
     "direction": "higher_means_more_operationalization"
   },
@@ -20,32 +20,32 @@
       "Scale AI": 62
     },
     "changes": {
-      "unchanged": 249,
-      "revised": 1,
-      "disappeared": 0
+      "new": 18,
+      "unchanged": 232,
+      "disappeared": 18
     },
     "compensationCoverage": 0.176,
     "medianAdvertisedPayMidpoint": 230000,
     "topSkills": [
       [
         "Governance",
-        104
+        106
       ],
       [
         "Agents",
-        100
-      ],
-      [
-        "LLMs",
-        97
+        99
       ],
       [
         "Evaluation",
-        96
+        95
+      ],
+      [
+        "LLMs",
+        94
       ],
       [
         "Python",
-        86
+        81
       ],
       [
         "Robotics",
@@ -57,14 +57,14 @@
       ],
       [
         "Go",
-        60
+        59
       ]
     ],
     "domains": {
-      "Product & leadership": 93,
-      "ML engineering": 123,
+      "ML engineering": 133,
+      "Product & leadership": 90,
       "Scientific AI": 8,
-      "Robotics & embedded": 16,
+      "Robotics & embedded": 9,
       "Safety & governance": 6,
       "Education & training": 4
     }
