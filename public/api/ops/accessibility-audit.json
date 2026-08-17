@@ -1,6 +1,6 @@
 {
   "schemaVersion": "jobservatory.accessibility-audit.v1",
-  "generatedAt": "2026-08-17T11:58:02+00:00",
+  "generatedAt": "2026-08-17T12:02:01+00:00",
   "target": {
     "artifact": "built Cloudflare Pages static bundle served by Vite preview",
     "route": "/",
@@ -43,7 +43,7 @@
   "aggregate": {
     "auditedStates": 4,
     "rulesEvaluated": 248,
-    "passedRuleResults": 111,
+    "passedRuleResults": 112,
     "violationNodes": 0,
     "seriousOrCriticalNodes": 0,
     "incompleteRuleResults": 0,
@@ -80,7 +80,7 @@
       "viewport": "desktop",
       "state": "evidence-dialog-open",
       "rulesEvaluated": 62,
-      "passes": 28,
+      "passes": 29,
       "incomplete": [],
       "violations": []
     },

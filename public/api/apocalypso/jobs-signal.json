@@ -1,6 +1,6 @@
 {
   "schemaVersion": "apocalypso.signal.v2",
-  "generatedAt": "2026-08-17T11:58:02+00:00",
+  "generatedAt": "2026-08-17T12:02:01+00:00",
   "module": "AI",
   "source": "jobservatory.castalia.institute",
   "signal": {
@@ -15,10 +15,10 @@
     "direction": "higher_means_a_larger_share_of_source_listings_meet_the_versioned_ai_relevance_rules"
   },
   "context": {
-    "observations": 2296,
+    "observations": 2297,
     "employers": 34,
     "employerMix": {
-      "Anthropic": 150,
+      "Anthropic": 151,
       "Anduril": 501,
       "Databricks": 134,
       "Cloudflare": 65,
@@ -54,23 +54,24 @@
       "Physical Intelligence": 18
     },
     "sourceConcentration": {
-      "largestEmployerShare": 0.2182,
+      "largestEmployerShare": 0.2181,
       "herfindahlHirschmanIndex": 0.0898,
       "interpretation": "Published-record concentration diagnostic; not a labor-market estimate."
     },
     "entityResolution": {
       "methodVersion": "jobservatory-entity-resolution-0.1.0",
       "postingFamilies": 1991,
-      "multiObservationFamilies": 192,
-      "exactVariantGroups": 2248,
+      "multiObservationFamilies": 193,
+      "exactVariantGroups": 2249,
       "repostCandidateGroups": 40,
       "observationsInRepostCandidateGroups": 88,
       "reviewStatus": "unreviewed",
       "interpretation": "Candidate metadata clusters for leakage control and review; not verified requisitions or reposts."
     },
     "changes": {
-      "unchanged": 2174,
-      "new": 122,
+      "new": 1,
+      "unchanged": 2295,
+      "revised": 1,
       "disappeared": 0
     },
     "compensationCoverage": 0.614,
@@ -85,11 +86,11 @@
       ],
       [
         "Python",
-        1006
+        1007
       ],
       [
         "LLMs",
-        660
+        661
       ],
       [
         "C++",
@@ -116,7 +117,7 @@
       "AI-adjacent operations": 492,
       "Scientific AI": 310,
       "Robotics & embedded": 402,
-      "ML engineering": 464,
+      "ML engineering": 465,
       "Product & leadership": 434,
       "Safety & governance": 79,
       "Education & training": 115
@@ -187,7 +188,7 @@
         "actual": {
           "employers": 34,
           "sectors": 24,
-          "largestEmployerShare": 0.2182,
+          "largestEmployerShare": 0.2181,
           "compensationCoverage": 0.614
         },
         "checks": {
@@ -211,8 +212,8 @@
           "ats": "greenhouse",
           "sourceKey": "anthropic",
           "sector": "frontier-model-lab",
-          "retrieved": 445,
-          "eligible": 150,
+          "retrieved": 446,
+          "eligible": 151,
           "status": "ok",
           "rightsReviewStatus": "pending",
           "retentionPolicy": "metadata-hash-short-evidence",
@@ -223,11 +224,11 @@
           "modelTrainingReviewStatus": "pending",
           "url": "https://boards-api.greenhouse.io/v1/boards/anthropic/jobs?content=true",
           "httpStatus": 200,
-          "etag": "W/\"085022f25184e9b8d36b1e8d5be265a1\"",
+          "etag": "W/\"d4a5d8d6521a92e6d69758a32f0ce633\"",
           "lastModified": null,
-          "responseHash": "sha256:085022f25184e9b8d36b1e8d5be265a170d52f8f15d276a5dbf465b0a9fed5a2",
-          "responseBytes": 6461606,
-          "latencyMs": 555,
+          "responseHash": "sha256:d4a5d8d6521a92e6d69758a32f0ce63362e552e81927f5d47ae564370f4b13f0",
+          "responseBytes": 6479303,
+          "latencyMs": 441,
           "feedSchemaVersion": "greenhouse-job-board-v1"
         },
         {
@@ -251,7 +252,7 @@
           "lastModified": null,
           "responseHash": "sha256:6a5aac9c15d2d8762086f70fd6a7ffbe0dc6c6ff13156c36b749a88cfc721d77",
           "responseBytes": 2412945,
-          "latencyMs": 480,
+          "latencyMs": 245,
           "feedSchemaVersion": "greenhouse-job-board-v1"
         },
         {
@@ -275,7 +276,7 @@
           "lastModified": null,
           "responseHash": "sha256:5da7fe131bdc3f66d6eee83ce74caa488ac1385e2fdaea1b728f92e3b637b66c",
           "responseBytes": 38045724,
-          "latencyMs": 18242,
+          "latencyMs": 841,
           "feedSchemaVersion": "greenhouse-job-board-v1"
         },
         {
@@ -299,7 +300,7 @@
           "lastModified": null,
           "responseHash": "sha256:27b3df81bd4620e5dd880aa6d204718dce3037c0ac808f7bb18b2f2251c9e435",
           "responseBytes": 2145107,
-          "latencyMs": 474,
+          "latencyMs": 238,
           "feedSchemaVersion": "greenhouse-job-board-v1"
         },
         {
@@ -323,7 +324,7 @@
           "lastModified": null,
           "responseHash": "sha256:a8d0147c8c35323666db132b23dd92870f96ccdac43d581841aa6be1edbad02e",
           "responseBytes": 514775,
-          "latencyMs": 357,
+          "latencyMs": 200,
           "feedSchemaVersion": "greenhouse-job-board-v1"
         },
         {
@@ -347,7 +348,7 @@
           "lastModified": null,
           "responseHash": "sha256:63617799f4dbb4bbc6ce580ba77676e317e476ee8214b0088153d17d0191585b",
           "responseBytes": 2065614,
-          "latencyMs": 453,
+          "latencyMs": 251,
           "feedSchemaVersion": "greenhouse-job-board-v1"
         },
         {
@@ -371,7 +372,7 @@
           "lastModified": null,
           "responseHash": "sha256:e0e9d72045dc940653605841119b8540a88ae3a1e59a0b25ca53b0b9ba83e994",
           "responseBytes": 4570654,
-          "latencyMs": 409,
+          "latencyMs": 271,
           "feedSchemaVersion": "greenhouse-job-board-v1"
         },
         {
@@ -395,7 +396,7 @@
           "lastModified": null,
           "responseHash": "sha256:56efca9612e242ccaed5a54152e03aab6426640c6d66baa8bb87425151a1063b",
           "responseBytes": 9091456,
-          "latencyMs": 590,
+          "latencyMs": 348,
           "feedSchemaVersion": "greenhouse-job-board-v1"
         },
         {
@@ -419,7 +420,7 @@
           "lastModified": null,
           "responseHash": "sha256:2c42e328802836872e90efe6fb01df48342f5fb2ce266c5fc98f24c9126c3ec3",
           "responseBytes": 97064,
-          "latencyMs": 763,
+          "latencyMs": 115,
           "feedSchemaVersion": "greenhouse-job-board-v1"
         },
         {
@@ -443,7 +444,7 @@
           "lastModified": null,
           "responseHash": "sha256:33d8c7e091ebd6f3e8beedf34a23ba23ecc56960d01d894bce5827032a9f0113",
           "responseBytes": 4365181,
-          "latencyMs": 2431,
+          "latencyMs": 256,
           "feedSchemaVersion": "greenhouse-job-board-v1"
         },
         {
@@ -467,7 +468,7 @@
           "lastModified": null,
           "responseHash": "sha256:7b5d4d017aef0267ffa0139f48639b471b57d181861e05d251e0a2986fa6e551",
           "responseBytes": 5046111,
-          "latencyMs": 848,
+          "latencyMs": 324,
           "feedSchemaVersion": "greenhouse-job-board-v1"
         },
         {
@@ -491,7 +492,7 @@
           "lastModified": null,
           "responseHash": "sha256:ebd01af94b5065605aa00b55683d2686fbfd4c05d546168637031dce8d93e938",
           "responseBytes": 862244,
-          "latencyMs": 325,
+          "latencyMs": 190,
           "feedSchemaVersion": "greenhouse-job-board-v1"
         },
         {
@@ -515,7 +516,7 @@
           "lastModified": null,
           "responseHash": "sha256:f658bdc48c54aca34c908156ea4275be738963674d316026594b02c1975439ce",
           "responseBytes": 2063800,
-          "latencyMs": 391,
+          "latencyMs": 225,
           "feedSchemaVersion": "greenhouse-job-board-v1"
         },
         {
@@ -539,7 +540,7 @@
           "lastModified": null,
           "responseHash": "sha256:b15efc3d27d91c0a8e84d20e6ecbc73b1ca1a4328ce08e208875d28dd54b9d0b",
           "responseBytes": 2218700,
-          "latencyMs": 514,
+          "latencyMs": 241,
           "feedSchemaVersion": "greenhouse-job-board-v1"
         },
         {
@@ -563,7 +564,7 @@
           "lastModified": null,
           "responseHash": "sha256:5d74910fdb992b94684e2a5449b9c84e4317daa88e39642152c54e59be22536f",
           "responseBytes": 113775,
-          "latencyMs": 222,
+          "latencyMs": 114,
           "feedSchemaVersion": "greenhouse-job-board-v1"
         },
         {
@@ -587,7 +588,7 @@
           "lastModified": null,
           "responseHash": "sha256:30a16b569327acb3e62b590f6fdbdbb56852d6fcff41d0e065812e2f412cee7b",
           "responseBytes": 433374,
-          "latencyMs": 269,
+          "latencyMs": 142,
           "feedSchemaVersion": "greenhouse-job-board-v1"
         },
         {
@@ -611,7 +612,7 @@
           "lastModified": null,
           "responseHash": "sha256:5a93c602df62a3505e04cabab074b683125b342a7b604215d662df336b4893ec",
           "responseBytes": 735722,
-          "latencyMs": 296,
+          "latencyMs": 157,
           "feedSchemaVersion": "greenhouse-job-board-v1"
         },
         {
@@ -635,7 +636,7 @@
           "lastModified": null,
           "responseHash": "sha256:2b10a0121c35a8373baa4f046a5b0b9d904e9098ca9aed3fd261d58c9923dff3",
           "responseBytes": 4415224,
-          "latencyMs": 461,
+          "latencyMs": 249,
           "feedSchemaVersion": "greenhouse-job-board-v1"
         },
         {
@@ -659,7 +660,7 @@
           "lastModified": null,
           "responseHash": "sha256:738c70b4cfe6b712295238614efd48687bd150eea0f1e01fa294a181d5462533",
           "responseBytes": 1817278,
-          "latencyMs": 430,
+          "latencyMs": 191,
           "feedSchemaVersion": "greenhouse-job-board-v1"
         },
         {
@@ -683,7 +684,7 @@
           "lastModified": null,
           "responseHash": "sha256:c000eb99d51b244b69bc1f2003f1656c5773f1ea17185cda4612e3d2a7b21203",
           "responseBytes": 2812228,
-          "latencyMs": 360,
+          "latencyMs": 183,
           "feedSchemaVersion": "greenhouse-job-board-v1"
         },
         {
@@ -707,7 +708,7 @@
           "lastModified": null,
           "responseHash": "sha256:db55f478db4df78ff9581c1d7d468909abe130700c42a924aaef2bd57180c918",
           "responseBytes": 889537,
-          "latencyMs": 283,
+          "latencyMs": 191,
           "feedSchemaVersion": "greenhouse-job-board-v1"
         },
         {
@@ -731,7 +732,7 @@
           "lastModified": null,
           "responseHash": "sha256:90d85f5e3365d0d4e3238bcef7407963850a1df5f9b7bc275994985464f1a9d4",
           "responseBytes": 217999,
-          "latencyMs": 234,
+          "latencyMs": 193,
           "feedSchemaVersion": "greenhouse-job-board-v1"
         },
         {
@@ -755,7 +756,7 @@
           "lastModified": null,
           "responseHash": "sha256:aab661f8eaf867930511b771701d245ef1337268e99f14d3d0bf374d3b29e49b",
           "responseBytes": 6731078,
-          "latencyMs": 1447,
+          "latencyMs": 1051,
           "feedSchemaVersion": "lever-postings-v0"
         },
         {
@@ -779,7 +780,7 @@
           "lastModified": null,
           "responseHash": "sha256:61345434cc88647388887f67147a30a7270d3040c4a9387f4d6c90fcd4a0d64c",
           "responseBytes": 2438867,
-          "latencyMs": 1263,
+          "latencyMs": 944,
           "feedSchemaVersion": "lever-postings-v0"
         },
         {
@@ -803,7 +804,7 @@
           "lastModified": null,
           "responseHash": "sha256:2abe0e9b4ca91e6cba342a568739a45084951765221b221c76222c40ac7af28e",
           "responseBytes": 1230608,
-          "latencyMs": 2986,
+          "latencyMs": 1297,
           "feedSchemaVersion": "lever-postings-v0"
         },
         {
@@ -827,7 +828,7 @@
           "lastModified": null,
           "responseHash": "sha256:c4f71a9e5a2a288929347ced42149332198b9d156f05bead8e193d05973d2f8f",
           "responseBytes": 5956013,
-          "latencyMs": 1448,
+          "latencyMs": 957,
           "feedSchemaVersion": "lever-postings-v0"
         },
         {
@@ -851,7 +852,7 @@
           "lastModified": null,
           "responseHash": "sha256:4597e2d72fdadb16cd311242da16d7c8e0af86177c148e185f1e11d8fd534501",
           "responseBytes": 960634,
-          "latencyMs": 1079,
+          "latencyMs": 5489,
           "feedSchemaVersion": "lever-postings-v0"
         },
         {
@@ -871,11 +872,11 @@
           "modelTrainingReviewStatus": "pending",
           "url": "https://api.ashbyhq.com/posting-api/job-board/openai?includeCompensation=true",
           "httpStatus": 200,
-          "etag": "W/\"job-board:fad742400a223d0c7f3ec449fdc4c5eb7f0cc6df7bab255b1513d2e7b78c02be\"",
+          "etag": "W/\"job-board:9b7cc2e0176c7895d289800e417602d440d0d17693312a33bc8291b5dc08d321\"",
           "lastModified": null,
-          "responseHash": "sha256:1d02d5da7e2b9e05365ab3dc6e17883be5a4b8a2ffe0baae68d95474e55f3061",
-          "responseBytes": 12792685,
-          "latencyMs": 571,
+          "responseHash": "sha256:c3142c33af4770f11ffb4b2a79b2dca4b64350d4a013fcdc574a48160bde992b",
+          "responseBytes": 12795184,
+          "latencyMs": 332,
           "feedSchemaVersion": "ashby-posting-api-1"
         },
         {
@@ -899,7 +900,7 @@
           "lastModified": null,
           "responseHash": "sha256:0804ad8391e67c20ab9dbdcbaf3579262341d6105bedaedb31b84aae226b0c55",
           "responseBytes": 2377456,
-          "latencyMs": 293,
+          "latencyMs": 170,
           "feedSchemaVersion": "ashby-posting-api-1"
         },
         {
@@ -923,7 +924,7 @@
           "lastModified": null,
           "responseHash": "sha256:495adaeb96d82d8777b2af376e605aeb2d5063d562bf62aff9210ef049f80c56",
           "responseBytes": 910916,
-          "latencyMs": 243,
+          "latencyMs": 77,
           "feedSchemaVersion": "ashby-posting-api-1"
         },
         {
@@ -947,7 +948,7 @@
           "lastModified": null,
           "responseHash": "sha256:f291c841bef003217a3bfe4564075e4917cf81e37af8a2a61a6ab7d718bf2e56",
           "responseBytes": 252770,
-          "latencyMs": 256,
+          "latencyMs": 101,
           "feedSchemaVersion": "ashby-posting-api-1"
         },
         {
@@ -971,7 +972,7 @@
           "lastModified": null,
           "responseHash": "sha256:8e54e7f48965e1360f1595409d3a482a5a15773cdbf54f64a81bb4261a4fb029",
           "responseBytes": 3536022,
-          "latencyMs": 323,
+          "latencyMs": 154,
           "feedSchemaVersion": "ashby-posting-api-1"
         },
         {
@@ -995,7 +996,7 @@
           "lastModified": null,
           "responseHash": "sha256:a66ed839768e573c1ea49fd489a50b78451af243ff68e106eea5d782a8c20e0f",
           "responseBytes": 1799645,
-          "latencyMs": 284,
+          "latencyMs": 88,
           "feedSchemaVersion": "ashby-posting-api-1"
         },
         {
@@ -1019,12 +1020,12 @@
           "lastModified": null,
           "responseHash": "sha256:3a68f2bf280b4d408139d696143db3101940378023e26c1821259567f21a44b1",
           "responseBytes": 992019,
-          "latencyMs": 308,
+          "latencyMs": 93,
           "feedSchemaVersion": "ashby-posting-api-1"
         }
       ],
-      "eligibleObservations": 2296,
-      "publishedObservations": 2296,
+      "eligibleObservations": 2297,
+      "publishedObservations": 2297,
       "publicationCap": 5000
     },
     "warning": "Selected employer feeds are not representative of the labor market."
