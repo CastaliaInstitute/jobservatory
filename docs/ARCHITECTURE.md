@@ -41,7 +41,7 @@ The production Cloudflare Pages deployment exposes `/api/v1/search` and `/api/v1
 
 The production service uses the BM25 baseline because it is the only candidate currently justified by the evaluation evidence. Its compact inverted index is generated deterministically from the public metadata-and-evidence corpus. The earlier browser baseline combines BM25, a 512-dimensional fixed feature-hashed representation, reciprocal-rank fusion, and a transparent title/metadata interaction reranker; it remains a network-failure fallback rather than the authoritative production ranker. The fixed representation is not called a semantic embedding, and the interaction model is not called a cross-encoder.
 
-The first offline learned candidate uses pinned MiniLM sentence embeddings and an MS MARCO cross-encoder. It improves development MRR and nDCG but regresses recall, so the promotion gate rejects it. The target production stack remains:
+The first unrestricted offline candidate uses pinned MiniLM sentence embeddings and an MS MARCO cross-encoder. It improves development MRR and nDCG but regresses recall. The frozen recall-guarded candidate instead reranks BM25 only within ranks 1–5, 6–10, and 11–50; it preserves the three declared recall cutoffs while improving development MRR and nDCG. Promotion still rejects it because independent temporal evidence is absent. The target production stack remains:
 
 1. PostgreSQL for normalized metadata and observation lineage.
 2. OpenSearch or Tantivy for BM25 and faceting.

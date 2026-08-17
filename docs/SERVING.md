@@ -26,7 +26,7 @@ The build consumes only Jobservatory's already-public metadata and short evidenc
 
 ## Model boundary
 
-The service deliberately deploys `bm25-production-baseline-1.0.0`. The learned MiniLM/cross-encoder candidate remains rejected because it regresses development recall and lacks independent temporal adjudication. The API's `promotionStatus: baseline_only` prevents service architecture from being confused with learned-model promotion.
+The service deliberately deploys `bm25-production-baseline-1.0.0`. The unrestricted MiniLM/cross-encoder experiment regresses development recall. A newer recall-guarded cross-encoder clears the development quality gate but remains ineligible because it lacks independent temporal adjudication. The API's `promotionStatus: baseline_only` prevents service architecture from being confused with learned-model promotion.
 
 The browser queries the service after a 200 ms debounce and falls back to its prior in-memory hybrid baseline only on network or service failure. This preserves access while keeping the authoritative server lineage measurable.
 

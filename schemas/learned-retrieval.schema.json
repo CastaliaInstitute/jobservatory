@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://jobservatory.castalia.institute/schemas/learned-retrieval.schema.json",
   "type": "object",
-  "required": ["schemaVersion", "corpus", "evaluation", "models", "aggregate", "perQuery", "promotion", "latency", "limitations"],
+  "required": ["schemaVersion", "corpus", "evaluation", "models", "aggregate", "developmentDeltaRecallGuardedVsBm25", "perQuery", "promotion", "latency", "limitations"],
   "properties": {
     "schemaVersion": {"const": "jobservatory.learned-retrieval-eval.v1"},
     "corpus": {"type": "object"}, "models": {"type": "object"}, "latency": {"type": "object"},
@@ -10,10 +10,18 @@
       "split": {"type": "string"}, "queries": {"type": "integer", "minimum": 1}, "annotationStatus": {"type": "string"},
       "adjudicationStatus": {"type": "string"}, "eligibleForPromotionDecision": {"type": "boolean"}
     }},
-    "aggregate": {"type": "object", "required": ["bm25", "learned_dense", "bm25_dense_rrf", "cross_encoder"], "properties": {
-      "bm25": {"type": "object"}, "learned_dense": {"type": "object"}, "bm25_dense_rrf": {"type": "object"}, "cross_encoder": {"type": "object"}
+    "aggregate": {"type": "object", "required": ["bm25", "learned_dense", "bm25_dense_rrf", "cross_encoder_unrestricted", "recall_guarded_cross_encoder"], "properties": {
+      "bm25": {"type": "object"}, "learned_dense": {"type": "object"}, "bm25_dense_rrf": {"type": "object"}, "cross_encoder_unrestricted": {"type": "object"}, "recall_guarded_cross_encoder": {"type": "object"}
     }},
     "perQuery": {"type": "array", "minItems": 1},
+    "developmentDeltaRecallGuardedVsBm25": {
+      "type": "object",
+      "required": ["recall@5", "recall@10", "recall@50", "mrr", "ndcg@10"],
+      "properties": {
+        "recall@5": {"type": "number"}, "recall@10": {"type": "number"}, "recall@50": {"type": "number"},
+        "mrr": {"type": "number"}, "ndcg@10": {"type": "number"}
+      }
+    },
     "promotion": {"type": "object", "required": ["status", "qualityGatePass", "qualityCriteria", "evidenceGatePass", "reasons"], "properties": {
       "status": {"enum": ["eligible", "not_eligible"]}, "qualityGatePass": {"type": "boolean"}, "qualityCriteria": {"type": "object"},
       "evidenceGatePass": {"type": "boolean"}, "reasons": {"type": "array"}

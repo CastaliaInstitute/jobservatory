@@ -31,6 +31,7 @@ EMBEDDING_REVISION = "b8903db39f65d93ae28d49a37c4f3fa90c5f94e0"
 RERANKER_ID = "cross-encoder/ms-marco-MiniLM-L6-v2"
 RERANKER_REVISION = "c5ee24cb16019beea0893ab7796b1df96625c6b8"
 RERANK_DEPTH = 50
+RECALL_GUARD_BANDS = ((0, 5), (5, 10), (10, 50))
 
 
 def sha256(path: Path) -> str:
@@ -101,8 +102,8 @@ def main() -> int:
     document_embeddings = embedding.encode(index.texts, normalize_embeddings=True, batch_size=64, show_progress_bar=False)
     corpus_encode_ms = (time.perf_counter() - started) * 1000
 
-    aggregates = {name: Counter() for name in ("bm25", "learned_dense", "bm25_dense_rrf", "cross_encoder")}
-    latencies = {name: [] for name in ("bm25", "learnedDense", "fusion", "crossEncoder", "endToEnd")}
+    aggregates = {name: Counter() for name in ("bm25", "learned_dense", "bm25_dense_rrf", "cross_encoder_unrestricted", "recall_guarded_cross_encoder")}
+    latencies = {name: [] for name in ("bm25", "learnedDense", "fusion", "crossEncoderUnrestricted", "recallGuardedCrossEncoder", "candidateEndToEnd")}
     per_query = []
     by_id = {doc_id: position for position, doc_id in enumerate(index.ids)}
 
@@ -127,11 +128,26 @@ def main() -> int:
         pairs = [[query["query"], index.texts[by_id[doc_id]]] for doc_id, _ in candidates]
         cross_scores = reranker.predict(pairs, batch_size=32, show_progress_bar=False).tolist()
         reranked_head = sorted(zip((doc_id for doc_id, _ in candidates), cross_scores), key=lambda item: (-item[1], item[0]))
-        reranked = reranked_head + fused[RERANK_DEPTH:]
-        latencies["crossEncoder"].append((time.perf_counter() - started) * 1000)
-        latencies["endToEnd"].append((time.perf_counter() - query_started) * 1000)
+        unrestricted = reranked_head + fused[RERANK_DEPTH:]
+        latencies["crossEncoderUnrestricted"].append((time.perf_counter() - started) * 1000)
 
-        runs = {"bm25": bm25, "learned_dense": learned_dense, "bm25_dense_rrf": fused, "cross_encoder": reranked}
+        candidate_started = time.perf_counter()
+        bm25_candidates = bm25[:RERANK_DEPTH]
+        bm25_pairs = [[query["query"], index.texts[by_id[doc_id]]] for doc_id, _ in bm25_candidates]
+        guarded_scores = reranker.predict(bm25_pairs, batch_size=32, show_progress_bar=False).tolist()
+        guarded_head = []
+        for lower, upper in RECALL_GUARD_BANDS:
+            band_ids = [doc_id for doc_id, _ in bm25_candidates[lower:upper]]
+            band_scores = guarded_scores[lower:upper]
+            guarded_head.extend(sorted(zip(band_ids, band_scores), key=lambda item: (-item[1], item[0])))
+        guarded = guarded_head + bm25[RERANK_DEPTH:]
+        for cutoff in (5, 10, 50):
+            if {doc_id for doc_id, _ in guarded[:cutoff]} != {doc_id for doc_id, _ in bm25[:cutoff]}:
+                raise RuntimeError(f"recall guard violated at cutoff {cutoff}")
+        latencies["recallGuardedCrossEncoder"].append((time.perf_counter() - candidate_started) * 1000)
+        latencies["candidateEndToEnd"].append((time.perf_counter() - candidate_started + latencies["bm25"][-1] / 1000) * 1000)
+
+        runs = {"bm25": bm25, "learned_dense": learned_dense, "bm25_dense_rrf": fused, "cross_encoder_unrestricted": unrestricted, "recall_guarded_cross_encoder": guarded}
         row = {"id": query["id"], "query": query["query"], "metrics": {}}
         for name, scored in runs.items():
             values = metrics_for([doc_id for doc_id, _ in scored], query["judgments"])
@@ -141,7 +157,7 @@ def main() -> int:
 
     count = len(qrels["queries"])
     aggregate = {name: round_metrics({key: value / count for key, value in totals.items()}) for name, totals in aggregates.items()}
-    candidate = aggregate["cross_encoder"]
+    candidate = aggregate["recall_guarded_cross_encoder"]
     baseline = aggregate["bm25"]
     development_improvement = {
         key: round(candidate[key] - baseline[key], 4) for key in ("recall@5", "recall@10", "recall@50", "mrr", "ndcg@10")
@@ -181,10 +197,15 @@ def main() -> int:
             "bm25": {"implementation": "jobservatory RetrievalIndex", "parameters": {"k1": 1.2, "b": 0.75}},
             "embedding": {"id": EMBEDDING_ID, "revision": EMBEDDING_REVISION, "license": "Apache-2.0", "normalized": True},
             "fusion": {"method": "reciprocal-rank fusion", "k": 60},
-            "reranker": {"id": RERANKER_ID, "revision": RERANKER_REVISION, "license": "Apache-2.0", "depth": RERANK_DEPTH},
+            "reranker": {
+                "id": RERANKER_ID, "revision": RERANKER_REVISION, "license": "Apache-2.0", "depth": RERANK_DEPTH,
+                "unrestrictedExperiment": "cross-encoder reranks top 50 BM25+dense RRF candidates",
+                "promotionCandidate": "cross-encoder reranks only within immutable BM25 rank bands",
+                "recallGuardBands": [[lower + 1, upper] for lower, upper in RECALL_GUARD_BANDS],
+            },
         },
         "aggregate": aggregate,
-        "developmentDeltaCrossEncoderVsBm25": development_improvement,
+        "developmentDeltaRecallGuardedVsBm25": development_improvement,
         "perQuery": per_query,
         "promotion": promotion,
         "latency": {
@@ -197,6 +218,8 @@ def main() -> int:
         "limitations": [
             "Development judgments are single-reviewer and not independently adjudicated.",
             "Six queries are insufficient to estimate generalization or statistical uncertainty.",
+            "Recall guards preserve the BM25 membership of ranks 1-5, 1-10, and 1-50; they constrain where semantic reranking can help and do not prove recall beyond those cutoffs.",
+            "The recall-guard strategy was selected after development-set inspection and is frozen before independent labels are collected.",
             "Latency is an offline single-process measurement, not a production load test.",
             "Evidence excerpts may omit relevant content from source listings.",
         ],

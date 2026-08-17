@@ -43,7 +43,7 @@ def main() -> int:
     require(metrics["evaluation"]["queries"] == len(qrels["queries"]), "query count mismatch")
     require(not qrels["eligibleForPromotionDecision"], "development qrels cannot authorize promotion")
 
-    delta = metrics["developmentDeltaCrossEncoderVsBm25"]
+    delta = metrics["developmentDeltaRecallGuardedVsBm25"]
     criteria = metrics["promotion"]["qualityCriteria"]
     expected = {
         "ndcg@10Improves": delta["ndcg@10"] > 0,
@@ -54,9 +54,16 @@ def main() -> int:
     }
     require(criteria == expected, "quality criteria do not match recorded metric deltas")
     require(metrics["promotion"]["qualityGatePass"] == all(expected.values()), "quality gate mismatch")
+    require(metrics["promotion"]["qualityGatePass"], "recall-guarded development candidate did not clear quality gate")
+    require(all(delta[key] == 0 for key in ("recall@5", "recall@10", "recall@50")), "recall guards did not preserve reported cutoff recall")
+    require(metrics["models"]["reranker"]["recallGuardBands"] == [[1, 5], [6, 10], [11, 50]], "recall guard bands changed")
+    for row in metrics["perQuery"]:
+        for key in ("recall@5", "recall@10", "recall@50"):
+            require(row["metrics"]["recall_guarded_cross_encoder"][key] == row["metrics"]["bm25"][key], f"{row['id']} {key} recall guard mismatch")
+    require(metrics["aggregate"]["cross_encoder_unrestricted"]["recall@10"] < metrics["aggregate"]["bm25"]["recall@10"], "unrestricted recall regression is no longer represented")
     require(not metrics["promotion"]["evidenceGatePass"], "unadjudicated development evidence passed gate")
     require(metrics["promotion"]["status"] == "not_eligible", "development candidate incorrectly eligible")
-    print("validated learned retrieval snapshot, lineage, metrics, and rejection gates")
+    print("validated learned retrieval snapshot, recall guards, metrics, and evidence rejection gate")
     return 0
 
 

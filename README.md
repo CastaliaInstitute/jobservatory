@@ -17,7 +17,7 @@ Rule-derived labels are explicitly marked as unreviewed inferences. Unsupported 
 - evidence ledger, compensation signals, term map, and working hybrid retrieval laboratory
 - BM25, fixed dense-hash, reciprocal-rank fusion, and transparent interaction-reranking baselines
 - committed retrieval and multi-label development judgments with reproducible metrics
-- pinned learned sentence-embedding and cross-encoder experiment with a machine-enforced rejection gate
+- pinned sentence-embedding, unrestricted cross-encoder, and recall-guarded cross-encoder experiments with separate quality and independent-evidence gates
 - exact O*NET 30.3 software-skill normalization and occupation-inherited skill profiles with provenance-safe semantics
 - versioned hierarchical weak-label classifier with Platt calibration, abstention, tail-label metrics, and a machine-enforced rejection gate
 - scoped serialized-model protected-phrase counterfactual audit with a positive sensitivity control
@@ -60,4 +60,4 @@ The scheduled GitHub Action refreshes observations daily, rebuilds the content-a
 
 The corpus is curated rather than statistically representative. Listing language measures employer intent and organizational design, not realized hiring, productivity, or displacement. No numeric forecast is currently published. Apocalypso returns a null signal until longitudinal requirements are met.
 
-The current evaluation sets are small, single-reviewer development fixtures. They are useful for regression detection but insufficient for scientific or CV performance claims. The production service therefore exposes the BM25 baseline and identifies the learned candidate as rejected. See [the methodology](docs/METHODOLOGY.md), [architecture](docs/ARCHITECTURE.md), [serving contract](docs/SERVING.md), [evaluation standard](docs/MODEL_EVALUATION_STANDARD.md), [responsible-AI controls](docs/RESPONSIBLE_AI.md), and [A+ critical review](docs/A_PLUS_REVIEW.md).
+The labeled evaluation sets remain small, single-reviewer development fixtures. They are useful for regression detection but insufficient for scientific or CV performance claims. A recall-guarded cross-encoder now clears the development quality gate, but the production service correctly remains on BM25 until independent temporal adjudication passes. See [the methodology](docs/METHODOLOGY.md), [architecture](docs/ARCHITECTURE.md), [serving contract](docs/SERVING.md), [evaluation standard](docs/MODEL_EVALUATION_STANDARD.md), [responsible-AI controls](docs/RESPONSIBLE_AI.md), and [A+ critical review](docs/A_PLUS_REVIEW.md).
