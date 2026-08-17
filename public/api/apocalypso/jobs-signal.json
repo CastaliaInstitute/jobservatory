@@ -1,6 +1,6 @@
 {
   "schemaVersion": "apocalypso.signal.v1",
-  "generatedAt": "2026-08-17T09:02:30+00:00",
+  "generatedAt": "2026-08-17T09:13:17+00:00",
   "module": "AI",
   "source": "jobs.castalia.institute",
   "signal": {
@@ -20,7 +20,8 @@
       "Scale AI": 62
     },
     "changes": {
-      "unchanged": 250,
+      "unchanged": 249,
+      "revised": 1,
       "disappeared": 0
     },
     "compensationCoverage": 0.176,
