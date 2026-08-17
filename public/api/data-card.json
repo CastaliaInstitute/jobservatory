@@ -1,19 +1,19 @@
 {
   "schemaVersion": "jobservatory.data-card.v1",
-  "generatedAt": "2026-08-17T12:05:51+00:00",
+  "generatedAt": "2026-08-17T12:12:59+00:00",
   "corpus": {
     "schemaVersion": "0.2.0",
-    "sha256": "sha256:bce7a01055c5f59f6b572de8ee08481888edce85097b49f269a595c41ea55375",
+    "sha256": "sha256:3ce533af39682239a30d4124fbe14c434e2dd0b67e7fb85359f6329c55dadcb9",
     "unitOfAnalysis": "A public job-listing observation retrieved at a particular time.",
     "descriptionPolicy": "metadata-and-evidence-only"
   },
   "coverage": {
-    "employers": 34,
-    "observations": 2298,
-    "configuredSources": 34,
-    "successfulSources": 34,
+    "employers": 53,
+    "observations": 2701,
+    "configuredSources": 53,
+    "successfulSources": 53,
     "atsProviders": {
-      "greenhouse": 22,
+      "greenhouse": 41,
       "lever": 5,
       "ashby": 7
     },
@@ -24,18 +24,31 @@
       "enterprise-search": 1,
       "ai-cloud": 2,
       "data-and-ai-platform": 1,
-      "financial-technology": 2,
+      "financial-technology": 5,
       "internet-infrastructure": 1,
       "education-technology": 1,
-      "consumer-platform": 1,
+      "consumer-platform": 2,
       "interactive-entertainment": 1,
       "ai-safety-research": 1,
       "legal-technology": 1,
       "healthcare-ai": 2,
       "industrial-iot": 1,
       "design-collaboration": 1,
-      "commerce-marketplace": 1,
+      "commerce-marketplace": 2,
       "biotechnology": 1,
+      "energy": 1,
+      "manufacturing": 1,
+      "agriculture": 1,
+      "professional-services": 1,
+      "travel": 2,
+      "mobility": 1,
+      "health-insurance": 1,
+      "hr-technology": 1,
+      "productivity": 1,
+      "developer-platform": 1,
+      "communications": 1,
+      "security": 1,
+      "hospitality-technology": 1,
       "autonomous-vehicles": 2,
       "enterprise-and-defense-software": 1,
       "media-and-entertainment": 1,
@@ -70,33 +83,29 @@
         ]
       },
       "actual": {
-        "employers": 34,
-        "sectors": 24,
-        "largestEmployerShare": 0.218,
-        "compensationCoverage": 0.614
+        "employers": 53,
+        "sectors": 37,
+        "largestEmployerShare": 0.1855,
+        "compensationCoverage": 0.626
       },
       "checks": {
-        "minimumEmployers": false,
-        "minimumSectors": false,
+        "minimumEmployers": true,
+        "minimumSectors": true,
         "maximumLargestEmployerShare": false,
         "minimumCompensationCoverage": false,
         "requiredSectors": false
       },
       "missingRequiredSectors": [
-        "agriculture",
-        "energy",
-        "manufacturing",
-        "professional-services",
         "public-sector"
       ]
     },
-    "largestEmployerShare": 0.218,
-    "herfindahlHirschmanIndex": 0.0898,
+    "largestEmployerShare": 0.1855,
+    "herfindahlHirschmanIndex": 0.0665,
     "entityResolution": {
       "methodVersion": "jobservatory-entity-resolution-0.1.0",
-      "postingFamilies": 1991,
-      "multiObservationFamilies": 193,
-      "exactVariantGroups": 2250,
+      "postingFamilies": 2333,
+      "multiObservationFamilies": 246,
+      "exactVariantGroups": 2653,
       "repostCandidateGroups": 40,
       "observationsInRepostCandidateGroups": 88,
       "reviewStatus": "unreviewed",
@@ -104,8 +113,8 @@
     }
   },
   "provenance": {
-    "sourceRegistryVersion": "jobservatory-sources-2026-08-17.4",
-    "sourceManifests": 34,
+    "sourceRegistryVersion": "jobservatory-sources-2026-08-17.5",
+    "sourceManifests": 53,
     "allFeedsSuccessful": true,
     "allFeedResponsesHashed": true,
     "durableVersionLedger": "data/observation_versions.ndjson",
@@ -113,7 +122,7 @@
   },
   "rights": {
     "reviewStatusCounts": {
-      "pending": 34
+      "pending": 53
     },
     "allSourcesApproved": false,
     "accessBasis": [

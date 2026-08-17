@@ -12,7 +12,7 @@ type Observation = {
   classifications: { aiRelationship: Evidence[]; systemLayer: Evidence[]; skills: Evidence[]; laborEffect: { label: string; inferred: boolean; basis: string }; humanRole: { label: string; inferred: boolean }; maturity: { label: string; inferred: boolean } };
 };
 type Term = { term: string; category: string; count: number; share: number; change: number | null; firstSeen: string; lastSeen: string };
-type Dataset = { generatedAt: string; summary: { observations: number; employers: number; compensationCoverage: number; medianAdvertisedPayMidpoint: number; topSkills: [string, number][]; domains: Record<string, number> }; termIndex: Term[]; termTimeline: { date: string; terms: Record<string, number> }[]; payBenchmarks: { occupation: string; medianAnnualPay: number; sourceUrl: string }[]; observations: Observation[] };
+type Dataset = { generatedAt: string; coverage: { sourcesConfigured: number; sectors: Record<string, number>; assessment: { status: "expanding" | "target_met"; checks: Record<string, boolean>; missingRequiredSectors: string[] } }; summary: { observations: number; employers: number; compensationCoverage: number; medianAdvertisedPayMidpoint: number; topSkills: [string, number][]; domains: Record<string, number> }; termIndex: Term[]; termTimeline: { date: string; terms: Record<string, number> }[]; payBenchmarks: { occupation: string; medianAnnualPay: number; sourceUrl: string }[]; observations: Observation[] };
 type Metrics = { evaluation: { queries: number; judgmentPolicy: string }; aggregate: Record<string, Record<string, number>>; limitations: string[] };
 type SearchResponse = { schemaVersion: string; totalCandidates: number; results: { observationId: string }[] };
 
@@ -109,6 +109,7 @@ export default function Observatory() {
           <article><span>Pay disclosed</span><strong>{data ? `${Math.round(data.summary.compensationCoverage * 100)}%` : "—"}</strong><small>of observations</small></article>
           <article><span>Median pay midpoint</span><strong>{data?.summary.medianAdvertisedPayMidpoint ? money(data.summary.medianAdvertisedPayMidpoint) : "—"}</strong><small>disclosed USD ranges</small></article>
         </div>
+        {data && <p className="coverage-note" role="status"><strong>{Object.values(data.coverage.assessment.checks).filter(Boolean).length}/5 coverage-design checks pass</strong><span>{data.coverage.sourcesConfigured} official feeds · {Object.keys(data.coverage.sectors).length} sectors · status: {data.coverage.assessment.status.replace("_", " ")}</span><a href="/api/observatory.json">Inspect targets and gaps ↗</a></p>}
         <div className="signal-grid">
           <article className="skills-panel">
             <div className="panel-title"><span>OBSERVED TERM FREQUENCY</span><small>current curated corpus</small></div>

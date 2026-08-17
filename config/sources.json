@@ -1,5 +1,5 @@
 {
-  "registryVersion": "jobservatory-sources-2026-08-17.4",
+  "registryVersion": "jobservatory-sources-2026-08-17.5",
   "coverageDefinition": "All listings satisfying the versioned AI relevance rule in every successfully retrieved feed in this registry; this is source-universe completeness, not labor-market completeness.",
   "atsPolicies": {
     "greenhouse": {
@@ -46,7 +46,26 @@
     { "employer": "Figma", "board": "figma", "sector": "design-collaboration", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
     { "employer": "Brex", "board": "brex", "sector": "financial-technology", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
     { "employer": "Faire", "board": "faire", "sector": "commerce-marketplace", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
-    { "employer": "Formation Bio", "board": "formationbio", "sector": "biotechnology", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" }
+    { "employer": "Formation Bio", "board": "formationbio", "sector": "biotechnology", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Tapestry", "board": "tapestryenergy", "sector": "energy", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Xometry", "board": "xometry", "sector": "manufacturing", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Carbon Robotics", "board": "carbonrobotics", "sector": "agriculture", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Thoughtworks", "board": "thoughtworks", "sector": "professional-services", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Airbnb", "board": "airbnb", "sector": "travel", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Lyft", "board": "lyft", "sector": "mobility", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Pinterest", "board": "pinterest", "sector": "consumer-platform", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Chime", "board": "chime", "sector": "financial-technology", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Oscar Health", "board": "oscar", "sector": "health-insurance", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Coinbase", "board": "coinbase", "sector": "financial-technology", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Affirm", "board": "affirm", "sector": "financial-technology", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Instacart", "board": "instacart", "sector": "commerce-marketplace", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Gusto", "board": "gusto", "sector": "hr-technology", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Asana", "board": "asana", "sector": "productivity", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "GitLab", "board": "gitlab", "sector": "developer-platform", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Twilio", "board": "twilio", "sector": "communications", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Okta", "board": "okta", "sector": "security", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Tripadvisor", "board": "tripadvisor", "sector": "travel", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Toast", "board": "toast", "sector": "hospitality-technology", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" }
   ],
   "lever": [
     { "employer": "Shield AI", "site": "shieldai", "sector": "defense-robotics", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
