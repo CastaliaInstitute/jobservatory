@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "jobservatory.qrels.v1",
+  "annotationStatus": "single-reviewer development set",
+  "queries": [
+    {
+      "id": "q01",
+      "query": "machine learning search quality",
+      "judgments": {
+        "greenhouse:gleanwork:4006735005:1b62f7ee6041": 3,
+        "greenhouse:gleanwork:4711484005:a809d8b63680": 1
+      }
+    },
+    {
+      "id": "q02",
+      "query": "model serving infrastructure",
+      "judgments": {
+        "greenhouse:scaleai:4520320005:b2c5e81e5fb1": 3,
+        "greenhouse:anthropic:5285557008:4faddd93f6c0": 2
+      }
+    },
+    {
+      "id": "q03",
+      "query": "staff robotics software engineer",
+      "judgments": {
+        "greenhouse:andurilindustries:4995797007:1afee91575a0": 3,
+        "greenhouse:andurilindustries:4927598007:0fee19398d70": 2,
+        "greenhouse:andurilindustries:5074293007:2d183bf95d58": 2
+      }
+    },
+    {
+      "id": "q04",
+      "query": "AI safeguards evaluation",
+      "judgments": {
+        "greenhouse:anthropic:5230394008:d5de542ef638": 3,
+        "greenhouse:anthropic:4778843008:0176adc28ce3": 2,
+        "greenhouse:anthropic:5343907008:e39e7a50d4de": 2,
+        "greenhouse:gleanwork:4712438005:41dcfefbc5ae": 1
+      }
+    },
+    {
+      "id": "q05",
+      "query": "principal AI architecture",
+      "judgments": {
+        "greenhouse:scaleai:4671740005:408bd0b1b7f5": 3,
+        "greenhouse:anthropic:5390778008:e9f0c0c35e2a": 2,
+        "greenhouse:anthropic:5192805008:5e6e22e3944d": 2,
+        "greenhouse:anthropic:5383335008:a4940e4f5c1d": 2
+      }
+    },
+    {
+      "id": "q06",
+      "query": "scientific AI chemistry research",
+      "judgments": {
+        "greenhouse:anthropic:5387564008:b30e9ee65452": 3
+      }
+    }
+  ]
+}

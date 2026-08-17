@@ -1,9 +1,13 @@
 {
   "greenhouse": [
-    { "employer": "Anthropic", "board": "anthropic" },
-    { "employer": "Scale AI", "board": "scaleai" },
-    { "employer": "Anduril", "board": "andurilindustries" },
-    { "employer": "Glean", "board": "gleanwork" }
+    { "employer": "Anthropic", "board": "anthropic", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Scale AI", "board": "scaleai", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Anduril", "board": "andurilindustries", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Glean", "board": "gleanwork", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Together AI", "board": "togetherai", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "xAI", "board": "xai", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" }
   ],
-  "maximumObservations": 250
+  "maximumObservations": 750,
+  "minimumRecordsPerSource": 5,
+  "samplingPolicy": "all-eligible-or-proportional-by-source-with-floor"
 }

@@ -1,0 +1,231 @@
+{
+  "schemaVersion": "jobservatory.retrieval-eval.v1",
+  "corpus": {
+    "path": "public/api/observatory.json",
+    "observations": 750
+  },
+  "evaluation": {
+    "queries": 6,
+    "judgmentPolicy": "manually selected, graded title-and-evidence relevance; development set, not a held-out test set"
+  },
+  "models": {
+    "bm25": "Okapi BM25 k1=1.2 b=0.75",
+    "dense_hash": "fixed feature-hashed word unigram/bigram vectors, 512 dimensions; not a neural semantic model",
+    "rrf": "reciprocal-rank fusion k=60",
+    "interaction_rerank": "transparent title/metadata token-interaction features over top 50; not a neural cross-encoder"
+  },
+  "aggregate": {
+    "bm25": {
+      "recall@5": 0.5139,
+      "recall@10": 0.6389,
+      "mrr": 0.6667,
+      "ndcg@10": 0.6026
+    },
+    "dense_hash": {
+      "recall@5": 0.125,
+      "recall@10": 0.3333,
+      "mrr": 0.2386,
+      "ndcg@10": 0.2315
+    },
+    "rrf": {
+      "recall@5": 0.4306,
+      "recall@10": 0.5139,
+      "mrr": 0.4156,
+      "ndcg@10": 0.4066
+    },
+    "interaction_rerank": {
+      "recall@5": 0.4583,
+      "recall@10": 0.5139,
+      "mrr": 0.6222,
+      "ndcg@10": 0.5675
+    }
+  },
+  "perQuery": [
+    {
+      "id": "q01",
+      "query": "machine learning search quality",
+      "metrics": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 0.7098
+        },
+        "dense_hash": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr": 0.0625,
+          "ndcg@10": 0.0
+        },
+        "rrf": {
+          "recall@5": 0.5,
+          "recall@10": 1.0,
+          "mrr": 0.25,
+          "ndcg@10": 0.3832
+        },
+        "interaction_rerank": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 1.0
+        }
+      }
+    },
+    {
+      "id": "q02",
+      "query": "model serving infrastructure",
+      "metrics": {
+        "bm25": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr": 1.0,
+          "ndcg@10": 0.7872
+        },
+        "dense_hash": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr": 1.0,
+          "ndcg@10": 0.7872
+        },
+        "rrf": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr": 1.0,
+          "ndcg@10": 0.7872
+        },
+        "interaction_rerank": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr": 1.0,
+          "ndcg@10": 0.7872
+        }
+      }
+    },
+    {
+      "id": "q03",
+      "query": "staff robotics software engineer",
+      "metrics": {
+        "bm25": {
+          "recall@5": 0.3333,
+          "recall@10": 0.3333,
+          "mrr": 0.5,
+          "ndcg@10": 0.425
+        },
+        "dense_hash": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr": 0.0556,
+          "ndcg@10": 0.0
+        },
+        "rrf": {
+          "recall@5": 0.3333,
+          "recall@10": 0.3333,
+          "mrr": 0.2,
+          "ndcg@10": 0.2606
+        },
+        "interaction_rerank": {
+          "recall@5": 0.0,
+          "recall@10": 0.3333,
+          "mrr": 0.1667,
+          "ndcg@10": 0.2399
+        }
+      }
+    },
+    {
+      "id": "q04",
+      "query": "AI safeguards evaluation",
+      "metrics": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 0.75,
+          "mrr": 0.1667,
+          "ndcg@10": 0.3944
+        },
+        "dense_hash": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr": 0.0135,
+          "ndcg@10": 0.0
+        },
+        "rrf": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr": 0.0435,
+          "ndcg@10": 0.0
+        },
+        "interaction_rerank": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr": 0.0667,
+          "ndcg@10": 0.0
+        }
+      }
+    },
+    {
+      "id": "q05",
+      "query": "principal AI architecture",
+      "metrics": {
+        "bm25": {
+          "recall@5": 0.25,
+          "recall@10": 0.25,
+          "mrr": 0.3333,
+          "ndcg@10": 0.2995
+        },
+        "dense_hash": {
+          "recall@5": 0.25,
+          "recall@10": 0.5,
+          "mrr": 0.2,
+          "ndcg@10": 0.3127
+        },
+        "rrf": {
+          "recall@5": 0.25,
+          "recall@10": 0.25,
+          "mrr": 0.5,
+          "ndcg@10": 0.378
+        },
+        "interaction_rerank": {
+          "recall@5": 0.25,
+          "recall@10": 0.25,
+          "mrr": 0.5,
+          "ndcg@10": 0.378
+        }
+      }
+    },
+    {
+      "id": "q06",
+      "query": "scientific AI chemistry research",
+      "metrics": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 1.0
+        },
+        "dense_hash": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr": 0.1,
+          "ndcg@10": 0.2891
+        },
+        "rrf": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 0.5,
+          "ndcg@10": 0.6309
+        },
+        "interaction_rerank": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 1.0
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "The judgments are a small development set and were not independently adjudicated.",
+    "Evidence excerpts are incomplete substitutes for licensed full descriptions.",
+    "The dense baseline measures whether learned embeddings add value; it is not presented as semantic retrieval.",
+    "A neural cross-encoder remains a candidate and must be evaluated on a held-out set before deployment."
+  ]
+}

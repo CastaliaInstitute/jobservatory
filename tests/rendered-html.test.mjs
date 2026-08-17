@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { access, readFile } from "node:fs/promises";
+import { access, readFile, readdir } from "node:fs/promises";
 import test from "node:test";
 
 test("builds a Cloudflare Pages-ready static site", async () => {
@@ -9,18 +9,46 @@ test("builds a Cloudflare Pages-ready static site", async () => {
   await access(new URL("../dist/assets/", import.meta.url));
 });
 
-test("publishes the evidence and Apocalypso feeds", async () => {
-  const [observatory, apocalypso] = await Promise.all([
+test("publishes provenance, evaluation, and safely abstaining signal feeds", async () => {
+  const [observatory, apocalypso, retrieval, classification] = await Promise.all([
     readFile(new URL("../dist/api/observatory.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/apocalypso/jobs-signal.json", import.meta.url), "utf8"),
+    readFile(new URL("../dist/api/ml/retrieval-metrics.json", import.meta.url), "utf8"),
+    readFile(new URL("../dist/api/ml/classification-metrics.json", import.meta.url), "utf8"),
   ]);
   const corpus = JSON.parse(observatory);
   const signal = JSON.parse(apocalypso);
+  const retrievalMetrics = JSON.parse(retrieval);
+  const classificationMetrics = JSON.parse(classification);
   assert.ok(corpus.observations.length >= 100);
   assert.ok(corpus.termIndex.length >= 20);
   assert.ok(corpus.termTimeline.length >= 1);
   assert.equal(corpus.termTimeline.at(-1).date, corpus.generatedAt.slice(0, 10));
   assert.equal(corpus.observations[0].descriptionPolicy, "metadata-and-evidence-only");
   assert.ok(corpus.observations[0].firstSeen);
+  assert.ok(corpus.observations.every(item => item.analysisId && item.extraction.methodVersion && item.extraction.ontologyVersion));
+  assert.ok(corpus.observations.every(item => ["direct", "applied"].includes(item.roleRelevance.tier)));
+  assert.ok(corpus.observations.every(item => item.classifications.laborEffect.label === "unclassified"));
+  assert.ok(corpus.observations.every(item => !JSON.stringify(item.classifications).match(/<[^>]+>/)));
+  assert.equal(corpus.coverage.sourcesSuccessful, corpus.coverage.sourcesConfigured);
+  assert.equal(corpus.coverage.sourceFailures.length, 0);
+  assert.ok(corpus.coverage.retrieval.every(source => source.httpStatus === 200 && source.responseHash.startsWith("sha256:") && source.rightsReviewStatus));
+  assert.ok(corpus.coverage.eligibleObservations >= corpus.observations.length);
   assert.equal(signal.module, "AI");
+  assert.equal(signal.signal.status, "insufficient_history");
+  assert.equal(signal.signal.value, null);
+  assert.ok(retrievalMetrics.evaluation.queries >= 6);
+  assert.ok(retrievalMetrics.aggregate.bm25["ndcg@10"] >= 0 && retrievalMetrics.aggregate.bm25["ndcg@10"] <= 1);
+  assert.ok(classificationMetrics.evaluation.observations >= 10);
+  assert.equal(classificationMetrics.aggregate.calibration, null);
+});
+
+test("commits durable observation lineage and full eligible-set presence", async () => {
+  const snapshots = (await readdir(new URL("../data/snapshots/", import.meta.url))).filter(name => name.endsWith(".json")).sort();
+  assert.ok(snapshots.length >= 1);
+  const [ledger, snapshot] = await Promise.all([readFile(new URL("../data/observation_versions.ndjson", import.meta.url), "utf8"), readFile(new URL(`../data/snapshots/${snapshots.at(-1)}`, import.meta.url), "utf8")]);
+  assert.ok(ledger.trim().split("\n").length >= 500);
+  const presence = JSON.parse(snapshot);
+  assert.ok(presence.eligibleSourceIds.length >= 500);
+  assert.equal(Object.keys(presence.contentHashes).length, presence.eligibleSourceIds.length);
 });

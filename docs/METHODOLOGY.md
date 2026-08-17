@@ -1,0 +1,41 @@
+# Methodology and corpus coverage contract
+
+## What the corpus represents
+
+The current corpus is a capped, source-stratified set of direct or strongly AI-applied listings from six selected employer career feeds. It is global, employer-concentrated, and not representative of the US or global labor market. “Comprehensive” is a target measured against a declared source universe; it is not a synonym for a high row count.
+
+The unit of analysis is a listing observation at a retrieval time. Listing versions and analysis versions are separate. A source text can remain unchanged while the ontology or extraction method changes.
+
+## Inclusion and sampling
+
+A listing is eligible as `direct` when versioned rules find an AI term in its title, or as `applied` when at least two AI method terms occur in the role-focused description. The collector excludes weaker `contextual` matches and trims common employer, compensation, privacy, and equal-opportunity boilerplate before classification. If eligible records exceed the publication cap, allocation is proportional to eligible source volume with a minimum source floor. Retrieval manifests publish fetched, eligible, and selected counts.
+
+This is a deterministic operational sample, not a probability sample. Employer comparisons must use within-source rates or explicitly reweighted cohorts. Raw counts must never be described as market share.
+
+## Provenance and rights
+
+The public export retains metadata, hashes, derived fields, and short evidence excerpts linked to the source. Full descriptions are processed transiently and are not republished. Public API availability does not itself establish a license to republish, redistribute, or train on content. Each source needs a recorded terms/licensing review before expansion, and excerpt retention should receive legal review.
+
+O*NET occupation candidates cite the [O*NET Database](https://www.onetcenter.org/database.html), record taxonomy version 30.3, and remain explicitly inferred and unreviewed. Use and redistribution must follow the [O*NET database license](https://www.onetcenter.org/license_db.html). O*NET skill normalization is not yet implemented and must not be claimed.
+
+## Labels
+
+Source facts include employer, source title, location string, source timestamps, URL, and explicitly parsed compensation. Rule-derived fields include direct-role relevance, seniority, domain, skill labels, system layers, AI relationship, maturity, human role, and O*NET occupation.
+
+Every rule-derived field must expose method and ontology versions. Unsupported labor effects abstain as `unclassified`; the system does not assign augmentation by default. A short source span supports a rule match, but a span is not proof that the normalized label is correct.
+
+## Longitudinal analysis
+
+The append-only version ledger preserves new source or analysis versions. Daily presence snapshots cover the full eligible set, so disappearance is not inferred from movement across the 750-record publication cap. Same-day refreshes replace that day's aggregate frame.
+
+Trend publication requires at least 30 distinct daily frames, a stable source cohort, per-source denominators, and sensitivity analysis for feed outages and cohort changes. Term counts from one date are frequencies, not emergence. A removed listing is “no longer observed,” not “filled” or “eliminated.”
+
+## Evaluation
+
+Retrieval reports Recall@5, Recall@10, MRR, and nDCG@10 over committed graded judgments. Classification reports micro/macro F1, precision, recall, exact match, tail-label recall, and prediction coverage. The current sets are small, single-reviewer development sets; they are regression fixtures rather than publication-grade test sets.
+
+The next gold-set release requires annotation guidelines, two independent annotators, adjudication, agreement statistics, frozen train/development/test splits, temporal separation, and sufficient support for tail labels. Calibration is required once classifiers emit probabilities.
+
+## Forecasting and Apocalypso
+
+No numeric forecast is currently published. Previous hard-coded scenario percentages were removed because they were not model outputs. Apocalypso emits a null signal with `insufficient_history` until the minimum history and cohort requirements are met. Future forecasts must specify target, horizon, baseline, backtest, uncertainty interval, and failure threshold.

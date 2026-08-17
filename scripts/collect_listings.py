@@ -13,9 +13,11 @@ import json
 import re
 import sqlite3
 import sys
+import time
 import urllib.request
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
+import os
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -24,39 +26,80 @@ DB_PATH = ROOT / "data" / "observatory.sqlite"
 PUBLIC_PATH = ROOT / "public" / "api" / "observatory.json"
 APOCALYPSO_PATH = ROOT / "public" / "api" / "apocalypso" / "jobs-signal.json"
 HISTORY_PATH = ROOT / "data" / "history.ndjson"
+LEDGER_PATH = ROOT / "data" / "observation_versions.ndjson"
+SNAPSHOT_DIR = ROOT / "data" / "snapshots"
+METHOD_VERSION = "jobservatory-rules-0.2.2"
+ONTOLOGY_VERSION = "jobservatory-ontology-0.2.1"
+ONET_VERSION = "30.3"
 
 SKILLS = {
     "Python": ["python"], "PyTorch": ["pytorch"], "TensorFlow": ["tensorflow"],
     "Kubernetes": ["kubernetes", "k8s"], "AWS": ["aws", "amazon web services"],
     "LLMs": ["large language model", "llm", "foundation model"],
     "RAG": ["retrieval augmented", "retrieval-augmented", "rag"],
-    "Agents": ["agentic", " ai agent", "agents"], "Evaluation": ["evaluation", "evals"],
+    "Agents": ["agentic ai", "ai agent", "agentic system", "agentic workflow"],
+    "Evaluation": ["model evaluation", "evaluate models", "ai evaluation", "llm evaluation", "evals"],
     "Robotics": ["robotics", "autonomy", "perception"], "SQL": ["sql"],
-    "C++": ["c++"], "Go": ["golang", " go "], "TypeScript": ["typescript"],
-    "Transformers": ["transformer"], "Vector search": ["vector search", "embedding"],
-    "Safety": ["ai safety", "model safety", "red team"], "Governance": ["governance", "compliance"]
+    "C++": ["c++"], "Go": ["golang", "go programming language", "programming language go", "experience with go"], "TypeScript": ["typescript"],
+    "Transformers": ["transformer"], "Vector search": ["vector search", "vector database", "vector embeddings", "semantic search", "embedding model"],
+    "Safety": ["ai safety", "model safety", "red team"],
+    "Governance": ["ai governance", "model governance", "responsible ai", "algorithmic accountability"]
 }
 LAYERS = {
     "data": ["data pipeline", "dataset", "data quality", "labeling"],
-    "training": ["training", "fine-tun", "pretrain"],
+    "training": ["model training", "training models", "training pipeline", "fine-tun", "pretrain", "pre-train", "post-training"],
     "evaluation": ["evaluation", "evals", "benchmark", "red team"],
     "serving": ["inference", "serving", "latency", "deployment"],
-    "product": ["product", "customer", "user experience"],
+    "product": ["ai product", "ml product", "model product", "customer-facing ai", "user experience"],
     "infrastructure": ["infrastructure", "distributed system", "cluster", "kubernetes"],
-    "safety": ["safety", "alignment", "governance", "responsible ai"]
+    "safety": ["ai safety", "model safety", "alignment", "model governance", "responsible ai"]
 }
 RELATIONSHIPS = {
-    "builds": ["build", "develop", "train", "research"],
-    "deploys": ["deploy", "production", "integrate", "implement"],
-    "governs": ["govern", "compliance", "policy", "responsible ai"],
-    "evaluates": ["evaluat", "benchmark", "test", "quality"],
+    "builds": ["build ai", "build ml", "develop ai", "develop machine learning", "train models", "model research"],
+    "deploys": ["deploy models", "model deployment", "production inference", "integrate ai", "implement ai"],
+    "governs": ["ai governance", "model governance", "ai policy", "responsible ai"],
+    "evaluates": ["model evaluation", "evaluate models", "ai evaluation", "model benchmark", "evals"],
     "uses": ["use ai", "ai-enabled", "leverage ai"]
 }
 
+AI_ROLE_TERMS = [
+    "artificial intelligence", "machine learning", "deep learning", "generative ai", "genai",
+    "large language model", "llm", "foundation model", "model serving", "model inference",
+    "computer vision", "robotics", "autonomy", "autonomous", "retrieval", "ranking",
+]
+TITLE_TERMS = [
+    " ai ", "machine learning", " ml ", "model", "research scientist", "data scientist",
+    "robot", "autonomy", "perception", "inference", "search", "retrieval", "ranking",
+    "ai safety", "model safety", "alignment", "eval", "red team", "intelligence systems",
+]
+EVIDENCE_EXCLUSIONS = [
+    "equal opportunity", "data privacy", "personal information", "recruitment efforts",
+    "scammer", "salary offer may vary", "minimum education", "about the company",
+]
+
 def clean_html(value: str) -> str:
-    value = re.sub(r"<(br|/p|/li|/h\d)>\s*", ". ", value or "", flags=re.I)
+    value = html.unescape(html.unescape(value or ""))
+    value = re.sub(r"<(br|/p|/li|/h\d)[^>]*>\s*", ". ", value, flags=re.I)
     value = re.sub(r"<[^>]+>", " ", value)
-    return re.sub(r"\s+", " ", html.unescape(value)).strip()
+    return re.sub(r"\s+", " ", value).strip()
+
+def focused_role_text(text: str) -> str:
+    """Trim recurring employer/EEO boilerplate before rule-based extraction."""
+    lowered = text.lower()
+    starts = [lowered.find(marker) for marker in (
+        "what you'll do", "what you’ll do", "about the role", "responsibilities",
+        "the role", "you will", "in this role",
+    )]
+    starts = [position for position in starts if position >= 0]
+    start = min(starts) if starts else 0
+    focused = text[start: start + 9000]
+    lowered_focused = focused.lower()
+    ends = [lowered_focused.find(marker, 500) for marker in (
+        "equal opportunity", "compensation", "salary range", "annual salary",
+        "benefits", "data privacy", "minimum education", "apply for this job",
+    )]
+    ends = [position for position in ends if position >= 0]
+    return focused[:min(ends)] if ends else focused
 
 def contains(text: str, term: str) -> bool:
     if len(term.strip()) <= 4:
@@ -66,7 +109,8 @@ def contains(text: str, term: str) -> bool:
 def evidence(text: str, terms: list[str]) -> str | None:
     sentences = re.split(r"(?<=[.!?])\s+", text)
     for sentence in sentences:
-        if any(contains(sentence, term) for term in terms):
+        lowered = sentence.lower()
+        if any(contains(sentence, term) for term in terms) and not any(term in lowered for term in EVIDENCE_EXCLUSIONS):
             return sentence[:280].strip()
     return None
 
@@ -78,6 +122,19 @@ def matches(text: str, ontology: dict[str, list[str]]) -> list[dict]:
             found.append({"label": label, "evidence": quote})
     return found
 
+def role_relevance(title: str, text: str) -> dict:
+    padded_title = f" {title.lower()} "
+    title_hits = sorted({term.strip() for term in TITLE_TERMS if contains(padded_title, term)})
+    body_hits = sorted({term for term in AI_ROLE_TERMS if evidence(text, [term])})
+    tier = "direct" if title_hits else "applied" if len(body_hits) >= 2 else "contextual"
+    return {
+        "tier": tier,
+        "titleHits": title_hits,
+        "bodyHits": body_hits[:8],
+        "method": METHOD_VERSION,
+        "inferred": True,
+    }
+
 def seniority(title: str) -> str:
     t = title.lower()
     if any(x in t for x in ["chief", "vp", "vice president", "director", "head of"]): return "Leadership"
@@ -85,6 +142,22 @@ def seniority(title: str) -> str:
     if any(x in t for x in ["senior", "sr.", "lead"]): return "Senior"
     if any(x in t for x in ["intern", "new grad", "associate", "junior"]): return "Early career"
     return "Mid-level / unspecified"
+
+def onet_occupation(title: str) -> dict | None:
+    """Conservative title normalization; an O*NET-backed candidate, not ground truth."""
+    lowered = title.lower()
+    candidates = [
+        (["robotics engineer", "robotics software"], "17-2199.08", "Robotics Engineers"),
+        (["data scientist"], "15-2051.00", "Data Scientists"),
+        (["research scientist", "research engineer"], "15-1221.00", "Computer and Information Research Scientists"),
+        (["engineering manager", "director of engineering", "head of engineering"], "11-3021.00", "Computer and Information Systems Managers"),
+        (["software engineer", "software developer", "ml engineer", "machine learning engineer", "infrastructure engineer"], "15-1252.00", "Software Developers"),
+        (["technical program manager", "program manager"], "13-1082.00", "Project Management Specialists"),
+    ]
+    for terms, code, name in candidates:
+        if any(term in lowered for term in terms):
+            return {"code": code, "title": name, "taxonomy": f"O*NET-SOC {ONET_VERSION}", "inferred": True, "reviewStatus": "unreviewed", "sourceUrl": "https://www.onetcenter.org/database.html"}
+    return None
 
 def domain(title: str, text: str) -> str:
     t, v = title.lower(), text[:1800].lower()
@@ -95,21 +168,30 @@ def domain(title: str, text: str) -> str:
     if any(x in t for x in ["education", "learning", "training", "curriculum"]): return "Education & training"
     if any(x in v for x in ["robotics", "autonomous vehicle", "embedded system"]): return "Robotics & embedded"
     if any(x in v for x in ["ai safety", "responsible ai", "model governance"]): return "Safety & governance"
-    return "ML engineering"
+    if any(x in t for x in ["software", "machine learning", " ml ", "data", "infrastructure", "systems engineer", " ai ", "model"]): return "ML engineering"
+    return "AI-adjacent operations"
 
 def compensation(text: str) -> dict | None:
-    candidates = re.findall(r"\$([1-9]\d{1,2}(?:,\d{3})+)(?:\.\d+)?\s*(?:-|–|to)\s*\$?([1-9]\d{1,2}(?:,\d{3})+)", text, re.I)
+    candidates = re.findall(r"\$([1-9]\d{1,2}(?:,\d{3})+)(?:\.\d+)?\s*(?:-|–|—|to)\s*\$?([1-9]\d{1,2}(?:,\d{3})+)", text, re.I)
     for low, high in candidates:
         lo, hi = int(low.replace(",", "")), int(high.replace(",", ""))
         if 20_000 <= lo <= hi <= 1_000_000:
             return {"currency": "USD", "minimum": lo, "maximum": hi, "period": "annual", "explicit": True}
     return None
 
-def fetch_board(board: str) -> list[dict]:
+def fetch_board(board: str) -> tuple[list[dict], dict]:
     url = f"https://boards-api.greenhouse.io/v1/boards/{board}/jobs?content=true"
     req = urllib.request.Request(url, headers={"User-Agent": "Jobservatory/0.1 (+https://jobservatory.castalia.institute)"})
+    started = time.perf_counter()
     with urllib.request.urlopen(req, timeout=40) as response:
-        return json.load(response).get("jobs", [])
+        payload = response.read()
+        metadata = {
+            "url": url, "httpStatus": response.status,
+            "etag": response.headers.get("ETag"), "lastModified": response.headers.get("Last-Modified"),
+            "responseHash": "sha256:" + hashlib.sha256(payload).hexdigest(),
+            "responseBytes": len(payload), "latencyMs": round((time.perf_counter() - started) * 1000),
+        }
+        return json.loads(payload).get("jobs", []), metadata
 
 def init_db(conn: sqlite3.Connection) -> None:
     conn.executescript("""
@@ -121,70 +203,121 @@ def init_db(conn: sqlite3.Connection) -> None:
       CREATE UNIQUE INDEX IF NOT EXISTS idx_observations_source_hash ON observations(source_id, content_hash);
       CREATE INDEX IF NOT EXISTS idx_observations_retrieved_at ON observations(retrieved_at);
       CREATE INDEX IF NOT EXISTS idx_observations_employer ON observations(employer);
+      CREATE TABLE IF NOT EXISTS analyses (
+        analysis_id TEXT PRIMARY KEY, observation_id TEXT NOT NULL, source_id TEXT NOT NULL,
+        method_version TEXT NOT NULL, ontology_version TEXT NOT NULL, created_at TEXT NOT NULL,
+        payload_json TEXT NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_analyses_observation ON analyses(observation_id);
     """)
 
 def main() -> int:
     now = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
     previous_export = json.loads(PUBLIC_PATH.read_text()) if PUBLIC_PATH.exists() else {"observations": []}
-    previous = {item["sourceId"]: item for item in previous_export.get("observations", [])}
+    ledger = []
+    if LEDGER_PATH.exists():
+        ledger = [json.loads(line) for line in LEDGER_PATH.read_text().splitlines() if line.strip()]
+    previous = {}
+    for item in ledger:
+        current = previous.get(item["sourceId"])
+        if not current or int(item.get("version", 1)) >= int(current.get("version", 1)):
+            previous[item["sourceId"]] = item
     candidates = []
+    retrieval = []
+    failures = []
     for source in CONFIG["greenhouse"]:
         try:
-            jobs = fetch_board(source["board"])
+            jobs, fetch_metadata = fetch_board(source["board"])
         except Exception as exc:
             print(f"warning: {source['employer']}: {exc}", file=sys.stderr)
+            failures.append({"employer": source["employer"], "board": source["board"], "errorType": type(exc).__name__})
             continue
+        source_eligible = 0
         for job in jobs:
             body = clean_html(job.get("content", ""))
             title = clean_html(job.get("title", ""))
-            haystack = (title + " " + body).lower()
-            if not any(k in haystack for k in ["artificial intelligence", "machine learning", " ai ", "llm", "language model", "robot", "autonomy"]):
+            role_text = focused_role_text(body)
+            haystack = (title + " " + role_text).lower()
+            relevance = role_relevance(title, role_text)
+            if relevance["tier"] == "contextual":
                 continue
+            source_eligible += 1
             source_id = f"greenhouse:{source['board']}:{job['id']}"
             digest = hashlib.sha256((title + "\n" + body).encode()).hexdigest()
-            skill_hits = matches(body, SKILLS)
-            layer_hits = matches(body, LAYERS)
-            relationship_hits = matches(body, RELATIONSHIPS)
+            analysis_id = "analysis:" + hashlib.sha256(f"{source_id}:{digest}:{METHOD_VERSION}:{ONTOLOGY_VERSION}".encode()).hexdigest()[:20]
+            skill_hits = matches(f"{title}. {role_text}", SKILLS)
+            layer_hits = matches(f"{title}. {role_text}", LAYERS)
+            relationship_hits = matches(f"{title}. {role_text}", RELATIONSHIPS)
             record = {
                 "observationId": f"{source_id}:{digest[:12]}", "sourceId": source_id,
+                "analysisId": analysis_id,
                 "employer": source["employer"], "title": title,
                 "location": clean_html((job.get("location") or {}).get("name", "Remote / unspecified")),
                 "sourceUrl": job.get("absolute_url"), "retrievedAt": now,
                 "sourceUpdatedAt": job.get("updated_at"), "contentHash": f"sha256:{digest}",
-                "seniority": seniority(title), "domain": domain(title, body),
+                "seniority": seniority(title), "domain": domain(title, role_text),
+                "onetOccupation": onet_occupation(title),
                 "compensation": compensation(body),
+                "roleRelevance": relevance,
                 "classifications": {
                     "aiRelationship": relationship_hits[:3], "systemLayer": layer_hits[:3],
                     "skills": skill_hits[:8],
-                    "laborEffect": {"label": "augmentation", "inferred": True, "basis": "Role language describes humans using or building AI; verify longitudinally."},
-                    "humanRole": {"label": "decision-maker" if seniority(title) in ["Leadership", "Staff+"] else "builder / operator", "inferred": True},
-                    "maturity": {"label": "production scaling" if any(x in haystack for x in ["production", "scale", "reliability", "latency"]) else "productization", "inferred": True}
+                    "laborEffect": {"label": "unclassified", "inferred": True, "basis": "Requires validated task-level evidence; no default effect is assigned."},
+                    "humanRole": {"label": "accountable leader" if seniority(title) == "Leadership" else "technical decision-maker" if seniority(title) == "Staff+" else "unclassified", "inferred": True},
+                    "maturity": {"label": "production scaling" if any(evidence(role_text, [x]) for x in ["production inference", "production deployment", "serving latency", "at scale"]) else "unclassified", "inferred": True}
                 },
+                "extraction": {"methodVersion": METHOD_VERSION, "ontologyVersion": ONTOLOGY_VERSION, "reviewStatus": "unreviewed"},
                 "descriptionPolicy": "metadata-and-evidence-only",
                 "duplicateGroup": hashlib.sha256(f"{source['employer']}|{title.lower()}|{clean_html((job.get('location') or {}).get('name', ''))}".encode()).hexdigest()[:16]
             }
             candidates.append(record)
+        retrieval.append({"employer": source["employer"], "board": source["board"], "retrieved": len(jobs), "eligible": source_eligible, "status": "ok", "rightsReviewStatus": source.get("rightsReviewStatus", "pending"), "retentionPolicy": source.get("retentionPolicy", "metadata-hash-short-evidence"), **fetch_metadata})
+
+    if failures and os.environ.get("JOBSERVATORY_ALLOW_PARTIAL") != "1":
+        raise RuntimeError(f"refusing partial publication; {len(failures)} source feed(s) failed")
+    minimum = int(CONFIG.get("minimumRecordsPerSource", 1))
+    thin = [item for item in retrieval if item["eligible"] < minimum]
+    if thin and os.environ.get("JOBSERVATORY_ALLOW_PARTIAL") != "1":
+        raise RuntimeError(f"refusing publication; source(s) below {minimum} eligible records: {thin}")
 
     candidates.sort(key=lambda x: (x.get("sourceUpdatedAt") or "", x["title"]), reverse=True)
-    by_employer: dict[str, list[dict]] = defaultdict(list)
-    for record in candidates:
-        by_employer[record["employer"]].append(record)
-    records = []
-    while len(records) < int(CONFIG["maximumObservations"]):
-        added = False
-        for employer in sorted(by_employer):
-            if by_employer[employer] and len(records) < int(CONFIG["maximumObservations"]):
-                records.append(by_employer[employer].pop(0))
-                added = True
-        if not added: break
+    maximum = int(CONFIG["maximumObservations"])
+    if len(candidates) <= maximum:
+        records = candidates
+    else:
+        by_employer: dict[str, list[dict]] = defaultdict(list)
+        for record in candidates:
+            by_employer[record["employer"]].append(record)
+        floor = min(25, maximum // max(len(by_employer), 1))
+        allocations = {
+            employer: min(len(items), max(floor, int(maximum * len(items) / len(candidates))))
+            for employer, items in by_employer.items()
+        }
+        while sum(allocations.values()) > maximum:
+            employer = max((name for name in allocations if allocations[name] > floor), key=lambda name: allocations[name], default=None)
+            if employer is None: break
+            allocations[employer] -= 1
+        while sum(allocations.values()) < maximum:
+            employer = max((name for name, items in by_employer.items() if allocations[name] < len(items)), key=lambda name: len(by_employer[name]) - allocations[name], default=None)
+            if employer is None: break
+            allocations[employer] += 1
+        records = [record for employer in sorted(by_employer) for record in by_employer[employer][:allocations[employer]]]
+        records.sort(key=lambda x: (x.get("sourceUpdatedAt") or "", x["title"]), reverse=True)
     for record in records:
         prior = previous.get(record["sourceId"])
         same = prior and prior.get("contentHash") == record["contentHash"]
+        same_analysis = prior and prior.get("analysisId") == record["analysisId"]
         record["version"] = int(prior.get("version", 1)) if same else int(prior.get("version", 0)) + 1 if prior else 1
         record["firstSeen"] = prior.get("firstSeen", prior.get("retrievedAt")) if prior else now
         record["lastSeen"] = now
         record["changeType"] = "unchanged" if same else "revised" if prior else "new"
+        record["analysisChangeType"] = "unchanged" if same_analysis else "reanalyzed" if prior else "new"
         record["previousObservationId"] = prior.get("observationId") if prior and not same else None
+    new_versions = [r for r in records if r["changeType"] in ("new", "revised") or r["analysisChangeType"] == "reanalyzed"]
+    LEDGER_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with LEDGER_PATH.open("a") as handle:
+        for record in new_versions:
+            handle.write(json.dumps(record, separators=(",", ":")) + "\n")
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
     init_db(conn)
@@ -192,6 +325,9 @@ def main() -> int:
         conn.execute("INSERT OR IGNORE INTO observations VALUES (?,?,?,?,?,?,?,?,?,?)", (
             r["observationId"], r["sourceId"], r["employer"], r["title"], r["sourceUrl"],
             r["location"], r["retrievedAt"], r["sourceUpdatedAt"], r["contentHash"], json.dumps(r, separators=(",", ":"))))
+        conn.execute("INSERT OR IGNORE INTO analyses VALUES (?,?,?,?,?,?,?)", (
+            r["analysisId"], r["observationId"], r["sourceId"], METHOD_VERSION,
+            ONTOLOGY_VERSION, now, json.dumps(r, separators=(",", ":"))))
     conn.execute("PRAGMA optimize")
     conn.commit()
 
@@ -210,7 +346,15 @@ def main() -> int:
     domains = Counter(r["domain"] for r in records)
     employers = Counter(r["employer"] for r in records)
     changes = Counter(r["changeType"] for r in records)
-    changes["disappeared"] = len(set(previous) - {r["sourceId"] for r in records})
+    SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
+    prior_snapshots = sorted(path for path in SNAPSHOT_DIR.glob("*.json") if path.stem < now[:10])
+    prior_presence = set()
+    if prior_snapshots:
+        prior_presence = set(json.loads(prior_snapshots[-1].read_text()).get("eligibleSourceIds", []))
+    current_presence = {r["sourceId"] for r in candidates}
+    changes["disappeared"] = len(prior_presence - current_presence) if prior_presence else 0
+    snapshot = {"date": now[:10], "generatedAt": now, "eligibleSourceIds": sorted(current_presence), "contentHashes": {r["sourceId"]: r["contentHash"] for r in candidates}}
+    (SNAPSHOT_DIR / f"{now[:10]}.json").write_text(json.dumps(snapshot, separators=(",", ":")) + "\n")
     compensated = [r for r in records if r["compensation"]]
     midpoint = sorted((r["compensation"]["minimum"] + r["compensation"]["maximum"]) / 2 for r in compensated)
     median_pay = int(midpoint[len(midpoint)//2]) if midpoint else None
@@ -223,8 +367,10 @@ def main() -> int:
         "lastSeen": now
     } for term, count in term_counts.most_common()]
     export = {
-        "schemaVersion": "0.1.0", "generatedAt": now, "scope": "Curated public US-focused AI job listings",
-        "methodNote": "Listings are observations, not unique jobs. Inferences are labeled and retain evidence where available.",
+        "schemaVersion": "0.2.0", "generatedAt": now, "scope": "Direct or strongly AI-applied listings from four selected employer career feeds; global, curated, and not labor-market representative",
+        "methodNote": "Listings are timestamped observations, not unique jobs. Rule-derived labels are unreviewed hypotheses; evidence excerpts remain linked to sources.",
+        "methods": {"extraction": METHOD_VERSION, "ontology": ONTOLOGY_VERSION, "sampling": CONFIG.get("samplingPolicy"), "labelReview": "unreviewed"},
+        "coverage": {"sourcesConfigured": len(CONFIG["greenhouse"]), "sourcesSuccessful": len(retrieval), "sourceFailures": failures, "retrieval": retrieval, "eligibleObservations": len(candidates), "publishedObservations": len(records), "publicationCap": int(CONFIG["maximumObservations"])},
         "summary": {"observations": len(records), "employers": len(employers), "employerMix": employers, "changes": changes, "compensationCoverage": round(len(compensated)/len(records), 3) if records else 0, "medianAdvertisedPayMidpoint": median_pay, "topSkills": skill_counts.most_common(8), "domains": domains},
         "payBenchmarks": [
           {"occupation":"Data scientists","medianAnnualPay":112590,"year":2024,"source":"BLS OEWS","sourceUrl":"https://www.bls.gov/ooh/math/data-scientists.htm"},
@@ -238,21 +384,29 @@ def main() -> int:
     PUBLIC_PATH.parent.mkdir(parents=True, exist_ok=True)
     PUBLIC_PATH.write_text(json.dumps(export, indent=2) + "\n")
     APOCALYPSO_PATH.parent.mkdir(parents=True, exist_ok=True)
-    apocalypso = {
-        "schemaVersion": "apocalypso.signal.v1", "generatedAt": now, "module": "AI", "source": "jobservatory.castalia.institute",
-        "signal": {"id": "labor.ai_job_design", "name": "AI job-design pressure", "value": min(1, round((domains.get("ML engineering", 0) + domains.get("Product & leadership", 0)) / max(len(records), 1), 3)), "unit": "index_0_1", "direction": "higher_means_more_operationalization"},
-        "context": export["summary"], "sourceUrl": "https://jobservatory.castalia.institute/api/observatory.json"
-    }
-    APOCALYPSO_PATH.write_text(json.dumps(apocalypso, indent=2) + "\n")
     HISTORY_PATH.parent.mkdir(parents=True, exist_ok=True)
     history = []
     if HISTORY_PATH.exists():
         history = [json.loads(line) for line in HISTORY_PATH.read_text().splitlines() if line.strip()]
-    daily = {"date": now[:10], "generatedAt": now, **export["summary"], "termCounts": dict(term_counts)}
+    retrieved_total = sum(item["retrieved"] for item in retrieval)
+    daily = {"date": now[:10], "generatedAt": now, **export["summary"], "termCounts": dict(term_counts), "retrieval": retrieval, "eligibleObservations": len(candidates), "retrievedObservations": retrieved_total, "aiRelatedShare": round(len(candidates) / retrieved_total, 6) if retrieved_total else None}
     history = [item for item in history if item.get("date") != daily["date"]] + [daily]
     HISTORY_PATH.write_text("".join(json.dumps(item, separators=(",", ":")) + "\n" for item in history[-730:]))
     export["termTimeline"] = [{"date": item["date"], "terms": item.get("termCounts", {})} for item in history[-365:]]
     PUBLIC_PATH.write_text(json.dumps(export, indent=2) + "\n")
+    usable_history = [item for item in history if item.get("aiRelatedShare") is not None]
+    enough_history = len(usable_history) >= 30
+    signal_value = None
+    if enough_history:
+        current = sum(item["aiRelatedShare"] for item in usable_history[-7:]) / 7
+        prior = sum(item["aiRelatedShare"] for item in usable_history[-14:-7]) / 7
+        signal_value = round((current - prior) * 100, 3)
+    apocalypso = {
+        "schemaVersion": "apocalypso.signal.v2", "generatedAt": now, "module": "AI", "source": "jobservatory.castalia.institute",
+        "signal": {"id": "labor.ai_related_listing_share_change", "name": "7-day change in direct-or-applied AI listing share", "status": "available" if enough_history else "insufficient_history", "value": signal_value, "unit": "percentage_points", "minimumHistoryDays": 30, "observedHistoryDays": len(usable_history), "comparison": "latest_7_day_mean_minus_prior_7_day_mean", "direction": "higher_means_a_larger_share_of_source_listings_meet_the_versioned_ai_relevance_rules"},
+        "context": {**export["summary"], "coverage": export["coverage"], "warning": "Selected employer feeds are not representative of the labor market."}, "sourceUrl": "https://jobservatory.castalia.institute/api/observatory.json"
+    }
+    APOCALYPSO_PATH.write_text(json.dumps(apocalypso, indent=2) + "\n")
     print(f"exported {len(records)} observations from {len(employers)} employers")
     return 0
 

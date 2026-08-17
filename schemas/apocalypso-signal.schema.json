@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jobservatory.castalia.institute/schemas/apocalypso-signal.schema.json",
+  "title": "Jobservatory Apocalypso signal",
+  "type": "object",
+  "required": ["schemaVersion", "generatedAt", "module", "source", "signal", "context", "sourceUrl"],
+  "properties": {
+    "schemaVersion": {"const": "apocalypso.signal.v2"},
+    "module": {"const": "AI"},
+    "signal": {
+      "type": "object",
+      "required": ["id", "name", "status", "value", "unit", "minimumHistoryDays", "observedHistoryDays", "comparison", "direction"],
+      "properties": {
+        "status": {"enum": ["available", "insufficient_history"]},
+        "value": {"type": ["number", "null"]},
+        "unit": {"const": "percentage_points"}
+      }
+    }
+  }
+}

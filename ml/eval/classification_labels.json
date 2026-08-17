@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "jobservatory.skill-qrels.v1",
+  "annotationStatus": "single-reviewer development set",
+  "labelFamily": "skills",
+  "annotations": [
+    {"observationId":"greenhouse:andurilindustries:4995797007:1afee91575a0","labels":["Python","Robotics","C++"]},
+    {"observationId":"greenhouse:anthropic:5390778008:e9f0c0c35e2a","labels":["Python","LLMs","Evaluation","Safety"]},
+    {"observationId":"greenhouse:anthropic:5387564008:b30e9ee65452","labels":["Python","Evaluation"]},
+    {"observationId":"greenhouse:anthropic:5285557008:4faddd93f6c0","labels":["Python","Kubernetes","AWS","LLMs"]},
+    {"observationId":"greenhouse:scaleai:4520320005:b2c5e81e5fb1","labels":["Python","Kubernetes","AWS","LLMs","C++","Go"]},
+    {"observationId":"greenhouse:scaleai:4723638005:1658ff0a501e","labels":["Safety"]},
+    {"observationId":"greenhouse:gleanwork:4006735005:1b62f7ee6041","labels":["Python","Evaluation","C++"]},
+    {"observationId":"greenhouse:anthropic:5343907008:e39e7a50d4de","labels":["Python","LLMs","Evaluation","SQL"]},
+    {"observationId":"greenhouse:gleanwork:4712438005:41dcfefbc5ae","labels":["Python","LLMs","Evaluation","C++","Go"]},
+    {"observationId":"greenhouse:andurilindustries:5112335007:21c66d2fd7b5","labels":["Python","Kubernetes","LLMs","RAG","Agents","Robotics","Go"]},
+    {"observationId":"greenhouse:andurilindustries:5195642007:e20e99820115","labels":["Python","PyTorch","TensorFlow","Kubernetes"]},
+    {"observationId":"greenhouse:andurilindustries:5034688007:4cde7bf7a3fb","labels":[]},
+    {"observationId":"greenhouse:andurilindustries:5175202007:ad1189670105","labels":["Python","Robotics","Safety"]}
+  ]
+}

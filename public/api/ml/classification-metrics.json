@@ -1,0 +1,116 @@
+{
+  "schemaVersion": "jobservatory.classification-eval.v1",
+  "task": "multi-label skill extraction",
+  "evaluation": {
+    "observations": 13,
+    "labels": 15,
+    "judgmentPolicy": "single-reviewer development annotations; not independently adjudicated or held out"
+  },
+  "aggregate": {
+    "microPrecision": 0.9091,
+    "microRecall": 0.8696,
+    "microF1": 0.8889,
+    "macroF1": 0.8267,
+    "tailLabelRecall": 1.0,
+    "exactMatch": 0.3846,
+    "meanPredictedLabels": 3.385,
+    "calibration": null
+  },
+  "perLabel": {
+    "AWS": {
+      "support": 2,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "Agents": {
+      "support": 1,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "C++": {
+      "support": 4,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "Evaluation": {
+      "support": 5,
+      "precision": 0.6,
+      "recall": 0.6,
+      "f1": 0.6
+    },
+    "Go": {
+      "support": 3,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "Kubernetes": {
+      "support": 4,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "LLMs": {
+      "support": 6,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "PyTorch": {
+      "support": 1,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "Python": {
+      "support": 11,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "RAG": {
+      "support": 1,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "Robotics": {
+      "support": 3,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "SQL": {
+      "support": 1,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "Safety": {
+      "support": 3,
+      "precision": 1.0,
+      "recall": 0.6667,
+      "f1": 0.8
+    },
+    "TensorFlow": {
+      "support": 1,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "Vector search": {
+      "support": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    }
+  },
+  "limitations": [
+    "Current rules emit binary decisions without probabilities, so calibration cannot yet be measured.",
+    "The small development set is useful for regression detection but insufficient for publication-grade model comparison.",
+    "Occupation, labor-effect, maturity, and responsibility labels remain unevaluated and must not be presented as validated predictions."
+  ]
+}

@@ -9,9 +9,11 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "test": "npm run build && node --test tests/rendered-html.test.mjs",
+    "test": "npm run data:validate && npm run ml:evaluate && npm run build && node --test tests/rendered-html.test.mjs",
     "lint": "eslint . --ignore-pattern dist",
-    "data:collect": "python3 scripts/collect_listings.py"
+    "data:collect": "python3 scripts/collect_listings.py",
+    "data:validate": "python3 scripts/validate_exports.py",
+    "ml:evaluate": "python3 ml/retrieval_lab.py --write && python3 ml/classification_lab.py"
   },
   "dependencies": {
     "react": "19.2.6",
@@ -30,7 +32,7 @@
     "globals": "16.4.0",
     "typescript": "5.9.3",
     "typescript-eslint": "8.59.3",
-    "vite": "8.0.13"
+    "vite": "8.2.1"
   },
   "type": "module"
 }

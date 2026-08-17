@@ -1,73 +1,186 @@
 {
-  "schemaVersion": "apocalypso.signal.v1",
-  "generatedAt": "2026-08-17T09:58:27+00:00",
+  "schemaVersion": "apocalypso.signal.v2",
+  "generatedAt": "2026-08-17T10:01:05+00:00",
   "module": "AI",
   "source": "jobservatory.castalia.institute",
   "signal": {
-    "id": "labor.ai_job_design",
-    "name": "AI job-design pressure",
-    "value": 0.852,
-    "unit": "index_0_1",
-    "direction": "higher_means_more_operationalization"
+    "id": "labor.ai_related_listing_share_change",
+    "name": "7-day change in direct-or-applied AI listing share",
+    "status": "insufficient_history",
+    "value": null,
+    "unit": "percentage_points",
+    "minimumHistoryDays": 30,
+    "observedHistoryDays": 1,
+    "comparison": "latest_7_day_mean_minus_prior_7_day_mean",
+    "direction": "higher_means_a_larger_share_of_source_listings_meet_the_versioned_ai_relevance_rules"
   },
   "context": {
-    "observations": 250,
-    "employers": 4,
+    "observations": 750,
+    "employers": 6,
     "employerMix": {
-      "Anduril": 63,
-      "Anthropic": 63,
-      "Glean": 62,
-      "Scale AI": 62
+      "Anduril": 433,
+      "Anthropic": 126,
+      "Scale AI": 91,
+      "Glean": 27,
+      "Together AI": 29,
+      "xAI": 44
     },
     "changes": {
-      "new": 64,
-      "unchanged": 186,
-      "disappeared": 64
+      "unchanged": 750,
+      "disappeared": 0
     },
-    "compensationCoverage": 0.176,
-    "medianAdvertisedPayMidpoint": 230000,
+    "compensationCoverage": 0.765,
+    "medianAdvertisedPayMidpoint": 222000,
     "topSkills": [
       [
-        "Governance",
-        106
-      ],
-      [
-        "Agents",
-        102
-      ],
-      [
-        "LLMs",
-        98
-      ],
-      [
-        "Evaluation",
-        92
+        "Robotics",
+        403
       ],
       [
         "Python",
-        82
+        304
       ],
       [
-        "Robotics",
-        70
+        "C++",
+        181
       ],
       [
-        "Safety",
-        66
+        "LLMs",
+        172
       ],
       [
-        "Go",
-        60
+        "AWS",
+        97
+      ],
+      [
+        "Kubernetes",
+        77
+      ],
+      [
+        "Agents",
+        57
+      ],
+      [
+        "TypeScript",
+        45
       ]
     ],
     "domains": {
-      "Product & leadership": 101,
+      "AI-adjacent operations": 184,
+      "Robotics & embedded": 191,
+      "Product & leadership": 132,
       "ML engineering": 112,
-      "Robotics & embedded": 20,
-      "Scientific AI": 8,
-      "Safety & governance": 5,
-      "Education & training": 4
-    }
+      "Scientific AI": 92,
+      "Education & training": 17,
+      "Safety & governance": 22
+    },
+    "coverage": {
+      "sourcesConfigured": 6,
+      "sourcesSuccessful": 6,
+      "sourceFailures": [],
+      "retrieval": [
+        {
+          "employer": "Anthropic",
+          "board": "anthropic",
+          "retrieved": 441,
+          "eligible": 148,
+          "status": "ok",
+          "rightsReviewStatus": "pending",
+          "retentionPolicy": "metadata-hash-short-evidence",
+          "url": "https://boards-api.greenhouse.io/v1/boards/anthropic/jobs?content=true",
+          "httpStatus": 200,
+          "etag": "W/\"bcbc9e04308eaf5839f1d0bee7bfd134\"",
+          "lastModified": null,
+          "responseHash": "sha256:bcbc9e04308eaf5839f1d0bee7bfd134b509dc2e13e0fd9f41152d9dd3967d38",
+          "responseBytes": 6402564,
+          "latencyMs": 686
+        },
+        {
+          "employer": "Scale AI",
+          "board": "scaleai",
+          "retrieved": 210,
+          "eligible": 107,
+          "status": "ok",
+          "rightsReviewStatus": "pending",
+          "retentionPolicy": "metadata-hash-short-evidence",
+          "url": "https://boards-api.greenhouse.io/v1/boards/scaleai/jobs?content=true",
+          "httpStatus": 200,
+          "etag": "W/\"6a5aac9c15d2d8762086f70fd6a7ffbe\"",
+          "lastModified": null,
+          "responseHash": "sha256:6a5aac9c15d2d8762086f70fd6a7ffbe0dc6c6ff13156c36b749a88cfc721d77",
+          "responseBytes": 2412945,
+          "latencyMs": 341
+        },
+        {
+          "employer": "Anduril",
+          "board": "andurilindustries",
+          "retrieved": 2210,
+          "eligible": 502,
+          "status": "ok",
+          "rightsReviewStatus": "pending",
+          "retentionPolicy": "metadata-hash-short-evidence",
+          "url": "https://boards-api.greenhouse.io/v1/boards/andurilindustries/jobs?content=true",
+          "httpStatus": 200,
+          "etag": "W/\"53a1f6dacebff03bdc16c05324604584\"",
+          "lastModified": null,
+          "responseHash": "sha256:53a1f6dacebff03bdc16c05324604584418b04b845e1a3aaf5e21a8c2f0f819f",
+          "responseBytes": 38045472,
+          "latencyMs": 9253
+        },
+        {
+          "employer": "Glean",
+          "board": "gleanwork",
+          "retrieved": 112,
+          "eligible": 32,
+          "status": "ok",
+          "rightsReviewStatus": "pending",
+          "retentionPolicy": "metadata-hash-short-evidence",
+          "url": "https://boards-api.greenhouse.io/v1/boards/gleanwork/jobs?content=true",
+          "httpStatus": 200,
+          "etag": "W/\"27b3df81bd4620e5dd880aa6d204718d\"",
+          "lastModified": null,
+          "responseHash": "sha256:27b3df81bd4620e5dd880aa6d204718dce3037c0ac808f7bb18b2f2251c9e435",
+          "responseBytes": 2145107,
+          "latencyMs": 458
+        },
+        {
+          "employer": "Together AI",
+          "board": "togetherai",
+          "retrieved": 60,
+          "eligible": 34,
+          "status": "ok",
+          "rightsReviewStatus": "pending",
+          "retentionPolicy": "metadata-hash-short-evidence",
+          "url": "https://boards-api.greenhouse.io/v1/boards/togetherai/jobs?content=true",
+          "httpStatus": 200,
+          "etag": "W/\"a8d0147c8c35323666db132b23dd9287\"",
+          "lastModified": null,
+          "responseHash": "sha256:a8d0147c8c35323666db132b23dd92870f96ccdac43d581841aa6be1edbad02e",
+          "responseBytes": 514775,
+          "latencyMs": 518
+        },
+        {
+          "employer": "xAI",
+          "board": "xai",
+          "retrieved": 226,
+          "eligible": 52,
+          "status": "ok",
+          "rightsReviewStatus": "pending",
+          "retentionPolicy": "metadata-hash-short-evidence",
+          "url": "https://boards-api.greenhouse.io/v1/boards/xai/jobs?content=true",
+          "httpStatus": 200,
+          "etag": "W/\"63617799f4dbb4bbc6ce580ba77676e3\"",
+          "lastModified": null,
+          "responseHash": "sha256:63617799f4dbb4bbc6ce580ba77676e317e476ee8214b0088153d17d0191585b",
+          "responseBytes": 2065614,
+          "latencyMs": 370
+        }
+      ],
+      "eligibleObservations": 875,
+      "publishedObservations": 750,
+      "publicationCap": 750
+    },
+    "warning": "Selected employer feeds are not representative of the labor market."
   },
   "sourceUrl": "https://jobservatory.castalia.institute/api/observatory.json"
 }

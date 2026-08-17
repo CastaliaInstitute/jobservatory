@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jobservatory.castalia.institute/schemas/observatory.schema.json",
+  "title": "Jobservatory public corpus",
+  "type": "object",
+  "required": ["schemaVersion", "generatedAt", "scope", "methods", "coverage", "summary", "termIndex", "termTimeline", "observations"],
+  "properties": {
+    "schemaVersion": {"const": "0.2.0"},
+    "generatedAt": {"type": "string", "format": "date-time"},
+    "scope": {"type": "string"},
+    "methods": {"type": "object", "required": ["extraction", "ontology", "sampling", "labelReview"]},
+    "coverage": {"type": "object", "required": ["sourcesConfigured", "sourcesSuccessful", "sourceFailures", "retrieval", "eligibleObservations", "publishedObservations", "publicationCap"]},
+    "summary": {"type": "object", "required": ["observations", "employers", "employerMix", "changes", "compensationCoverage", "domains"]},
+    "termIndex": {"type": "array"},
+    "termTimeline": {"type": "array"},
+    "observations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["observationId", "analysisId", "sourceId", "employer", "title", "location", "sourceUrl", "retrievedAt", "contentHash", "roleRelevance", "classifications", "extraction", "descriptionPolicy", "version", "firstSeen", "lastSeen"],
+        "properties": {
+          "descriptionPolicy": {"const": "metadata-and-evidence-only"},
+          "contentHash": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+          "roleRelevance": {"type": "object", "properties": {"tier": {"enum": ["direct", "applied"]}}},
+          "version": {"type": "integer", "minimum": 1}
+        }
+      }
+    }
+  }
+}

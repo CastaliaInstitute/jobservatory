@@ -1,4 +1,4 @@
-name: Refresh labor observatory
+name: Refresh Jobservatory corpus
 
 on:
   schedule:
@@ -19,12 +19,15 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run data:collect
+      - run: npm run data:validate
+      - run: npm run ml:evaluate
+      - run: npm run lint
       - run: npm test
       - name: Commit new observations
         run: |
-          if git diff --quiet -- public/api data/history.ndjson; then exit 0; fi
-          git config user.name "castalia-observatory[bot]"
-          git config user.email "castalia-observatory[bot]@users.noreply.github.com"
-          git add public/api data/history.ndjson
+          if git diff --quiet -- public/api data; then exit 0; fi
+          git config user.name "jobservatory[bot]"
+          git config user.email "jobservatory[bot]@users.noreply.github.com"
+          git add public/api data/history.ndjson data/observation_versions.ndjson data/snapshots
           git commit -m "data: refresh AI labor observations"
           git push
