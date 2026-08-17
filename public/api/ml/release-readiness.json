@@ -2,7 +2,7 @@
   "schemaVersion": "jobservatory.release-readiness.v1",
   "generatedAt": "2026-08-17T11:07:30+00:00",
   "status": "blocked",
-  "passed": 2,
+  "passed": 3,
   "total": 12,
   "gates": [
     {
@@ -43,9 +43,9 @@
     },
     {
       "id": "responsible_ai.counterfactuals",
-      "name": "Protected-attribute counterfactual tests pass",
-      "status": "fail",
-      "evidence": "config/assurance.json"
+      "name": "Scoped protected-attribute counterfactual tests pass",
+      "status": "pass",
+      "evidence": "public/api/ml/counterfactual-audit.json plus config/assurance.json"
     },
     {
       "id": "longitudinal.signal",

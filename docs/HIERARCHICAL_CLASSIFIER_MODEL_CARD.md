@@ -43,3 +43,9 @@ Calibration against weak labels does not establish calibrated real-world
 probabilities. The candidate must not be used for employment or candidate
 decisions. It exists to make hierarchy, calibration, abstention, artifact
 lineage, and tail-label failure measurable before gold data is available.
+
+## Scoped counterfactual audit
+
+The serialized artifact is tested with 192 explicit protected-attribute phrase perturbations across sex/gender, race/ethnicity, age, disability, and religion. Across 12 synthetic role title/location inputs and all 42 calibrated leaf probabilities, the audit observes zero probability delta, decision flips, or abstention-state changes. A separate 36-comparison role-feature sensitivity control reaches a 0.967 maximum probability delta, demonstrating that the inference path is responsive.
+
+This result is narrow. Candidate attributes are prohibited and outside the model input contract, so the audit supports invariance to explicit out-of-contract phrases. It does not establish disparate-impact safety, allocation fairness, intersectional fairness, or freedom from proxies. Location remains a feature and requires geography-slice evaluation on independently adjudicated labels. The public evidence is `/api/ml/counterfactual-audit.json`.

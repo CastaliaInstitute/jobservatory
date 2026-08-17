@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jobservatory.castalia.institute/schemas/counterfactual-audit.schema.json",
+  "type": "object",
+  "required": ["schemaVersion", "generatedAt", "model", "scope", "criteria", "aggregate", "perGroup", "sensitivityControl", "status", "limitations"],
+  "properties": {
+    "schemaVersion": {"const": "jobservatory.counterfactual-audit.v1"},
+    "generatedAt": {"type": "string", "format": "date-time"},
+    "model": {"type": "object", "required": ["modelId", "artifactSha256", "labels", "features"], "properties": {
+      "modelId": {"type": "string"}, "artifactSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+      "labels": {"type": "integer", "minimum": 1}, "features": {"type": "integer", "minimum": 1}
+    }},
+    "scope": {"type": "object", "required": ["inputContract", "baseInputs", "protectedGroups", "comparisons", "method"], "properties": {
+      "inputContract": {"type": "string"}, "baseInputs": {"type": "integer", "minimum": 1}, "protectedGroups": {"type": "integer", "minimum": 1},
+      "comparisons": {"type": "integer", "minimum": 1}, "method": {"type": "string"}
+    }},
+    "criteria": {"type": "object", "required": ["maximumProbabilityDelta", "decisionFlips", "abstentionStateChanges", "sensitivityControlMinimumDeltaExclusive"], "properties": {
+      "maximumProbabilityDelta": {"type": "number", "minimum": 0}, "decisionFlips": {"const": 0}, "abstentionStateChanges": {"const": 0},
+      "sensitivityControlMinimumDeltaExclusive": {"type": "number", "minimum": 0}
+    }},
+    "aggregate": {"type": "object", "required": ["maxProbabilityDelta", "meanAbsoluteLabelDelta", "decisionFlips", "abstentionStateChanges"], "properties": {
+      "maxProbabilityDelta": {"type": "number", "minimum": 0}, "meanAbsoluteLabelDelta": {"type": "number", "minimum": 0},
+      "decisionFlips": {"type": "integer", "minimum": 0}, "abstentionStateChanges": {"type": "integer", "minimum": 0}
+    }},
+    "perGroup": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "object", "required": ["comparisons", "maxProbabilityDelta", "meanAbsoluteLabelDelta", "decisionFlips", "abstentionStateChanges"], "properties": {
+      "comparisons": {"type": "integer", "minimum": 1}, "maxProbabilityDelta": {"type": "number", "minimum": 0},
+      "meanAbsoluteLabelDelta": {"type": "number", "minimum": 0}, "decisionFlips": {"type": "integer", "minimum": 0}, "abstentionStateChanges": {"type": "integer", "minimum": 0}
+    }}},
+    "sensitivityControl": {"type": "object", "required": ["terms", "comparisons", "maxProbabilityDelta", "status"], "properties": {
+      "terms": {"type": "array", "minItems": 1}, "comparisons": {"type": "integer", "minimum": 1},
+      "maxProbabilityDelta": {"type": "number", "exclusiveMinimum": 0}, "status": {"enum": ["pass", "fail"]}
+    }},
+    "status": {"enum": ["pass", "fail"]}, "limitations": {"type": "array", "minItems": 1}
+  }
+}

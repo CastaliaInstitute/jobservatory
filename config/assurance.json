@@ -3,9 +3,9 @@
   "independentAdjudicationComplete": false,
   "sourceRightsReviewComplete": false,
   "occupationMappingHumanReviewComplete": false,
-  "protectedAttributeCounterfactualTestsComplete": false,
+  "protectedAttributeCounterfactualTestsComplete": true,
   "automatedAccessibilityAuditComplete": false,
   "productionServingArchitecture": "static-browser-prototype",
   "automaticGitHubCloudflareDeploymentVerified": false,
-  "notes": "Manual evidence flags remain false until the named audit is completed and linked from the A+ review."
+  "notes": "The scoped serialized-model counterfactual audit is automated and complete. Other flags remain false until their named manual or production evidence is completed and linked from the A+ review."
 }

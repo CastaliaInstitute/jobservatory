@@ -10,6 +10,7 @@ corpus = json.loads((PUBLIC / "observatory.json").read_text())
 signal = json.loads((PUBLIC / "apocalypso" / "jobs-signal.json").read_text())
 retrieval = json.loads((PUBLIC / "ml" / "learned-retrieval-metrics.json").read_text())
 classifier = json.loads((PUBLIC / "ml" / "hierarchical-classifier-metrics.json").read_text())
+counterfactual = json.loads((PUBLIC / "ml" / "counterfactual-audit.json").read_text())
 assurance = json.loads((ROOT / "config" / "assurance.json").read_text())
 benchmark_path = PUBLIC / "ops" / "production-benchmark.json"
 benchmark = json.loads(benchmark_path.read_text()) if benchmark_path.exists() else None
@@ -32,7 +33,7 @@ gates = [
     gate("evaluation.independent", "Retrieval and classification sets are independently annotated and adjudicated", assurance["independentAdjudicationComplete"], "config/assurance.json and model evaluation manifests"),
     gate("retrieval.promotion", "Learned retrieval clears BM25 quality and evidence gates", retrieval["promotion"]["status"] == "eligible", "public/api/ml/learned-retrieval-metrics.json"),
     gate("classification.promotion", "Calibrated hierarchical classifier clears evidence gates", classifier["promotion"]["status"] == "eligible", "public/api/ml/hierarchical-classifier-metrics.json"),
-    gate("responsible_ai.counterfactuals", "Protected-attribute counterfactual tests pass", assurance["protectedAttributeCounterfactualTestsComplete"], "config/assurance.json"),
+    gate("responsible_ai.counterfactuals", "Scoped protected-attribute counterfactual tests pass", counterfactual["status"] == "pass" and assurance["protectedAttributeCounterfactualTestsComplete"], "public/api/ml/counterfactual-audit.json plus config/assurance.json"),
     gate("longitudinal.signal", "Longitudinal signal has sufficient valid history", signal["signal"]["status"] == "available" and signal["signal"]["observedHistoryDays"] >= signal["signal"]["minimumHistoryDays"], "public/api/apocalypso/jobs-signal.json"),
     gate("serving.architecture", "Versioned production retrieval service is deployed", assurance["productionServingArchitecture"] == "versioned-service", "config/assurance.json"),
     gate("serving.benchmark", "Production benchmark has zero errors", bool(benchmark) and benchmark["aggregate"]["errors"] == 0, "public/api/ops/production-benchmark.json"),

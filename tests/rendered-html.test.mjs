@@ -10,7 +10,7 @@ test("builds a Cloudflare Pages-ready static site", async () => {
 });
 
 test("publishes provenance, evaluation, and safely abstaining signal feeds", async () => {
-  const [observatory, dataCard, apocalypso, retrieval, classification, learnedRetrieval, hierarchical, readiness, benchmark] = await Promise.all([
+  const [observatory, dataCard, apocalypso, retrieval, classification, learnedRetrieval, hierarchical, counterfactual, readiness, benchmark] = await Promise.all([
     readFile(new URL("../dist/api/observatory.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/data-card.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/apocalypso/jobs-signal.json", import.meta.url), "utf8"),
@@ -18,6 +18,7 @@ test("publishes provenance, evaluation, and safely abstaining signal feeds", asy
     readFile(new URL("../dist/api/ml/classification-metrics.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/ml/learned-retrieval-metrics.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/ml/hierarchical-classifier-metrics.json", import.meta.url), "utf8"),
+    readFile(new URL("../dist/api/ml/counterfactual-audit.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/ml/release-readiness.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/ops/production-benchmark.json", import.meta.url), "utf8"),
   ]);
@@ -28,6 +29,7 @@ test("publishes provenance, evaluation, and safely abstaining signal feeds", asy
   const classificationMetrics = JSON.parse(classification);
   const learnedRetrievalMetrics = JSON.parse(learnedRetrieval);
   const hierarchicalMetrics = JSON.parse(hierarchical);
+  const counterfactualAudit = JSON.parse(counterfactual);
   const releaseReadiness = JSON.parse(readiness);
   const productionBenchmark = JSON.parse(benchmark);
   assert.ok(corpus.observations.length >= 100);
@@ -66,12 +68,17 @@ test("publishes provenance, evaluation, and safely abstaining signal feeds", asy
   assert.equal(hierarchicalMetrics.promotion.status, "not_eligible");
   assert.equal(hierarchicalMetrics.hierarchy.parentConsistency, 1);
   assert.ok(hierarchicalMetrics.abstention.microDecisionCoverage < 1);
+  assert.equal(counterfactualAudit.status, "pass");
+  assert.equal(counterfactualAudit.aggregate.decisionFlips, 0);
+  assert.equal(counterfactualAudit.aggregate.abstentionStateChanges, 0);
+  assert.ok(counterfactualAudit.sensitivityControl.maxProbabilityDelta > counterfactualAudit.criteria.sensitivityControlMinimumDeltaExclusive);
   assert.equal(releaseReadiness.status, "blocked");
   assert.ok(releaseReadiness.passed < releaseReadiness.total);
   assert.equal(releaseReadiness.responsibleAI.employmentDecisionUse, "prohibited");
   assert.equal(releaseReadiness.responsibleAI.candidateMatching, "disabled");
   assert.equal(releaseReadiness.gates.find(gate => gate.id === "corpus.rights").status, "fail");
   assert.equal(releaseReadiness.gates.find(gate => gate.id === "evaluation.independent").status, "fail");
+  assert.equal(releaseReadiness.gates.find(gate => gate.id === "responsible_ai.counterfactuals").status, "pass");
   assert.equal(productionBenchmark.aggregate.errors, 0);
   assert.ok(productionBenchmark.aggregate.p95Ms > 0);
   assert.ok(productionBenchmark.aggregate.requestsPerSecond > 0);

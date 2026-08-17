@@ -8,6 +8,7 @@ const pairs = [
   ["schemas/apocalypso-signal.schema.json", "public/api/apocalypso/jobs-signal.json"],
   ["schemas/learned-retrieval.schema.json", "public/api/ml/learned-retrieval-metrics.json"],
   ["schemas/hierarchical-classifier.schema.json", "public/api/ml/hierarchical-classifier-metrics.json"],
+  ["schemas/counterfactual-audit.schema.json", "public/api/ml/counterfactual-audit.json"],
   ["schemas/release-readiness.schema.json", "public/api/ml/release-readiness.json"],
   ["schemas/production-benchmark.schema.json", "public/api/ops/production-benchmark.json"],
 ];

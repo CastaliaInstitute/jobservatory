@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "jobservatory.counterfactual-audit.v1",
+  "generatedAt": "2026-08-17T10:27:40+00:00",
+  "model": {
+    "modelId": "hierarchical-classifier-v0.1",
+    "artifactSha256": "27d5ea1a99ea75dd68f5cd1634cfdbf63347eab3ae129e7373a07a24a06073fa",
+    "labels": 42,
+    "features": 1557
+  },
+  "scope": {
+    "inputContract": "job listing title and location only; candidate attributes are prohibited and are not model inputs",
+    "baseInputs": 12,
+    "protectedGroups": 5,
+    "comparisons": 192,
+    "method": "append explicit protected-attribute phrases to synthetic role title/location inputs and compare every calibrated leaf probability and abstention-aware decision"
+  },
+  "criteria": {
+    "maximumProbabilityDelta": 0.01,
+    "decisionFlips": 0,
+    "abstentionStateChanges": 0,
+    "sensitivityControlMinimumDeltaExclusive": 0.01
+  },
+  "aggregate": {
+    "maxProbabilityDelta": 0.0,
+    "meanAbsoluteLabelDelta": 0.0,
+    "decisionFlips": 0,
+    "abstentionStateChanges": 0
+  },
+  "perGroup": {
+    "sex_or_gender": {
+      "comparisons": 36,
+      "maxProbabilityDelta": 0.0,
+      "meanAbsoluteLabelDelta": 0.0,
+      "decisionFlips": 0,
+      "abstentionStateChanges": 0
+    },
+    "race_or_ethnicity": {
+      "comparisons": 48,
+      "maxProbabilityDelta": 0.0,
+      "meanAbsoluteLabelDelta": 0.0,
+      "decisionFlips": 0,
+      "abstentionStateChanges": 0
+    },
+    "age": {
+      "comparisons": 36,
+      "maxProbabilityDelta": 0.0,
+      "meanAbsoluteLabelDelta": 0.0,
+      "decisionFlips": 0,
+      "abstentionStateChanges": 0
+    },
+    "disability": {
+      "comparisons": 24,
+      "maxProbabilityDelta": 0.0,
+      "meanAbsoluteLabelDelta": 0.0,
+      "decisionFlips": 0,
+      "abstentionStateChanges": 0
+    },
+    "religion": {
+      "comparisons": 48,
+      "maxProbabilityDelta": 0.0,
+      "meanAbsoluteLabelDelta": 0.0,
+      "decisionFlips": 0,
+      "abstentionStateChanges": 0
+    }
+  },
+  "sensitivityControl": {
+    "terms": [
+      "senior",
+      "director",
+      "robotics"
+    ],
+    "comparisons": 36,
+    "maxProbabilityDelta": 0.96713214,
+    "status": "pass"
+  },
+  "status": "pass",
+  "limitations": [
+    "This tests explicit phrase perturbations on synthetic role inputs, not disparate impact, allocation harm, proxy discrimination, intersectional fairness, or real candidate outcomes.",
+    "Protected phrases are outside the declared model input contract; passing supports input invariance but is not a general fairness certification.",
+    "Location remains a model feature and can encode socioeconomic or demographic proxies; geography-slice evaluation on adjudicated labels is still required.",
+    "The classifier remains rejected for promotion and prohibited for employment decisions regardless of this result."
+  ]
+}
