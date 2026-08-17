@@ -29,12 +29,12 @@ The current static Cloudflare Pages deployment runs retrieval in the browser ove
 | Source → ingestion | source identity, ATS provider, feed schema, retrieval time, source publication/update time when semantically available, URL, HTTP success, response hash/size, latency, fetched/eligible counts, public-API access basis, and separate redistribution/training review states | Implemented for 26 Greenhouse/Lever/Ashby feeds; raw immutable responses are intentionally not retained pending rights review |
 | Observation identity | `sourceId`, full-content SHA-256, `observationId`, first/last seen, listing version | Implemented; daily presence snapshots make disappearances independent of the 5,000-record publication cap |
 | Analysis identity | `analysisId`, extraction and ontology versions, review state, evidence | Implemented; analysis revisions are distinct from listing revisions |
-| Occupation and skill mapping | O*NET-SOC code/version, inferred flag, review state, listing-evidence crosswalk, inherited-profile semantics | Conservative title rules mapped 915/2,173; 1,330 skill mentions on 634 listings map to exact occupation-linked O*NET 30.3 software examples; mappings remain unreviewed |
+| Occupation and skill mapping | O*NET-SOC code/version, inferred flag, review state, listing-evidence crosswalk, inherited-profile semantics | Conservative title rules mapped 915/2,174; 1,330 skill mentions on 634 listings map to exact occupation-linked O*NET 30.3 software examples; mappings remain unreviewed |
 | Retrieval | query, corpus/index version, ranked IDs, component scores, latency | Rankings implemented; component scores and timing are not yet exposed by the UI |
 | Evaluation | immutable queries/qrels, split, model/index version, Recall@K, MRR, nDCG | Small single-reviewer development set implemented; no held-out or adjudicated set yet |
 | Classification | hierarchical label IDs, probabilities, threshold version, evidence | Versioned title/location logistic baseline implements five label families, Platt calibration, threshold-band abstention, tail metrics, and deterministic parents; weak-label and rights gates reject promotion |
 | Apocalypso | signal definition, unit, cohort, history threshold, uncertainty, null semantics | Version 2 emits `insufficient_history` and `null`; no fabricated pressure score |
-| Release assurance | strict artifact schemas, evidence-bearing gates, prohibited-use policy, manual assurance state | Public 12-gate ledger fails closed; currently only source-universe completeness and static-delivery benchmarking pass |
+| Release assurance | strict artifact schemas, evidence-bearing gates, prohibited-use policy, manual assurance state | Public 13-gate ledger fails closed; source-universe completeness, static-delivery benchmarking, scoped counterfactual testing, and automated accessibility currently pass |
 
 ## Retrieval stack
 

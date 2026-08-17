@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jobservatory.castalia.institute/schemas/accessibility-audit.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "generatedAt", "target", "standard", "criteria", "aggregate", "keyboardChecks", "results", "manualAssurance", "status", "limitations"],
+  "properties": {
+    "schemaVersion": {"const": "jobservatory.accessibility-audit.v1"},
+    "generatedAt": {"type": "string", "format": "date-time"},
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact", "route", "states", "viewports"],
+      "properties": {
+        "artifact": {"type": "string", "minLength": 1},
+        "route": {"const": "/"},
+        "states": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string"}},
+        "viewports": {"type": "array", "minItems": 2, "items": {"$ref": "#/$defs/viewport"}}
+      }
+    },
+    "standard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target", "automatedEngine", "automatedEngineVersion", "ruleTags", "browser"],
+      "properties": {
+        "target": {"const": "WCAG 2.2 Level AA"},
+        "automatedEngine": {"const": "axe-core"},
+        "automatedEngineVersion": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+        "ruleTags": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "browser": {"type": "string", "minLength": 1}
+      }
+    },
+    "criteria": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["violationNodes", "seriousOrCriticalNodes", "incompleteNodes", "keyboardChecksMustAllPass"],
+      "properties": {
+        "violationNodes": {"const": 0},
+        "seriousOrCriticalNodes": {"const": 0},
+        "incompleteNodes": {"const": 0},
+        "keyboardChecksMustAllPass": {"const": true}
+      }
+    },
+    "aggregate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["auditedStates", "rulesEvaluated", "passedRuleResults", "violationNodes", "seriousOrCriticalNodes", "incompleteRuleResults", "incompleteNodes"],
+      "properties": {
+        "auditedStates": {"type": "integer", "minimum": 4},
+        "rulesEvaluated": {"type": "integer", "minimum": 1},
+        "passedRuleResults": {"type": "integer", "minimum": 1},
+        "violationNodes": {"type": "integer", "minimum": 0},
+        "seriousOrCriticalNodes": {"type": "integer", "minimum": 0},
+        "incompleteRuleResults": {"type": "integer", "minimum": 0},
+        "incompleteNodes": {"type": "integer", "minimum": 0}
+      }
+    },
+    "keyboardChecks": {"type": "array", "minItems": 2, "items": {"$ref": "#/$defs/keyboardCheck"}},
+    "results": {"type": "array", "minItems": 4, "items": {"$ref": "#/$defs/result"}},
+    "manualAssurance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "scope"],
+      "properties": {"status": {"const": "required"}, "scope": {"type": "string", "minLength": 1}}
+    },
+    "status": {"enum": ["pass", "fail"]},
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {
+    "viewport": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "width", "height"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "width": {"type": "integer", "minimum": 320},
+        "height": {"type": "integer", "minimum": 320}
+      }
+    },
+    "keyboardCheck": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["viewport", "initialFocusOnClose", "wrapsForward", "wrapsBackward", "escapeCloses", "restoresFocus"],
+      "properties": {
+        "viewport": {"type": "string", "minLength": 1},
+        "initialFocusOnClose": {"type": "boolean"},
+        "wrapsForward": {"type": "boolean"},
+        "wrapsBackward": {"type": "boolean"},
+        "escapeCloses": {"type": "boolean"},
+        "restoresFocus": {"type": "boolean"}
+      }
+    },
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target", "failureSummary"],
+      "properties": {
+        "target": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "failureSummary": {"type": ["string", "null"]}
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "impact", "help", "nodes"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "impact": {"type": ["string", "null"]},
+        "help": {"type": "string", "minLength": 1},
+        "helpUrl": {"type": "string", "format": "uri"},
+        "nodes": {"type": "array", "items": {"$ref": "#/$defs/node"}}
+      }
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["viewport", "state", "rulesEvaluated", "passes", "incomplete", "violations"],
+      "properties": {
+        "viewport": {"type": "string", "minLength": 1},
+        "state": {"type": "string", "minLength": 1},
+        "rulesEvaluated": {"type": "integer", "minimum": 1},
+        "passes": {"type": "integer", "minimum": 0},
+        "incomplete": {"type": "array", "items": {"$ref": "#/$defs/finding"}},
+        "violations": {"type": "array", "items": {"$ref": "#/$defs/finding"}}
+      }
+    }
+  }
+}

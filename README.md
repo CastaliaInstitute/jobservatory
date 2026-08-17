@@ -20,6 +20,7 @@ Rule-derived labels are explicitly marked as unreviewed inferences. Unsupported 
 - exact O*NET 30.3 software-skill normalization and occupation-inherited skill profiles with provenance-safe semantics
 - versioned hierarchical weak-label classifier with Platt calibration, abstention, tail-label metrics, and a machine-enforced rejection gate
 - scoped serialized-model protected-phrase counterfactual audit with a positive sensitivity control
+- reproducible axe-core WCAG 2.2 AA and keyboard-dialog audit across desktop/mobile rendered states
 - public JSON corpus at `/api/observatory.json`
 - content-addressed data card at `/api/data-card.json`
 - Apocalypso signal at `/api/apocalypso/jobs-signal.json`

@@ -30,6 +30,30 @@
 .row-title:hover, .row-title:focus-visible { color: #4e6500; text-decoration: underline; }
 .open { padding: 7px; border: 0; background: transparent; }
 .word-map button { font-size: var(--term-size); }
+.scope span,
+.panel-title small,
+.skill-row b,
+.term-controls button,
+.term-controls label span,
+.term-detail > span,
+.term-detail dt,
+.term-detail > strong small,
+.term-time > span,
+.term-time button,
+.term-time em,
+.fact-grid span,
+.drawer blockquote small,
+.drawer .caution,
+footer p,
+footer > span { color: #a5a59c; }
+.tr > span:first-child b,
+.tr > span:first-child small,
+.table-head,
+.sources span { color: #55554f; }
+.word-map button:not(.selected) { opacity: 1; }
+h1 em { color: var(--paper); -webkit-text-stroke: 0; }
+.word-map { background: #171714; }
+.word-map small { color: #a5a59c; }
 @media(max-width:900px) {
   .masthead { height: 116px; padding-top: 26px; align-items: start; }
   .masthead nav { position: absolute; top: 71px; right: 0; bottom: auto; left: 0; z-index: 50; display: flex !important; padding: 16px 12px; overflow-x: auto; background: rgba(17,17,15,.98); border-top: 1px solid var(--rule); justify-content: space-around; gap: 18px; }

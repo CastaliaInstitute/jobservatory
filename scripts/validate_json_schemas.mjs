@@ -11,6 +11,7 @@ const pairs = [
   ["schemas/counterfactual-audit.schema.json", "public/api/ml/counterfactual-audit.json"],
   ["schemas/release-readiness.schema.json", "public/api/ml/release-readiness.json"],
   ["schemas/production-benchmark.schema.json", "public/api/ops/production-benchmark.json"],
+  ["schemas/accessibility-audit.schema.json", "public/api/ops/accessibility-audit.json"],
 ];
 const ajv = new Ajv2020({ allErrors: true, strict: true });
 addFormats(ajv);

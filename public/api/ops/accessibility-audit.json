@@ -1,0 +1,115 @@
+{
+  "schemaVersion": "jobservatory.accessibility-audit.v1",
+  "generatedAt": "2026-08-17T11:14:48+00:00",
+  "target": {
+    "artifact": "built Cloudflare Pages static bundle served by Vite preview",
+    "route": "/",
+    "states": [
+      "ledger-loaded",
+      "evidence-dialog-open"
+    ],
+    "viewports": [
+      {
+        "id": "desktop",
+        "width": 1440,
+        "height": 1000
+      },
+      {
+        "id": "mobile",
+        "width": 390,
+        "height": 844
+      }
+    ]
+  },
+  "standard": {
+    "target": "WCAG 2.2 Level AA",
+    "automatedEngine": "axe-core",
+    "automatedEngineVersion": "4.11.4",
+    "ruleTags": [
+      "wcag2a",
+      "wcag2aa",
+      "wcag21a",
+      "wcag21aa",
+      "wcag22aa"
+    ],
+    "browser": "Chromium 140.0.7339.186"
+  },
+  "criteria": {
+    "violationNodes": 0,
+    "seriousOrCriticalNodes": 0,
+    "incompleteNodes": 0,
+    "keyboardChecksMustAllPass": true
+  },
+  "aggregate": {
+    "auditedStates": 4,
+    "rulesEvaluated": 248,
+    "passedRuleResults": 111,
+    "violationNodes": 0,
+    "seriousOrCriticalNodes": 0,
+    "incompleteRuleResults": 0,
+    "incompleteNodes": 0
+  },
+  "keyboardChecks": [
+    {
+      "viewport": "desktop",
+      "initialFocusOnClose": true,
+      "wrapsForward": true,
+      "wrapsBackward": true,
+      "escapeCloses": true,
+      "restoresFocus": true
+    },
+    {
+      "viewport": "mobile",
+      "initialFocusOnClose": true,
+      "wrapsForward": true,
+      "wrapsBackward": true,
+      "escapeCloses": true,
+      "restoresFocus": true
+    }
+  ],
+  "results": [
+    {
+      "viewport": "desktop",
+      "state": "ledger-loaded",
+      "rulesEvaluated": 62,
+      "passes": 27,
+      "incomplete": [],
+      "violations": []
+    },
+    {
+      "viewport": "desktop",
+      "state": "evidence-dialog-open",
+      "rulesEvaluated": 62,
+      "passes": 28,
+      "incomplete": [],
+      "violations": []
+    },
+    {
+      "viewport": "mobile",
+      "state": "ledger-loaded",
+      "rulesEvaluated": 62,
+      "passes": 27,
+      "incomplete": [],
+      "violations": []
+    },
+    {
+      "viewport": "mobile",
+      "state": "evidence-dialog-open",
+      "rulesEvaluated": 62,
+      "passes": 29,
+      "incomplete": [],
+      "violations": []
+    }
+  ],
+  "manualAssurance": {
+    "status": "required",
+    "scope": "screen-reader and assistive-technology review by a qualified human remains separate and incomplete"
+  },
+  "status": "pass",
+  "limitations": [
+    "Automated rules cannot prove conformance or replace evaluation by people who use assistive technologies.",
+    "The audit covers the primary route after corpus load and with the evidence dialog open at desktop and mobile viewports.",
+    "External source pages and downloaded JSON artifacts are outside this UI audit.",
+    "Axe incomplete results require review but do not count as violations in this automated gate."
+  ]
+}

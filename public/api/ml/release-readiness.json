@@ -2,8 +2,8 @@
   "schemaVersion": "jobservatory.release-readiness.v1",
   "generatedAt": "2026-08-17T11:14:48+00:00",
   "status": "blocked",
-  "passed": 3,
-  "total": 12,
+  "passed": 4,
+  "total": 13,
   "gates": [
     {
       "id": "corpus.source_universe",
@@ -66,10 +66,16 @@
       "evidence": "public/api/ops/production-benchmark.json"
     },
     {
-      "id": "accessibility.audit",
-      "name": "Automated and manual accessibility audits pass",
+      "id": "accessibility.automated",
+      "name": "Built UI passes automated WCAG and keyboard interaction audits",
+      "status": "pass",
+      "evidence": "public/api/ops/accessibility-audit.json plus config/assurance.json"
+    },
+    {
+      "id": "accessibility.assistive_technology",
+      "name": "Qualified human assistive-technology audit passes",
       "status": "fail",
-      "evidence": "config/assurance.json"
+      "evidence": "config/assurance.json plus linked human audit report"
     },
     {
       "id": "deployment.automatic",

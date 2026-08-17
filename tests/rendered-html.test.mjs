@@ -10,7 +10,7 @@ test("builds a Cloudflare Pages-ready static site", async () => {
 });
 
 test("publishes provenance, evaluation, and safely abstaining signal feeds", async () => {
-  const [observatory, dataCard, apocalypso, retrieval, classification, learnedRetrieval, hierarchical, counterfactual, readiness, benchmark] = await Promise.all([
+  const [observatory, dataCard, apocalypso, retrieval, classification, learnedRetrieval, hierarchical, counterfactual, readiness, benchmark, accessibility] = await Promise.all([
     readFile(new URL("../dist/api/observatory.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/data-card.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/apocalypso/jobs-signal.json", import.meta.url), "utf8"),
@@ -21,6 +21,7 @@ test("publishes provenance, evaluation, and safely abstaining signal feeds", asy
     readFile(new URL("../dist/api/ml/counterfactual-audit.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/ml/release-readiness.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/ops/production-benchmark.json", import.meta.url), "utf8"),
+    readFile(new URL("../dist/api/ops/accessibility-audit.json", import.meta.url), "utf8"),
   ]);
   const corpus = JSON.parse(observatory);
   const card = JSON.parse(dataCard);
@@ -32,6 +33,7 @@ test("publishes provenance, evaluation, and safely abstaining signal feeds", asy
   const counterfactualAudit = JSON.parse(counterfactual);
   const releaseReadiness = JSON.parse(readiness);
   const productionBenchmark = JSON.parse(benchmark);
+  const accessibilityAudit = JSON.parse(accessibility);
   assert.ok(corpus.observations.length >= 100);
   assert.ok(corpus.termIndex.length >= 20);
   assert.ok(corpus.termTimeline.length >= 1);
@@ -79,6 +81,13 @@ test("publishes provenance, evaluation, and safely abstaining signal feeds", asy
   assert.equal(releaseReadiness.gates.find(gate => gate.id === "corpus.rights").status, "fail");
   assert.equal(releaseReadiness.gates.find(gate => gate.id === "evaluation.independent").status, "fail");
   assert.equal(releaseReadiness.gates.find(gate => gate.id === "responsible_ai.counterfactuals").status, "pass");
+  assert.equal(accessibilityAudit.status, "pass");
+  assert.equal(accessibilityAudit.aggregate.violationNodes, 0);
+  assert.equal(accessibilityAudit.aggregate.incompleteNodes, 0);
+  assert.ok(accessibilityAudit.keyboardChecks.every(check => check.initialFocusOnClose && check.wrapsForward && check.wrapsBackward && check.escapeCloses && check.restoresFocus));
+  assert.equal(accessibilityAudit.manualAssurance.status, "required");
+  assert.equal(releaseReadiness.gates.find(gate => gate.id === "accessibility.automated").status, "pass");
+  assert.equal(releaseReadiness.gates.find(gate => gate.id === "accessibility.assistive_technology").status, "fail");
   assert.equal(productionBenchmark.aggregate.errors, 0);
   assert.ok(productionBenchmark.aggregate.p95Ms > 0);
   assert.ok(productionBenchmark.aggregate.requestsPerSecond > 0);

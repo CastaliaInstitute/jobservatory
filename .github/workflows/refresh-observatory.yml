@@ -23,6 +23,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: npx playwright install --with-deps chromium
       - run: npm run data:collect
       - run: npm run data:validate
       - run: npm run ml:evaluate

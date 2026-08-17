@@ -14,6 +14,8 @@ counterfactual = json.loads((PUBLIC / "ml" / "counterfactual-audit.json").read_t
 assurance = json.loads((ROOT / "config" / "assurance.json").read_text())
 benchmark_path = PUBLIC / "ops" / "production-benchmark.json"
 benchmark = json.loads(benchmark_path.read_text()) if benchmark_path.exists() else None
+accessibility_path = PUBLIC / "ops" / "accessibility-audit.json"
+accessibility = json.loads(accessibility_path.read_text()) if accessibility_path.exists() else None
 
 
 def gate(identifier: str, name: str, passed: bool, evidence: str) -> dict:
@@ -37,7 +39,8 @@ gates = [
     gate("longitudinal.signal", "Longitudinal signal has sufficient valid history", signal["signal"]["status"] == "available" and signal["signal"]["observedHistoryDays"] >= signal["signal"]["minimumHistoryDays"], "public/api/apocalypso/jobs-signal.json"),
     gate("serving.architecture", "Versioned production retrieval service is deployed", assurance["productionServingArchitecture"] == "versioned-service", "config/assurance.json"),
     gate("serving.benchmark", "Production benchmark has zero errors", bool(benchmark) and benchmark["aggregate"]["errors"] == 0, "public/api/ops/production-benchmark.json"),
-    gate("accessibility.audit", "Automated and manual accessibility audits pass", assurance["automatedAccessibilityAuditComplete"], "config/assurance.json"),
+    gate("accessibility.automated", "Built UI passes automated WCAG and keyboard interaction audits", bool(accessibility) and accessibility["status"] == "pass" and assurance["automatedAccessibilityAuditComplete"], "public/api/ops/accessibility-audit.json plus config/assurance.json"),
+    gate("accessibility.assistive_technology", "Qualified human assistive-technology audit passes", assurance["manualAssistiveTechnologyAuditComplete"], "config/assurance.json plus linked human audit report"),
     gate("deployment.automatic", "GitHub-to-Cloudflare deployment is automatic and verified", assurance["automaticGitHubCloudflareDeploymentVerified"], "config/assurance.json"),
 ]
 passed = sum(item["status"] == "pass" for item in gates)
