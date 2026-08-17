@@ -15,8 +15,13 @@ assert corpus["summary"]["observations"] == len(records)
 assert corpus["coverage"]["publishedObservations"] == len(records)
 assert corpus["coverage"]["eligibleObservations"] >= len(records)
 assert corpus["coverage"]["sourcesSuccessful"] == corpus["coverage"]["sourcesConfigured"]
+assert corpus["coverage"]["sourceRegistryVersion"].startswith("jobservatory-sources-")
+assert "not labor-market completeness" in corpus["coverage"]["definition"]
 assert not corpus["coverage"]["sourceFailures"]
-assert all(item["status"] == "ok" and item["httpStatus"] == 200 and item["rightsReviewStatus"] for item in corpus["coverage"]["retrieval"])
+assert all(item["status"] == "ok" and item["httpStatus"] == 200 and item["rightsReviewStatus"] and item["ats"] in {"greenhouse", "lever"} and item["sourceKey"] for item in corpus["coverage"]["retrieval"])
+assert sum(corpus["coverage"]["atsProviders"].values()) == corpus["coverage"]["sourcesSuccessful"]
+assert corpus["summary"]["sourceConcentration"]["largestEmployerShare"] <= 1
+assert corpus["summary"]["sourceConcentration"]["herfindahlHirschmanIndex"] <= 1
 assert len({item["observationId"] for item in records}) == len(records)
 assert len({item["analysisId"] for item in records}) == len(records)
 for item in records:

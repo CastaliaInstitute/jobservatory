@@ -28,7 +28,7 @@ APOCALYPSO_PATH = ROOT / "public" / "api" / "apocalypso" / "jobs-signal.json"
 HISTORY_PATH = ROOT / "data" / "history.ndjson"
 LEDGER_PATH = ROOT / "data" / "observation_versions.ndjson"
 SNAPSHOT_DIR = ROOT / "data" / "snapshots"
-METHOD_VERSION = "jobservatory-rules-0.2.2"
+METHOD_VERSION = "jobservatory-rules-0.2.3"
 ONTOLOGY_VERSION = "jobservatory-ontology-0.2.1"
 ONET_VERSION = "30.3"
 
@@ -193,6 +193,41 @@ def fetch_board(board: str) -> tuple[list[dict], dict]:
         }
         return json.loads(payload).get("jobs", []), metadata
 
+def fetch_lever(site: str) -> tuple[list[dict], dict]:
+    url = f"https://api.lever.co/v0/postings/{site}?mode=json"
+    req = urllib.request.Request(url, headers={"User-Agent": "Jobservatory/0.1 (+https://jobservatory.castalia.institute)"})
+    started = time.perf_counter()
+    with urllib.request.urlopen(req, timeout=40) as response:
+        payload = response.read()
+        metadata = {
+            "url": url, "httpStatus": response.status,
+            "etag": response.headers.get("ETag"), "lastModified": response.headers.get("Last-Modified"),
+            "responseHash": "sha256:" + hashlib.sha256(payload).hexdigest(),
+            "responseBytes": len(payload), "latencyMs": round((time.perf_counter() - started) * 1000),
+        }
+        jobs = json.loads(payload)
+        if not isinstance(jobs, list):
+            raise ValueError("Lever response is not a list")
+        return jobs, metadata
+
+def normalize_job(ats: str, job: dict) -> dict:
+    if ats == "greenhouse":
+        return {
+            "id": str(job["id"]), "title": job.get("title", ""), "content": job.get("content", ""),
+            "location": (job.get("location") or {}).get("name", "Remote / unspecified"),
+            "url": job.get("absolute_url"), "sourceUpdatedAt": job.get("updated_at"), "sourcePublishedAt": None,
+        }
+    categories = job.get("categories") or {}
+    list_content = " ".join(f"{item.get('text', '')}. {item.get('content', '')}" for item in job.get("lists", []))
+    created = job.get("createdAt")
+    return {
+        "id": str(job["id"]), "title": job.get("text", ""),
+        "content": " ".join((job.get("descriptionPlain", ""), list_content, job.get("additionalPlain", ""))),
+        "location": categories.get("location", "Remote / unspecified"), "url": job.get("hostedUrl"),
+        "sourceUpdatedAt": None,
+        "sourcePublishedAt": datetime.fromtimestamp(created / 1000, timezone.utc).isoformat() if isinstance(created, (int, float)) else None,
+    }
+
 def init_db(conn: sqlite3.Connection) -> None:
     conn.executescript("""
       CREATE TABLE IF NOT EXISTS observations (
@@ -225,15 +260,18 @@ def main() -> int:
     candidates = []
     retrieval = []
     failures = []
-    for source in CONFIG["greenhouse"]:
+    configured_sources = [("greenhouse", source) for source in CONFIG.get("greenhouse", [])] + [("lever", source) for source in CONFIG.get("lever", [])]
+    for ats, source in configured_sources:
+        source_key = source.get("board") or source.get("site")
         try:
-            jobs, fetch_metadata = fetch_board(source["board"])
+            jobs, fetch_metadata = fetch_board(source_key) if ats == "greenhouse" else fetch_lever(source_key)
         except Exception as exc:
             print(f"warning: {source['employer']}: {exc}", file=sys.stderr)
-            failures.append({"employer": source["employer"], "board": source["board"], "errorType": type(exc).__name__})
+            failures.append({"employer": source["employer"], "ats": ats, "sourceKey": source_key, "errorType": type(exc).__name__})
             continue
         source_eligible = 0
-        for job in jobs:
+        for raw_job in jobs:
+            job = normalize_job(ats, raw_job)
             body = clean_html(job.get("content", ""))
             title = clean_html(job.get("title", ""))
             role_text = focused_role_text(body)
@@ -242,7 +280,7 @@ def main() -> int:
             if relevance["tier"] == "contextual":
                 continue
             source_eligible += 1
-            source_id = f"greenhouse:{source['board']}:{job['id']}"
+            source_id = f"{ats}:{source_key}:{job['id']}"
             digest = hashlib.sha256((title + "\n" + body).encode()).hexdigest()
             analysis_id = "analysis:" + hashlib.sha256(f"{source_id}:{digest}:{METHOD_VERSION}:{ONTOLOGY_VERSION}".encode()).hexdigest()[:20]
             skill_hits = matches(f"{title}. {role_text}", SKILLS)
@@ -252,9 +290,9 @@ def main() -> int:
                 "observationId": f"{source_id}:{digest[:12]}", "sourceId": source_id,
                 "analysisId": analysis_id,
                 "employer": source["employer"], "title": title,
-                "location": clean_html((job.get("location") or {}).get("name", "Remote / unspecified")),
-                "sourceUrl": job.get("absolute_url"), "retrievedAt": now,
-                "sourceUpdatedAt": job.get("updated_at"), "contentHash": f"sha256:{digest}",
+                "location": clean_html(job.get("location", "Remote / unspecified")),
+                "sourceUrl": job.get("url"), "retrievedAt": now,
+                "sourceUpdatedAt": job.get("sourceUpdatedAt"), "sourcePublishedAt": job.get("sourcePublishedAt"), "contentHash": f"sha256:{digest}",
                 "seniority": seniority(title), "domain": domain(title, role_text),
                 "onetOccupation": onet_occupation(title),
                 "compensation": compensation(body),
@@ -268,10 +306,10 @@ def main() -> int:
                 },
                 "extraction": {"methodVersion": METHOD_VERSION, "ontologyVersion": ONTOLOGY_VERSION, "reviewStatus": "unreviewed"},
                 "descriptionPolicy": "metadata-and-evidence-only",
-                "duplicateGroup": hashlib.sha256(f"{source['employer']}|{title.lower()}|{clean_html((job.get('location') or {}).get('name', ''))}".encode()).hexdigest()[:16]
+                "duplicateGroup": hashlib.sha256(f"{source['employer']}|{title.lower()}|{clean_html(job.get('location', ''))}".encode()).hexdigest()[:16]
             }
             candidates.append(record)
-        retrieval.append({"employer": source["employer"], "board": source["board"], "retrieved": len(jobs), "eligible": source_eligible, "status": "ok", "rightsReviewStatus": source.get("rightsReviewStatus", "pending"), "retentionPolicy": source.get("retentionPolicy", "metadata-hash-short-evidence"), **fetch_metadata})
+        retrieval.append({"employer": source["employer"], "ats": ats, "sourceKey": source_key, "sector": source.get("sector", "unspecified"), "retrieved": len(jobs), "eligible": source_eligible, "status": "ok", "rightsReviewStatus": source.get("rightsReviewStatus", "pending"), "retentionPolicy": source.get("retentionPolicy", "metadata-hash-short-evidence"), **fetch_metadata})
 
     if failures and os.environ.get("JOBSERVATORY_ALLOW_PARTIAL") != "1":
         raise RuntimeError(f"refusing partial publication; {len(failures)} source feed(s) failed")
@@ -345,6 +383,12 @@ def main() -> int:
         term_categories[record["domain"]] = "Job domain"
     domains = Counter(r["domain"] for r in records)
     employers = Counter(r["employer"] for r in records)
+    employer_shares = {employer: count / len(records) for employer, count in employers.items()} if records else {}
+    source_concentration = {
+        "largestEmployerShare": round(max(employer_shares.values()), 4) if employer_shares else None,
+        "herfindahlHirschmanIndex": round(sum(share * share for share in employer_shares.values()), 4),
+        "interpretation": "Published-record concentration diagnostic; not a labor-market estimate.",
+    }
     changes = Counter(r["changeType"] for r in records)
     SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
     prior_snapshots = sorted(path for path in SNAPSHOT_DIR.glob("*.json") if path.stem < now[:10])
@@ -367,11 +411,11 @@ def main() -> int:
         "lastSeen": now
     } for term, count in term_counts.most_common()]
     export = {
-        "schemaVersion": "0.2.0", "generatedAt": now, "scope": "Direct or strongly AI-applied listings from four selected employer career feeds; global, curated, and not labor-market representative",
+        "schemaVersion": "0.2.0", "generatedAt": now, "scope": f"All listings meeting versioned direct-or-applied AI rules within {len(retrieval)} selected public employer feeds across declared sectors and ATS providers; global, curated, and not labor-market representative",
         "methodNote": "Listings are timestamped observations, not unique jobs. Rule-derived labels are unreviewed hypotheses; evidence excerpts remain linked to sources.",
         "methods": {"extraction": METHOD_VERSION, "ontology": ONTOLOGY_VERSION, "sampling": CONFIG.get("samplingPolicy"), "labelReview": "unreviewed"},
-        "coverage": {"sourcesConfigured": len(CONFIG["greenhouse"]), "sourcesSuccessful": len(retrieval), "sourceFailures": failures, "retrieval": retrieval, "eligibleObservations": len(candidates), "publishedObservations": len(records), "publicationCap": int(CONFIG["maximumObservations"])},
-        "summary": {"observations": len(records), "employers": len(employers), "employerMix": employers, "changes": changes, "compensationCoverage": round(len(compensated)/len(records), 3) if records else 0, "medianAdvertisedPayMidpoint": median_pay, "topSkills": skill_counts.most_common(8), "domains": domains},
+        "coverage": {"sourceRegistryVersion": CONFIG.get("registryVersion"), "definition": CONFIG.get("coverageDefinition"), "sourcesConfigured": len(configured_sources), "sourcesSuccessful": len(retrieval), "sourceFailures": failures, "atsProviders": dict(Counter(item["ats"] for item in retrieval)), "sectors": dict(Counter(item["sector"] for item in retrieval)), "retrieval": retrieval, "eligibleObservations": len(candidates), "publishedObservations": len(records), "publicationCap": int(CONFIG["maximumObservations"])},
+        "summary": {"observations": len(records), "employers": len(employers), "employerMix": employers, "sourceConcentration": source_concentration, "changes": changes, "compensationCoverage": round(len(compensated)/len(records), 3) if records else 0, "medianAdvertisedPayMidpoint": median_pay, "topSkills": skill_counts.most_common(8), "domains": domains},
         "payBenchmarks": [
           {"occupation":"Data scientists","medianAnnualPay":112590,"year":2024,"source":"BLS OEWS","sourceUrl":"https://www.bls.gov/ooh/math/data-scientists.htm"},
           {"occupation":"Software developers","medianAnnualPay":133080,"year":2024,"source":"BLS OOH","sourceUrl":"https://www.bls.gov/ooh/computer-and-information-technology/software-developers.htm"},

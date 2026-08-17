@@ -11,6 +11,7 @@ the same split before they are promoted.
 from __future__ import annotations
 
 import argparse
+import gzip
 import json
 import math
 import re
@@ -21,6 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CORPUS_PATH = ROOT / "public" / "api" / "observatory.json"
 QUERY_PATH = ROOT / "ml" / "eval" / "queries.json"
 METRICS_PATH = ROOT / "public" / "api" / "ml" / "retrieval-metrics.json"
+SNAPSHOT_MANIFEST = ROOT / "ml" / "eval" / "snapshots" / "manifest.json"
 TOKEN_RE = re.compile(r"[a-z0-9+#.]{2,}")
 DIMENSIONS = 512
 
@@ -139,7 +141,7 @@ def ndcg_at(run: list[str], grades: dict[str, int], k: int) -> float:
     return gain(run) / denominator if denominator else 0.0
 
 
-def evaluate(index: RetrievalIndex, queries: list[dict]) -> dict:
+def evaluate(index: RetrievalIndex, queries: list[dict], corpus_record: dict | None = None) -> dict:
     missing = sorted({doc_id for query in queries for doc_id in query["judgments"] if doc_id not in set(index.ids)})
     if missing:
         raise RuntimeError(f"judged observations missing from evaluation corpus: {missing}")
@@ -160,6 +162,7 @@ def evaluate(index: RetrievalIndex, queries: list[dict]) -> dict:
             metrics = {
                 "recall@5": recall_at(ranked, relevant, 5),
                 "recall@10": recall_at(ranked, relevant, 10),
+                "recall@50": recall_at(ranked, relevant, 50),
                 "mrr": reciprocal_rank(ranked, relevant),
                 "ndcg@10": ndcg_at(ranked, grades, 10),
             }
@@ -169,7 +172,7 @@ def evaluate(index: RetrievalIndex, queries: list[dict]) -> dict:
     count = max(len(queries), 1)
     return {
         "schemaVersion": "jobservatory.retrieval-eval.v1",
-        "corpus": {"path": "public/api/observatory.json", "observations": len(index.documents)},
+        "corpus": corpus_record or {"path": "public/api/observatory.json", "observations": len(index.documents)},
         "evaluation": {"queries": len(queries), "judgmentPolicy": "manually selected, graded title-and-evidence relevance; development set, not a held-out test set"},
         "models": {
             "bm25": "Okapi BM25 k1=1.2 b=0.75",
@@ -194,14 +197,24 @@ def main() -> int:
     parser.add_argument("--top-k", type=int, default=10)
     parser.add_argument("--write", action="store_true", help="Write committed metrics JSON")
     args = parser.parse_args()
-    corpus = json.loads(CORPUS_PATH.read_text())
-    index = RetrievalIndex(corpus["observations"])
     if args.query:
+        corpus = json.loads(CORPUS_PATH.read_text())
+        index = RetrievalIndex(corpus["observations"])
         run = index.rerank(args.query, index.rrf(index.bm25(args.query), index.dense(args.query)))
         by_id = {item["observationId"]: item for item in corpus["observations"]}
         print(json.dumps([{"score": round(score, 6), "observationId": doc_id, "employer": by_id[doc_id]["employer"], "title": by_id[doc_id]["title"]} for doc_id, score in run[:args.top_k]], indent=2))
         return 0
-    report = evaluate(index, json.loads(QUERY_PATH.read_text())["queries"])
+    snapshot_manifest = json.loads(SNAPSHOT_MANIFEST.read_text())
+    snapshot_path = ROOT / snapshot_manifest["snapshot"]
+    with gzip.open(snapshot_path, "rt") as handle:
+        corpus = json.load(handle)
+    index = RetrievalIndex(corpus["observations"])
+    report = evaluate(index, json.loads(QUERY_PATH.read_text())["queries"], {
+        "path": snapshot_manifest["snapshot"],
+        "canonicalSha256": snapshot_manifest["canonicalSha256"],
+        "observations": len(index.documents),
+        "frozen": True,
+    })
     rendered = json.dumps(report, indent=2) + "\n"
     if args.write:
         METRICS_PATH.parent.mkdir(parents=True, exist_ok=True)

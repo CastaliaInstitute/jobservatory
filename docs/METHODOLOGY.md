@@ -2,7 +2,7 @@
 
 ## What the corpus represents
 
-The current corpus is a capped, source-stratified set of direct or strongly AI-applied listings from six selected employer career feeds. It is global, employer-concentrated, and not representative of the US or global labor market. “Comprehensive” is a target measured against a declared source universe; it is not a synonym for a high row count.
+The current corpus is a capped, source-stratified set of direct or strongly AI-applied listings from 19 selected employer career feeds across two ATS providers. Declared sectors include frontier-model research, AI cloud and data platforms, defense robotics, autonomous vehicles, enterprise software and search, fintech, internet infrastructure, education, consumer platforms, and media and interactive entertainment. It is global, employer-concentrated, and not representative of the US or global labor market. “Comprehensive” means all rule-eligible listings within the versioned source registry, subject to a published cap; it is not a synonym for the whole labor market or a high row count.
 
 The unit of analysis is a listing observation at a retrieval time. Listing versions and analysis versions are separate. A source text can remain unchanged while the ontology or extraction method changes.
 
@@ -26,7 +26,7 @@ Every rule-derived field must expose method and ontology versions. Unsupported l
 
 ## Longitudinal analysis
 
-The append-only version ledger preserves new source or analysis versions. Daily presence snapshots cover the full eligible set, so disappearance is not inferred from movement across the 750-record publication cap. Same-day refreshes replace that day's aggregate frame.
+The append-only version ledger preserves new source or analysis versions. Daily presence snapshots cover the full eligible set, so disappearance is not inferred from movement across the 2,500-record publication cap. Same-day refreshes replace that day's aggregate frame.
 
 Trend publication requires at least 30 distinct daily frames, a stable source cohort, per-source denominators, and sensitivity analysis for feed outages and cohort changes. Term counts from one date are frequencies, not emergence. A removed listing is “no longer observed,” not “filled” or “eliminated.”
 

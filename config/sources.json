@@ -1,13 +1,30 @@
 {
+  "registryVersion": "jobservatory-sources-2026-08-17.2",
+  "coverageDefinition": "All listings satisfying the versioned AI relevance rule in every successfully retrieved feed in this registry; this is source-universe completeness, not labor-market completeness.",
   "greenhouse": [
-    { "employer": "Anthropic", "board": "anthropic", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
-    { "employer": "Scale AI", "board": "scaleai", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
-    { "employer": "Anduril", "board": "andurilindustries", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
-    { "employer": "Glean", "board": "gleanwork", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
-    { "employer": "Together AI", "board": "togetherai", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
-    { "employer": "xAI", "board": "xai", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" }
+    { "employer": "Anthropic", "board": "anthropic", "sector": "frontier-model-lab", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Scale AI", "board": "scaleai", "sector": "ai-data-platform", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Anduril", "board": "andurilindustries", "sector": "defense-robotics", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Glean", "board": "gleanwork", "sector": "enterprise-search", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Together AI", "board": "togetherai", "sector": "ai-cloud", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "xAI", "board": "xai", "sector": "frontier-model-lab", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "CoreWeave", "board": "coreweave", "sector": "ai-cloud", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Databricks", "board": "databricks", "sector": "data-and-ai-platform", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Google DeepMind", "board": "deepmind", "sector": "frontier-model-lab", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Stripe", "board": "stripe", "sector": "financial-technology", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Cloudflare", "board": "cloudflare", "sector": "internet-infrastructure", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Duolingo", "board": "duolingo", "sector": "education-technology", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Reddit", "board": "reddit", "sector": "consumer-platform", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Roblox", "board": "roblox", "sector": "interactive-entertainment", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" }
   ],
-  "maximumObservations": 750,
+  "lever": [
+    { "employer": "Shield AI", "site": "shieldai", "sector": "defense-robotics", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Zoox", "site": "zoox", "sector": "autonomous-vehicles", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Waabi", "site": "waabi", "sector": "autonomous-vehicles", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Palantir", "site": "palantir", "sector": "enterprise-and-defense-software", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Spotify", "site": "spotify", "sector": "media-and-entertainment", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" }
+  ],
+  "maximumObservations": 2500,
   "minimumRecordsPerSource": 5,
   "samplingPolicy": "all-eligible-or-proportional-by-source-with-floor"
 }

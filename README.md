@@ -10,12 +10,13 @@ Rule-derived labels are explicitly marked as unreviewed inferences. Unsupported 
 
 ## Current prototype
 
-- 750 published observations from six public Greenhouse feeds, selected from a larger declared eligible set
+- 1,700+ published observations from 19 public feeds across Greenhouse and Lever, spanning 14 declared sectors
 - ML engineering, scientific AI, robotics, product leadership, education, safety, governance, and evaluation
 - append-only source/analysis versions, full eligible-set daily presence snapshots, and summary frames retained for up to two years
 - evidence ledger, compensation signals, term map, and working hybrid retrieval laboratory
 - BM25, fixed dense-hash, reciprocal-rank fusion, and transparent interaction-reranking baselines
 - committed retrieval and multi-label development judgments with reproducible metrics
+- pinned learned sentence-embedding and cross-encoder experiment with a machine-enforced rejection gate
 - public JSON corpus at `/api/observatory.json`
 - Apocalypso signal at `/api/apocalypso/jobs-signal.json`
 

@@ -20,16 +20,16 @@ public career feeds
        -> Apocalypso signal (withholds value until valid)
 ```
 
-The current static Cloudflare Pages deployment runs retrieval in the browser over 750 compact observations. This is appropriate for the prototype, not the target serving architecture.
+The current static Cloudflare Pages deployment runs retrieval in the browser over more than 1,700 compact observations. This is appropriate for the prototype, not the target serving architecture.
 
 ## Data and model contracts
 
 | Boundary | Required contract | Current state |
 |---|---|---|
-| Source → ingestion | source identity, retrieval time, source update time, URL, HTTP success, response hash/size, latency, fetched/eligible counts | Implemented for six Greenhouse feeds; raw immutable snapshots are intentionally not retained pending rights review |
-| Observation identity | `sourceId`, full-content SHA-256, `observationId`, first/last seen, listing version | Implemented; daily presence snapshots make disappearances independent of the 750-record publication cap |
+| Source → ingestion | source identity, ATS provider, retrieval time, source publication/update time when semantically available, URL, HTTP success, response hash/size, latency, fetched/eligible counts | Implemented for 19 Greenhouse/Lever feeds; raw immutable snapshots are intentionally not retained pending rights review |
+| Observation identity | `sourceId`, full-content SHA-256, `observationId`, first/last seen, listing version | Implemented; daily presence snapshots make disappearances independent of the 2,500-record publication cap |
 | Analysis identity | `analysisId`, extraction and ontology versions, review state, evidence | Implemented; analysis revisions are distinct from listing revisions |
-| Occupation mapping | O*NET-SOC code/version, inferred flag, review state | Conservative title rules currently map 321/750 and abstain on the remainder |
+| Occupation mapping | O*NET-SOC code/version, inferred flag, review state | Conservative title rules mapped 733/1,709 at the review snapshot and abstained on the remainder |
 | Retrieval | query, corpus/index version, ranked IDs, component scores, latency | Rankings implemented; component scores and timing are not yet exposed by the UI |
 | Evaluation | immutable queries/qrels, split, model/index version, Recall@K, MRR, nDCG | Small single-reviewer development set implemented; no held-out or adjudicated set yet |
 | Classification | hierarchical label IDs, probabilities, threshold version, evidence | Binary rules and label names implemented; probabilities, hierarchy, calibration, and a trained model are absent |
@@ -39,7 +39,7 @@ The current static Cloudflare Pages deployment runs retrieval in the browser ove
 
 The deployed baseline uses BM25, a 512-dimensional fixed feature-hashed word unigram/bigram representation, reciprocal-rank fusion, and a transparent title/metadata interaction reranker. The fixed dense representation is not called a semantic embedding, and the interaction model is not called a cross-encoder.
 
-The next candidate stack is:
+The first offline learned candidate uses pinned MiniLM sentence embeddings and an MS MARCO cross-encoder. It improves development MRR and nDCG but regresses recall, so the promotion gate rejects it. The target production stack remains:
 
 1. PostgreSQL for normalized metadata and observation lineage.
 2. OpenSearch or Tantivy for BM25 and faceting.

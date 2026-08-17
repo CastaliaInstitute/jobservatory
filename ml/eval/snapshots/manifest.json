@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "jobservatory.eval-corpus.v1",
+  "createdAt": "2026-08-17T10:08:59.749220+00:00",
+  "source": "public/api/observatory.json",
+  "snapshot": "ml/eval/snapshots/corpus-4bae3c5422963927.json.gz",
+  "canonicalSha256": "4bae3c5422963927cc4b7e0e4040f443237e4a0921986cfc5918fa923916d14c",
+  "compressedSha256": "a8f4cc79af5a68d2172ffae82e6ef3a00494f6d83b7c242536b99879c72574b8",
+  "observations": 750,
+  "generatedAt": "2026-08-17T10:02:15+00:00",
+  "immutability": "A changed canonical digest requires a new snapshot filename."
+}

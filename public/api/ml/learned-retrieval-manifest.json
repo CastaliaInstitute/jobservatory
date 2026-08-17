@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "jobservatory.model-manifest.v1",
+  "task": "retrieval-and-reranking",
+  "models": {
+    "bm25": {
+      "implementation": "jobservatory RetrievalIndex",
+      "parameters": {
+        "k1": 1.2,
+        "b": 0.75
+      }
+    },
+    "embedding": {
+      "id": "sentence-transformers/all-MiniLM-L6-v2",
+      "revision": "b8903db39f65d93ae28d49a37c4f3fa90c5f94e0",
+      "license": "Apache-2.0",
+      "normalized": true
+    },
+    "fusion": {
+      "method": "reciprocal-rank fusion",
+      "k": 60
+    },
+    "reranker": {
+      "id": "cross-encoder/ms-marco-MiniLM-L6-v2",
+      "revision": "c5ee24cb16019beea0893ab7796b1df96625c6b8",
+      "license": "Apache-2.0",
+      "depth": 50
+    }
+  },
+  "runtime": {
+    "python": "3.12.11",
+    "platform": "macOS-26.6-arm64-arm-64bit",
+    "device": "mps",
+    "numpy": "2.5.2",
+    "torch": "2.13.0",
+    "sentenceTransformers": "5.7.0",
+    "transformers": "5.15.0",
+    "lockfileSha256": "e760c5ef60c62e39e67349952658a494cfa1b791751bdfb071d9b4967c8dedfb"
+  },
+  "evaluationCorpusCanonicalSha256": "4bae3c5422963927cc4b7e0e4040f443237e4a0921986cfc5918fa923916d14c",
+  "qrelsSha256": "c505e62207cad9d2d5a348df213de6b7d47ca6c6b142d01f86c85cbfc21629a6",
+  "promotion": {
+    "status": "not_eligible",
+    "qualityGatePass": false,
+    "qualityCriteria": {
+      "ndcg@10Improves": true,
+      "mrrNonInferior": true,
+      "recall@5NonInferior": false,
+      "recall@10NonInferior": false,
+      "recall@50NonInferior": true
+    },
+    "evidenceGatePass": false,
+    "reasons": [
+      "Candidate did not improve nDCG@10 without regressing MRR or Recall@5/10/50.",
+      "Independent, adjudicated, temporally held-out judgments are required."
+    ]
+  }
+}

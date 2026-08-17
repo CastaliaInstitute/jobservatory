@@ -1,0 +1,357 @@
+{
+  "schemaVersion": "jobservatory.learned-retrieval-eval.v1",
+  "corpus": {
+    "schemaVersion": "jobservatory.eval-corpus.v1",
+    "createdAt": "2026-08-17T10:08:59.749220+00:00",
+    "source": "public/api/observatory.json",
+    "snapshot": "ml/eval/snapshots/corpus-4bae3c5422963927.json.gz",
+    "canonicalSha256": "4bae3c5422963927cc4b7e0e4040f443237e4a0921986cfc5918fa923916d14c",
+    "compressedSha256": "a8f4cc79af5a68d2172ffae82e6ef3a00494f6d83b7c242536b99879c72574b8",
+    "observations": 750,
+    "generatedAt": "2026-08-17T10:02:15+00:00",
+    "immutability": "A changed canonical digest requires a new snapshot filename.",
+    "compressedBytes": 195884
+  },
+  "evaluation": {
+    "split": "development",
+    "queries": 6,
+    "annotationStatus": "single-reviewer development set",
+    "adjudicationStatus": "not_adjudicated",
+    "eligibleForPromotionDecision": false
+  },
+  "models": {
+    "bm25": {
+      "implementation": "jobservatory RetrievalIndex",
+      "parameters": {
+        "k1": 1.2,
+        "b": 0.75
+      }
+    },
+    "embedding": {
+      "id": "sentence-transformers/all-MiniLM-L6-v2",
+      "revision": "b8903db39f65d93ae28d49a37c4f3fa90c5f94e0",
+      "license": "Apache-2.0",
+      "normalized": true
+    },
+    "fusion": {
+      "method": "reciprocal-rank fusion",
+      "k": 60
+    },
+    "reranker": {
+      "id": "cross-encoder/ms-marco-MiniLM-L6-v2",
+      "revision": "c5ee24cb16019beea0893ab7796b1df96625c6b8",
+      "license": "Apache-2.0",
+      "depth": 50
+    }
+  },
+  "aggregate": {
+    "bm25": {
+      "recall@5": 0.5139,
+      "recall@10": 0.6389,
+      "recall@50": 0.6389,
+      "mrr": 0.6667,
+      "ndcg@10": 0.6026
+    },
+    "learned_dense": {
+      "recall@5": 0.25,
+      "recall@10": 0.3889,
+      "recall@50": 0.6667,
+      "mrr": 0.2758,
+      "ndcg@10": 0.2685
+    },
+    "bm25_dense_rrf": {
+      "recall@5": 0.4306,
+      "recall@10": 0.5556,
+      "recall@50": 0.7778,
+      "mrr": 0.5903,
+      "ndcg@10": 0.4941
+    },
+    "cross_encoder": {
+      "recall@5": 0.5,
+      "recall@10": 0.5556,
+      "recall@50": 0.7778,
+      "mrr": 0.7269,
+      "ndcg@10": 0.6181
+    }
+  },
+  "developmentDeltaCrossEncoderVsBm25": {
+    "recall@5": -0.0139,
+    "recall@10": -0.0833,
+    "recall@50": 0.1389,
+    "mrr": 0.0602,
+    "ndcg@10": 0.0155
+  },
+  "perQuery": [
+    {
+      "id": "q01",
+      "query": "machine learning search quality",
+      "metrics": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "recall@50": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 0.7098
+        },
+        "learned_dense": {
+          "recall@5": 0.5,
+          "recall@10": 1.0,
+          "recall@50": 1.0,
+          "mrr": 0.3333,
+          "ndcg@10": 0.3713
+        },
+        "bm25_dense_rrf": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "recall@50": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 0.7098
+        },
+        "cross_encoder": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "recall@50": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 1.0
+        }
+      }
+    },
+    {
+      "id": "q02",
+      "query": "model serving infrastructure",
+      "metrics": {
+        "bm25": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "recall@50": 0.5,
+          "mrr": 1.0,
+          "ndcg@10": 0.7872
+        },
+        "learned_dense": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "recall@50": 0.5,
+          "mrr": 0.05,
+          "ndcg@10": 0.0
+        },
+        "bm25_dense_rrf": {
+          "recall@5": 0.0,
+          "recall@10": 0.5,
+          "recall@50": 1.0,
+          "mrr": 0.125,
+          "ndcg@10": 0.2483
+        },
+        "cross_encoder": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "recall@50": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 0.7872
+        }
+      }
+    },
+    {
+      "id": "q03",
+      "query": "staff robotics software engineer",
+      "metrics": {
+        "bm25": {
+          "recall@5": 0.3333,
+          "recall@10": 0.3333,
+          "recall@50": 0.3333,
+          "mrr": 0.5,
+          "ndcg@10": 0.425
+        },
+        "learned_dense": {
+          "recall@5": 0.0,
+          "recall@10": 0.3333,
+          "recall@50": 1.0,
+          "mrr": 0.1667,
+          "ndcg@10": 0.2399
+        },
+        "bm25_dense_rrf": {
+          "recall@5": 0.3333,
+          "recall@10": 0.3333,
+          "recall@50": 0.6667,
+          "mrr": 1.0,
+          "ndcg@10": 0.6735
+        },
+        "cross_encoder": {
+          "recall@5": 0.0,
+          "recall@10": 0.3333,
+          "recall@50": 0.6667,
+          "mrr": 0.1111,
+          "ndcg@10": 0.2028
+        }
+      }
+    },
+    {
+      "id": "q04",
+      "query": "AI safeguards evaluation",
+      "metrics": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 0.75,
+          "recall@50": 0.75,
+          "mrr": 0.1667,
+          "ndcg@10": 0.3944
+        },
+        "learned_dense": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "recall@50": 0.25,
+          "mrr": 0.0833,
+          "ndcg@10": 0.0
+        },
+        "bm25_dense_rrf": {
+          "recall@5": 0.25,
+          "recall@10": 0.25,
+          "recall@50": 0.75,
+          "mrr": 0.25,
+          "ndcg@10": 0.1194
+        },
+        "cross_encoder": {
+          "recall@5": 0.25,
+          "recall@10": 0.25,
+          "recall@50": 0.75,
+          "mrr": 0.25,
+          "ndcg@10": 0.1194
+        }
+      }
+    },
+    {
+      "id": "q05",
+      "query": "principal AI architecture",
+      "metrics": {
+        "bm25": {
+          "recall@5": 0.25,
+          "recall@10": 0.25,
+          "recall@50": 0.25,
+          "mrr": 0.3333,
+          "ndcg@10": 0.2995
+        },
+        "learned_dense": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "recall@50": 0.25,
+          "mrr": 0.0217,
+          "ndcg@10": 0.0
+        },
+        "bm25_dense_rrf": {
+          "recall@5": 0.0,
+          "recall@10": 0.25,
+          "recall@50": 0.25,
+          "mrr": 0.1667,
+          "ndcg@10": 0.2134
+        },
+        "cross_encoder": {
+          "recall@5": 0.25,
+          "recall@10": 0.25,
+          "recall@50": 0.25,
+          "mrr": 1.0,
+          "ndcg@10": 0.5991
+        }
+      }
+    },
+    {
+      "id": "q06",
+      "query": "scientific AI chemistry research",
+      "metrics": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "recall@50": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 1.0
+        },
+        "learned_dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "recall@50": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 1.0
+        },
+        "bm25_dense_rrf": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "recall@50": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 1.0
+        },
+        "cross_encoder": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "recall@50": 1.0,
+          "mrr": 1.0,
+          "ndcg@10": 1.0
+        }
+      }
+    }
+  ],
+  "promotion": {
+    "status": "not_eligible",
+    "qualityGatePass": false,
+    "qualityCriteria": {
+      "ndcg@10Improves": true,
+      "mrrNonInferior": true,
+      "recall@5NonInferior": false,
+      "recall@10NonInferior": false,
+      "recall@50NonInferior": true
+    },
+    "evidenceGatePass": false,
+    "reasons": [
+      "Candidate did not improve nDCG@10 without regressing MRR or Recall@5/10/50.",
+      "Independent, adjudicated, temporally held-out judgments are required."
+    ]
+  },
+  "latency": {
+    "scope": "single-process offline benchmark; excludes HTTP, concurrency, and model download",
+    "device": "mps",
+    "modelLoadMs": {
+      "embedding": 1278.06,
+      "crossEncoder": 757.92
+    },
+    "corpusEncoding": {
+      "observations": 750,
+      "totalMs": 1143.72,
+      "documentsPerSecond": 655.76
+    },
+    "warmQuery": {
+      "bm25": {
+        "meanMs": 1.53,
+        "p50Ms": 1.31,
+        "p95Ms": 2.07,
+        "p99Ms": 2.07
+      },
+      "learnedDense": {
+        "meanMs": 29.59,
+        "p50Ms": 14.87,
+        "p95Ms": 78.0,
+        "p99Ms": 78.0
+      },
+      "fusion": {
+        "meanMs": 0.92,
+        "p50Ms": 0.94,
+        "p95Ms": 1.14,
+        "p99Ms": 1.14
+      },
+      "crossEncoder": {
+        "meanMs": 257.58,
+        "p50Ms": 258.91,
+        "p95Ms": 279.14,
+        "p99Ms": 279.14
+      },
+      "endToEnd": {
+        "meanMs": 289.62,
+        "p50Ms": 284.39,
+        "p95Ms": 339.03,
+        "p99Ms": 339.03
+      }
+    }
+  },
+  "limitations": [
+    "Development judgments are single-reviewer and not independently adjudicated.",
+    "Six queries are insufficient to estimate generalization or statistical uncertainty.",
+    "Latency is an offline single-process measurement, not a production load test.",
+    "Evidence excerpts may omit relevant content from source listings."
+  ]
+}

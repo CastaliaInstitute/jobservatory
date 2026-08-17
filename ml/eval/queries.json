@@ -1,6 +1,10 @@
 {
   "schemaVersion": "jobservatory.qrels.v1",
   "annotationStatus": "single-reviewer development set",
+  "split": "development",
+  "independentAnnotators": 0,
+  "adjudicationStatus": "not_adjudicated",
+  "eligibleForPromotionDecision": false,
   "queries": [
     {
       "id": "q01",

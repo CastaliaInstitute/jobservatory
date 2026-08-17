@@ -6,3 +6,8 @@ dist/
 data/*.sqlite
 data/*.sqlite-*
 .DS_Store
+.venv/
+.cache/
+artifacts/models/
+__pycache__/
+*.py[cod]

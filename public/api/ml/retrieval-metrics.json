@@ -1,8 +1,10 @@
 {
   "schemaVersion": "jobservatory.retrieval-eval.v1",
   "corpus": {
-    "path": "public/api/observatory.json",
-    "observations": 750
+    "path": "ml/eval/snapshots/corpus-4bae3c5422963927.json.gz",
+    "canonicalSha256": "4bae3c5422963927cc4b7e0e4040f443237e4a0921986cfc5918fa923916d14c",
+    "observations": 750,
+    "frozen": true
   },
   "evaluation": {
     "queries": 6,
@@ -18,24 +20,28 @@
     "bm25": {
       "recall@5": 0.5139,
       "recall@10": 0.6389,
+      "recall@50": 0.6389,
       "mrr": 0.6667,
       "ndcg@10": 0.6026
     },
     "dense_hash": {
       "recall@5": 0.125,
       "recall@10": 0.3333,
+      "recall@50": 0.75,
       "mrr": 0.2386,
       "ndcg@10": 0.2315
     },
     "rrf": {
       "recall@5": 0.4306,
       "recall@10": 0.5139,
+      "recall@50": 0.8333,
       "mrr": 0.4156,
       "ndcg@10": 0.4066
     },
     "interaction_rerank": {
       "recall@5": 0.4583,
       "recall@10": 0.5139,
+      "recall@50": 0.8333,
       "mrr": 0.6222,
       "ndcg@10": 0.5675
     }
@@ -48,24 +54,28 @@
         "bm25": {
           "recall@5": 1.0,
           "recall@10": 1.0,
+          "recall@50": 1.0,
           "mrr": 1.0,
           "ndcg@10": 0.7098
         },
         "dense_hash": {
           "recall@5": 0.0,
           "recall@10": 0.0,
+          "recall@50": 1.0,
           "mrr": 0.0625,
           "ndcg@10": 0.0
         },
         "rrf": {
           "recall@5": 0.5,
           "recall@10": 1.0,
+          "recall@50": 1.0,
           "mrr": 0.25,
           "ndcg@10": 0.3832
         },
         "interaction_rerank": {
           "recall@5": 1.0,
           "recall@10": 1.0,
+          "recall@50": 1.0,
           "mrr": 1.0,
           "ndcg@10": 1.0
         }
@@ -78,24 +88,28 @@
         "bm25": {
           "recall@5": 0.5,
           "recall@10": 0.5,
+          "recall@50": 0.5,
           "mrr": 1.0,
           "ndcg@10": 0.7872
         },
         "dense_hash": {
           "recall@5": 0.5,
           "recall@10": 0.5,
+          "recall@50": 0.5,
           "mrr": 1.0,
           "ndcg@10": 0.7872
         },
         "rrf": {
           "recall@5": 0.5,
           "recall@10": 0.5,
+          "recall@50": 0.5,
           "mrr": 1.0,
           "ndcg@10": 0.7872
         },
         "interaction_rerank": {
           "recall@5": 0.5,
           "recall@10": 0.5,
+          "recall@50": 0.5,
           "mrr": 1.0,
           "ndcg@10": 0.7872
         }
@@ -108,24 +122,28 @@
         "bm25": {
           "recall@5": 0.3333,
           "recall@10": 0.3333,
+          "recall@50": 0.3333,
           "mrr": 0.5,
           "ndcg@10": 0.425
         },
         "dense_hash": {
           "recall@5": 0.0,
           "recall@10": 0.0,
+          "recall@50": 1.0,
           "mrr": 0.0556,
           "ndcg@10": 0.0
         },
         "rrf": {
           "recall@5": 0.3333,
           "recall@10": 0.3333,
+          "recall@50": 1.0,
           "mrr": 0.2,
           "ndcg@10": 0.2606
         },
         "interaction_rerank": {
           "recall@5": 0.0,
           "recall@10": 0.3333,
+          "recall@50": 1.0,
           "mrr": 0.1667,
           "ndcg@10": 0.2399
         }
@@ -138,24 +156,28 @@
         "bm25": {
           "recall@5": 0.0,
           "recall@10": 0.75,
+          "recall@50": 0.75,
           "mrr": 0.1667,
           "ndcg@10": 0.3944
         },
         "dense_hash": {
           "recall@5": 0.0,
           "recall@10": 0.0,
+          "recall@50": 0.0,
           "mrr": 0.0135,
           "ndcg@10": 0.0
         },
         "rrf": {
           "recall@5": 0.0,
           "recall@10": 0.0,
+          "recall@50": 0.5,
           "mrr": 0.0435,
           "ndcg@10": 0.0
         },
         "interaction_rerank": {
           "recall@5": 0.0,
           "recall@10": 0.0,
+          "recall@50": 0.5,
           "mrr": 0.0667,
           "ndcg@10": 0.0
         }
@@ -168,24 +190,28 @@
         "bm25": {
           "recall@5": 0.25,
           "recall@10": 0.25,
+          "recall@50": 0.25,
           "mrr": 0.3333,
           "ndcg@10": 0.2995
         },
         "dense_hash": {
           "recall@5": 0.25,
           "recall@10": 0.5,
+          "recall@50": 1.0,
           "mrr": 0.2,
           "ndcg@10": 0.3127
         },
         "rrf": {
           "recall@5": 0.25,
           "recall@10": 0.25,
+          "recall@50": 1.0,
           "mrr": 0.5,
           "ndcg@10": 0.378
         },
         "interaction_rerank": {
           "recall@5": 0.25,
           "recall@10": 0.25,
+          "recall@50": 1.0,
           "mrr": 0.5,
           "ndcg@10": 0.378
         }
@@ -198,24 +224,28 @@
         "bm25": {
           "recall@5": 1.0,
           "recall@10": 1.0,
+          "recall@50": 1.0,
           "mrr": 1.0,
           "ndcg@10": 1.0
         },
         "dense_hash": {
           "recall@5": 0.0,
           "recall@10": 1.0,
+          "recall@50": 1.0,
           "mrr": 0.1,
           "ndcg@10": 0.2891
         },
         "rrf": {
           "recall@5": 1.0,
           "recall@10": 1.0,
+          "recall@50": 1.0,
           "mrr": 0.5,
           "ndcg@10": 0.6309
         },
         "interaction_rerank": {
           "recall@5": 1.0,
           "recall@10": 1.0,
+          "recall@50": 1.0,
           "mrr": 1.0,
           "ndcg@10": 1.0
         }
