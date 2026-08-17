@@ -6,4 +6,4 @@ Jobservatory retrieves public career feeds and publishes a limited research repr
 
 Before adding a source to a public release, record the governing terms URL and version/date, permitted retrieval and retention, excerpt policy, redistribution status, model-training status, attribution requirements, reviewer, and review date. Until that review is complete, downstream users should treat the corpus as a research demonstration and should follow source links rather than redistributing excerpts.
 
-O*NET-derived fields are subject to the [O*NET database license](https://www.onetcenter.org/license_db.html) and include taxonomy attribution in the exported record.
+O*NET-derived fields use the O*NET 30.3 Database under CC BY 4.0. The public export and compact derived ontology credit USDOL/ETA, link the license, and state that Jobservatory selected occupations and compacted fields and that USDOL/ETA has not approved, endorsed, or tested those modifications.

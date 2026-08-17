@@ -22,6 +22,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = json.loads((ROOT / "config" / "sources.json").read_text())
+ONET_SKILL_DATA = json.loads((ROOT / "data" / "ontology" / "onet_30_3_skill_profiles.json").read_text())
 DB_PATH = ROOT / "data" / "observatory.sqlite"
 PUBLIC_PATH = ROOT / "public" / "api" / "observatory.json"
 APOCALYPSO_PATH = ROOT / "public" / "api" / "apocalypso" / "jobs-signal.json"
@@ -29,7 +30,7 @@ HISTORY_PATH = ROOT / "data" / "history.ndjson"
 LEDGER_PATH = ROOT / "data" / "observation_versions.ndjson"
 SNAPSHOT_DIR = ROOT / "data" / "snapshots"
 METHOD_VERSION = "jobservatory-rules-0.2.3"
-ONTOLOGY_VERSION = "jobservatory-ontology-0.2.1"
+ONTOLOGY_VERSION = "jobservatory-ontology-0.3.0"
 ONET_VERSION = "30.3"
 
 SKILLS = {
@@ -159,6 +160,26 @@ def onet_occupation(title: str) -> dict | None:
             return {"code": code, "title": name, "taxonomy": f"O*NET-SOC {ONET_VERSION}", "inferred": True, "reviewStatus": "unreviewed", "sourceUrl": "https://www.onetcenter.org/database.html"}
     return None
 
+def normalize_onet_software_skills(skill_hits: list[dict], occupation: dict | None) -> list[dict]:
+    """Attach exact O*NET software examples without turning occupation profiles into listing facts."""
+    if not occupation:
+        return skill_hits
+    profile = ONET_SKILL_DATA["profiles"].get(occupation["code"], {})
+    official = {item["name"]: item for item in profile.get("softwareSkills", [])}
+    crosswalk = ONET_SKILL_DATA.get("softwareCrosswalk", {})
+    normalized = []
+    for hit in skill_hits:
+        result = dict(hit)
+        match = next((official[name] for name in crosswalk.get(hit["label"], []) if name in official), None)
+        if match:
+            result["onetSoftwareSkill"] = {
+                **match, "onetVersion": ONET_VERSION, "occupationCode": occupation["code"],
+                "normalizationBasis": "listing evidence plus occupation-linked exact crosswalk",
+                "inferred": True, "reviewStatus": "unreviewed",
+            }
+        normalized.append(result)
+    return normalized
+
 def domain(title: str, text: str) -> str:
     t, v = title.lower(), text[:1800].lower()
     if any(x in t for x in ["robot", "autonomy", "perception", "embedded", "guidance", "flight"]): return "Robotics & embedded"
@@ -283,7 +304,8 @@ def main() -> int:
             source_id = f"{ats}:{source_key}:{job['id']}"
             digest = hashlib.sha256((title + "\n" + body).encode()).hexdigest()
             analysis_id = "analysis:" + hashlib.sha256(f"{source_id}:{digest}:{METHOD_VERSION}:{ONTOLOGY_VERSION}".encode()).hexdigest()[:20]
-            skill_hits = matches(f"{title}. {role_text}", SKILLS)
+            occupation = onet_occupation(title)
+            skill_hits = normalize_onet_software_skills(matches(f"{title}. {role_text}", SKILLS), occupation)
             layer_hits = matches(f"{title}. {role_text}", LAYERS)
             relationship_hits = matches(f"{title}. {role_text}", RELATIONSHIPS)
             record = {
@@ -294,7 +316,7 @@ def main() -> int:
                 "sourceUrl": job.get("url"), "retrievedAt": now,
                 "sourceUpdatedAt": job.get("sourceUpdatedAt"), "sourcePublishedAt": job.get("sourcePublishedAt"), "contentHash": f"sha256:{digest}",
                 "seniority": seniority(title), "domain": domain(title, role_text),
-                "onetOccupation": onet_occupation(title),
+                "onetOccupation": occupation,
                 "compensation": compensation(body),
                 "roleRelevance": relevance,
                 "classifications": {
@@ -414,6 +436,16 @@ def main() -> int:
         "schemaVersion": "0.2.0", "generatedAt": now, "scope": f"All listings meeting versioned direct-or-applied AI rules within {len(retrieval)} selected public employer feeds across declared sectors and ATS providers; global, curated, and not labor-market representative",
         "methodNote": "Listings are timestamped observations, not unique jobs. Rule-derived labels are unreviewed hypotheses; evidence excerpts remain linked to sources.",
         "methods": {"extraction": METHOD_VERSION, "ontology": ONTOLOGY_VERSION, "sampling": CONFIG.get("samplingPolicy"), "labelReview": "unreviewed"},
+        "onet": {
+            "version": ONET_SKILL_DATA["onetVersion"], "license": ONET_SKILL_DATA["license"],
+            "licenseUrl": ONET_SKILL_DATA["licenseUrl"], "sourceUrl": ONET_SKILL_DATA["sourceUrl"],
+            "attribution": ONET_SKILL_DATA["attribution"],
+            "skillProfiles": {
+                code: {key: value for key, value in profile.items() if key != "softwareSkills"}
+                for code, profile in ONET_SKILL_DATA["profiles"].items()
+            },
+            "profileSemantics": "Occupation-inherited profiles are context, not listing-stated requirements. Record-level software mappings require listing evidence and an exact occupation-linked crosswalk.",
+        },
         "coverage": {"sourceRegistryVersion": CONFIG.get("registryVersion"), "definition": CONFIG.get("coverageDefinition"), "sourcesConfigured": len(configured_sources), "sourcesSuccessful": len(retrieval), "sourceFailures": failures, "atsProviders": dict(Counter(item["ats"] for item in retrieval)), "sectors": dict(Counter(item["sector"] for item in retrieval)), "retrieval": retrieval, "eligibleObservations": len(candidates), "publishedObservations": len(records), "publicationCap": int(CONFIG["maximumObservations"])},
         "summary": {"observations": len(records), "employers": len(employers), "employerMix": employers, "sourceConcentration": source_concentration, "changes": changes, "compensationCoverage": round(len(compensated)/len(records), 3) if records else 0, "medianAdvertisedPayMidpoint": median_pay, "topSkills": skill_counts.most_common(8), "domains": domains},
         "payBenchmarks": [

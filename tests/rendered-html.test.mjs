@@ -10,16 +10,20 @@ test("builds a Cloudflare Pages-ready static site", async () => {
 });
 
 test("publishes provenance, evaluation, and safely abstaining signal feeds", async () => {
-  const [observatory, apocalypso, retrieval, classification] = await Promise.all([
+  const [observatory, apocalypso, retrieval, classification, learnedRetrieval, hierarchical] = await Promise.all([
     readFile(new URL("../dist/api/observatory.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/apocalypso/jobs-signal.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/ml/retrieval-metrics.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/ml/classification-metrics.json", import.meta.url), "utf8"),
+    readFile(new URL("../dist/api/ml/learned-retrieval-metrics.json", import.meta.url), "utf8"),
+    readFile(new URL("../dist/api/ml/hierarchical-classifier-metrics.json", import.meta.url), "utf8"),
   ]);
   const corpus = JSON.parse(observatory);
   const signal = JSON.parse(apocalypso);
   const retrievalMetrics = JSON.parse(retrieval);
   const classificationMetrics = JSON.parse(classification);
+  const learnedRetrievalMetrics = JSON.parse(learnedRetrieval);
+  const hierarchicalMetrics = JSON.parse(hierarchical);
   assert.ok(corpus.observations.length >= 100);
   assert.ok(corpus.termIndex.length >= 20);
   assert.ok(corpus.termTimeline.length >= 1);
@@ -34,6 +38,9 @@ test("publishes provenance, evaluation, and safely abstaining signal feeds", asy
   assert.equal(corpus.coverage.sourceFailures.length, 0);
   assert.ok(corpus.coverage.retrieval.every(source => source.httpStatus === 200 && source.responseHash.startsWith("sha256:") && source.rightsReviewStatus));
   assert.ok(corpus.coverage.eligibleObservations >= corpus.observations.length);
+  assert.equal(corpus.onet.version, "30.3");
+  assert.equal(corpus.onet.license, "CC BY 4.0");
+  assert.ok(corpus.observations.some(item => item.classifications.skills.some(skill => skill.onetSoftwareSkill)));
   assert.equal(signal.module, "AI");
   assert.equal(signal.signal.status, "insufficient_history");
   assert.equal(signal.signal.value, null);
@@ -41,6 +48,10 @@ test("publishes provenance, evaluation, and safely abstaining signal feeds", asy
   assert.ok(retrievalMetrics.aggregate.bm25["ndcg@10"] >= 0 && retrievalMetrics.aggregate.bm25["ndcg@10"] <= 1);
   assert.ok(classificationMetrics.evaluation.observations >= 10);
   assert.equal(classificationMetrics.aggregate.calibration, null);
+  assert.equal(learnedRetrievalMetrics.promotion.status, "not_eligible");
+  assert.equal(hierarchicalMetrics.promotion.status, "not_eligible");
+  assert.equal(hierarchicalMetrics.hierarchy.parentConsistency, 1);
+  assert.ok(hierarchicalMetrics.abstention.microDecisionCoverage < 1);
 });
 
 test("commits durable observation lineage and full eligible-set presence", async () => {

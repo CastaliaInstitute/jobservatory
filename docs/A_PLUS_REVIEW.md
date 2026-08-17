@@ -10,9 +10,9 @@ The current implementation is materially more honest than the initial prototype:
 |---|---:|---|
 | Research validity | B | Unit of analysis, declared source universe, ATS/sector coverage, and concentration diagnostics are explicit. Nineteen selected employers remain a curated cohort that cannot support labor-market prevalence claims. |
 | Longitudinal design | B | Append-only source/analysis ledger and full eligible-set daily snapshots now exist. Only one distinct day is observed; repost/entity resolution and deadline history remain incomplete. |
-| Extraction/classification | C+ | Boilerplate and obvious short-token errors were corrected, rules are versioned, unsupported labor effect abstains, and a 13-record development benchmark exists. The benchmark is small, single-reviewer, partially title-selected, and no calibrated trained classifier exists. |
+| Extraction/classification | B− | A frozen 1,709-record weak-label snapshot now trains a versioned five-family hierarchical logistic baseline with Platt calibration, threshold-band abstention, parent consistency, and tail-label metrics. Its gate correctly rejects weak targets, non-longitudinal splitting, and pending training rights; the 13-record manual set remains far too small and unadjudicated. |
 | Retrieval/ranking ML | B− | Pinned MiniLM embeddings and an MS MARCO cross-encoder now run against a content-addressed 750-observation snapshot with per-query metrics and offline latency. The cross-encoder improves development MRR/nDCG but regresses recall, so the machine-readable gate rejects it. Six single-reviewer queries remain far below a held-out promotion test. |
-| O*NET normalization | C | Conservative occupation candidates cover 733/1,709 at this review snapshot and abstain otherwise. Mappings are unreviewed; O*NET skill normalization is absent. |
+| O*NET normalization | B− | Conservative occupation candidates cover 733/1,709. Exact occupation-linked O*NET 30.3 software examples normalize 1,126 observed skill mentions on 525 listings, while inherited essential/transferable profiles are explicitly separated from listing facts. Occupation and crosswalk mappings remain unreviewed and only six occupations are profiled. |
 | Licensing/provenance | B− | Metadata/evidence-only export, source links, hashes, manifests, and O*NET attribution are present. Source-by-source terms decisions and legal review of excerpts/training use are missing. |
 | Forecasting discipline | B | Unsupported numeric forecasts were removed and the signal is null pending 30 days. No backtested forecast exists—which is preferable to a false one. |
 | UX/accessibility | B | Natural-language hybrid search, explicit error state, skip link, Escape-close, dialog semantics, pressed term state, safe external links, and visible mobile navigation improved the surface. Automated accessibility tests and a complete assistive-technology audit remain. |
@@ -24,10 +24,10 @@ The current implementation is materially more honest than the initial prototype:
 
 1. Expand and independently adjudicate evaluation data. Six retrieval queries and 13 classification observations can only guard regressions; they cannot support CV claims or scientific conclusions.
 2. Build the independent temporal test set and improve the learned candidate. The first pinned MiniLM/cross-encoder run is reproducible but fails recall and evidence gates; do not promote it.
-3. Replace heuristic multi-label rules with a scored hierarchical baseline, calibrated thresholds, explicit abstention, and occupation/source/tail slices.
+3. Replace weak supervision with independently adjudicated gold labels, validate calibration against those labels, add occupation/source/geography slices, and promote a classifier only if it clears the existing hierarchy, abstention, and tail-label gates.
 4. Complete source rights review. Record terms URL, review date, permitted retention, excerpt rule, redistribution, and training permission per source.
 5. Accumulate at least 30 stable daily frames before publishing trend signals, and longer before forecasting. Backtest every forecast target.
-6. Add O*NET skill normalization and human review of occupation mappings. Current occupation candidates are not validated labels.
+6. Human-review occupation and software mappings, expand the O*NET profile beyond six occupations, and report mapping precision/coverage on adjudicated data.
 7. Make deployment automatic and observable. The scheduled GitHub refresh currently commits data but does not prove that the direct-upload Cloudflare Pages deployment changed.
 
 ## High-priority engineering (P1)

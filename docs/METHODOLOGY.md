@@ -16,7 +16,7 @@ This is a deterministic operational sample, not a probability sample. Employer c
 
 The public export retains metadata, hashes, derived fields, and short evidence excerpts linked to the source. Full descriptions are processed transiently and are not republished. Public API availability does not itself establish a license to republish, redistribute, or train on content. Each source needs a recorded terms/licensing review before expansion, and excerpt retention should receive legal review.
 
-O*NET occupation candidates cite the [O*NET Database](https://www.onetcenter.org/database.html), record taxonomy version 30.3, and remain explicitly inferred and unreviewed. Use and redistribution must follow the [O*NET database license](https://www.onetcenter.org/license_db.html). O*NET skill normalization is not yet implemented and must not be claimed.
+O*NET occupation candidates cite the [O*NET Database](https://www.onetcenter.org/database.html), record taxonomy version 30.3, and remain explicitly inferred and unreviewed. Exact record-level software mappings require both listing evidence and an O*NET occupation-linked workplace example. Separately published essential and transferable skill profiles are inherited occupational context, not listing-stated requirements. The compact derived ontology pins official file hashes and carries the required CC BY 4.0 attribution and modification notice.
 
 ## Labels
 
@@ -34,7 +34,7 @@ Trend publication requires at least 30 distinct daily frames, a stable source co
 
 Retrieval reports Recall@5, Recall@10, MRR, and nDCG@10 over committed graded judgments. Classification reports micro/macro F1, precision, recall, exact match, tail-label recall, and prediction coverage. The current sets are small, single-reviewer development sets; they are regression fixtures rather than publication-grade test sets.
 
-The next gold-set release requires annotation guidelines, two independent annotators, adjudication, agreement statistics, frozen train/development/test splits, temporal separation, and sufficient support for tail labels. Calibration is required once classifiers emit probabilities.
+The versioned hierarchical candidate uses title/location TF-IDF, per-label logistic regression, held-partition Platt calibration, explicit threshold-band abstention, and deterministic parent consistency. Its metrics measure weak-rule agreement only, so its promotion gate rejects it. The next gold-set release still requires annotation guidelines, two independent annotators, adjudication, agreement statistics, frozen train/development/test splits, temporal separation, and sufficient support for tail labels.
 
 ## Forecasting and Apocalypso
 

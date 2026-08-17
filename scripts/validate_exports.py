@@ -11,6 +11,9 @@ signal = json.loads((ROOT / "public/api/apocalypso/jobs-signal.json").read_text(
 records = corpus["observations"]
 
 assert corpus["schemaVersion"] == "0.2.0"
+assert corpus["onet"]["version"] == "30.3"
+assert corpus["onet"]["license"] == "CC BY 4.0"
+assert "not listing-stated requirements" in corpus["onet"]["profileSemantics"]
 assert corpus["summary"]["observations"] == len(records)
 assert corpus["coverage"]["publishedObservations"] == len(records)
 assert corpus["coverage"]["eligibleObservations"] >= len(records)
@@ -31,6 +34,12 @@ for item in records:
     assert item["classifications"]["laborEffect"]["label"] == "unclassified"
     assert item["extraction"]["reviewStatus"] == "unreviewed"
     assert "<" not in json.dumps(item["classifications"])
+    for skill in item["classifications"]["skills"]:
+        if "onetSoftwareSkill" in skill:
+            normalized = skill["onetSoftwareSkill"]
+            assert normalized["occupationCode"] == item["onetOccupation"]["code"]
+            assert normalized["onetVersion"] == "30.3"
+            assert normalized["normalizationBasis"] == "listing evidence plus occupation-linked exact crosswalk"
 
 assert signal["schemaVersion"] == "apocalypso.signal.v2"
 if signal["signal"]["status"] == "insufficient_history":

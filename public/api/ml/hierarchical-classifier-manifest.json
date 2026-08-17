@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "jobservatory.model-manifest.v1",
+  "modelId": "hierarchical-classifier-v0.1",
+  "artifact": "ml/models/hierarchical-classifier-v0.1.json.gz",
+  "artifactSha256": "27d5ea1a99ea75dd68f5cd1634cfdbf63347eab3ae129e7373a07a24a06073fa",
+  "uncompressedSha256": "bc91a0b247c05581739d0d6274972f4e95e18608d2c14d0e5714aae45df12626",
+  "trainingCorpus": "ml/eval/snapshots/classifier-corpus-a20808a4486e8008.json.gz",
+  "trainingCorpusCanonicalSha256": "a20808a4486e80087a595889d1726a29f89c07cf7829ca32721e2fce24bf8351",
+  "metrics": "public/api/ml/hierarchical-classifier-metrics.json",
+  "promotion": {
+    "status": "not_eligible",
+    "evidenceGatePass": false,
+    "reasons": [
+      "Targets are rule-generated weak labels rather than independently annotated gold labels.",
+      "The split uses source timestamps from one retrieval snapshot, not a longitudinal temporal holdout.",
+      "Source-content training rights remain pending."
+    ]
+  }
+}

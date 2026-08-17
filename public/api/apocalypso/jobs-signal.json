@@ -1,6 +1,6 @@
 {
   "schemaVersion": "apocalypso.signal.v2",
-  "generatedAt": "2026-08-17T10:22:51+00:00",
+  "generatedAt": "2026-08-17T10:27:40+00:00",
   "module": "AI",
   "source": "jobservatory.castalia.institute",
   "signal": {
@@ -84,9 +84,9 @@
       ]
     ],
     "domains": {
-      "ML engineering": 296,
-      "Robotics & embedded": 369,
       "AI-adjacent operations": 374,
+      "Robotics & embedded": 369,
+      "ML engineering": 296,
       "Product & leadership": 339,
       "Safety & governance": 54,
       "Education & training": 91,
@@ -135,7 +135,7 @@
           "lastModified": null,
           "responseHash": "sha256:547bfe30a228cdac6bda34e95edf25c864d56a8adb8c8de97c0dfbf94fd1efa9",
           "responseBytes": 6416405,
-          "latencyMs": 321
+          "latencyMs": 703
         },
         {
           "employer": "Scale AI",
@@ -153,25 +153,25 @@
           "lastModified": null,
           "responseHash": "sha256:6a5aac9c15d2d8762086f70fd6a7ffbe0dc6c6ff13156c36b749a88cfc721d77",
           "responseBytes": 2412945,
-          "latencyMs": 184
+          "latencyMs": 456
         },
         {
           "employer": "Anduril",
           "ats": "greenhouse",
           "sourceKey": "andurilindustries",
           "sector": "defense-robotics",
-          "retrieved": 2208,
+          "retrieved": 2209,
           "eligible": 500,
           "status": "ok",
           "rightsReviewStatus": "pending",
           "retentionPolicy": "metadata-hash-short-evidence",
           "url": "https://boards-api.greenhouse.io/v1/boards/andurilindustries/jobs?content=true",
           "httpStatus": 200,
-          "etag": "W/\"f6d74cb58ef83f314742705e313edf7d\"",
+          "etag": "W/\"63928dd4a12138d6294ded87dd055c7f\"",
           "lastModified": null,
-          "responseHash": "sha256:f6d74cb58ef83f314742705e313edf7d19be1c48ae27423c46ebd523bc169756",
-          "responseBytes": 38012949,
-          "latencyMs": 9510
+          "responseHash": "sha256:63928dd4a12138d6294ded87dd055c7f8fac98b8330d9815a00856e97cce34fe",
+          "responseBytes": 38029091,
+          "latencyMs": 10970
         },
         {
           "employer": "Glean",
@@ -189,7 +189,7 @@
           "lastModified": null,
           "responseHash": "sha256:27b3df81bd4620e5dd880aa6d204718dce3037c0ac808f7bb18b2f2251c9e435",
           "responseBytes": 2145107,
-          "latencyMs": 167
+          "latencyMs": 337
         },
         {
           "employer": "Together AI",
@@ -207,7 +207,7 @@
           "lastModified": null,
           "responseHash": "sha256:a8d0147c8c35323666db132b23dd92870f96ccdac43d581841aa6be1edbad02e",
           "responseBytes": 514775,
-          "latencyMs": 109
+          "latencyMs": 257
         },
         {
           "employer": "xAI",
@@ -225,7 +225,7 @@
           "lastModified": null,
           "responseHash": "sha256:63617799f4dbb4bbc6ce580ba77676e317e476ee8214b0088153d17d0191585b",
           "responseBytes": 2065614,
-          "latencyMs": 116
+          "latencyMs": 446
         },
         {
           "employer": "CoreWeave",
@@ -243,7 +243,7 @@
           "lastModified": null,
           "responseHash": "sha256:e0e9d72045dc940653605841119b8540a88ae3a1e59a0b25ca53b0b9ba83e994",
           "responseBytes": 4570654,
-          "latencyMs": 289
+          "latencyMs": 598
         },
         {
           "employer": "Databricks",
@@ -261,7 +261,7 @@
           "lastModified": null,
           "responseHash": "sha256:0b499212c458e673e420c54862b75ef4d62d6e281641a358b9e4a5def5b66d2b",
           "responseBytes": 9091456,
-          "latencyMs": 471
+          "latencyMs": 548
         },
         {
           "employer": "Google DeepMind",
@@ -279,25 +279,25 @@
           "lastModified": null,
           "responseHash": "sha256:2c42e328802836872e90efe6fb01df48342f5fb2ce266c5fc98f24c9126c3ec3",
           "responseBytes": 97064,
-          "latencyMs": 152
+          "latencyMs": 175
         },
         {
           "employer": "Stripe",
           "ats": "greenhouse",
           "sourceKey": "stripe",
           "sector": "financial-technology",
-          "retrieved": 576,
+          "retrieved": 575,
           "eligible": 49,
           "status": "ok",
           "rightsReviewStatus": "pending",
           "retentionPolicy": "metadata-hash-short-evidence",
           "url": "https://boards-api.greenhouse.io/v1/boards/stripe/jobs?content=true",
           "httpStatus": 200,
-          "etag": "W/\"9d06cdd9d6fa19bb802868ea3c3048b3\"",
+          "etag": "W/\"6e278d47d79b6d8158c68d5e737726fd\"",
           "lastModified": null,
-          "responseHash": "sha256:9d06cdd9d6fa19bb802868ea3c3048b32791c6777949ce2f7f4f962909604658",
-          "responseBytes": 4388100,
-          "latencyMs": 277
+          "responseHash": "sha256:6e278d47d79b6d8158c68d5e737726fd288aecae18f130f2b0222ebd46b6c07d",
+          "responseBytes": 4379591,
+          "latencyMs": 529
         },
         {
           "employer": "Cloudflare",
@@ -315,7 +315,7 @@
           "lastModified": null,
           "responseHash": "sha256:f093f4cd4fc074f78f72d1b70c63ba5c34d41ba3a7e5537a38c8b00e0882940f",
           "responseBytes": 5061085,
-          "latencyMs": 320
+          "latencyMs": 540
         },
         {
           "employer": "Duolingo",
@@ -333,7 +333,7 @@
           "lastModified": null,
           "responseHash": "sha256:ebd01af94b5065605aa00b55683d2686fbfd4c05d546168637031dce8d93e938",
           "responseBytes": 862244,
-          "latencyMs": 103
+          "latencyMs": 1051
         },
         {
           "employer": "Reddit",
@@ -351,7 +351,7 @@
           "lastModified": null,
           "responseHash": "sha256:f658bdc48c54aca34c908156ea4275be738963674d316026594b02c1975439ce",
           "responseBytes": 2063800,
-          "latencyMs": 105
+          "latencyMs": 344
         },
         {
           "employer": "Roblox",
@@ -369,7 +369,7 @@
           "lastModified": null,
           "responseHash": "sha256:b15efc3d27d91c0a8e84d20e6ecbc73b1ca1a4328ce08e208875d28dd54b9d0b",
           "responseBytes": 2218700,
-          "latencyMs": 127
+          "latencyMs": 461
         },
         {
           "employer": "Shield AI",
@@ -387,7 +387,7 @@
           "lastModified": null,
           "responseHash": "sha256:99e20682d46be6cfa0bdfb88c19b1915dc03dafe2382ab8de4a6f8b8fe9885f6",
           "responseBytes": 6738786,
-          "latencyMs": 4642
+          "latencyMs": 1627
         },
         {
           "employer": "Zoox",
@@ -405,7 +405,7 @@
           "lastModified": null,
           "responseHash": "sha256:61345434cc88647388887f67147a30a7270d3040c4a9387f4d6c90fcd4a0d64c",
           "responseBytes": 2438867,
-          "latencyMs": 2239
+          "latencyMs": 1239
         },
         {
           "employer": "Waabi",
@@ -423,7 +423,7 @@
           "lastModified": null,
           "responseHash": "sha256:2abe0e9b4ca91e6cba342a568739a45084951765221b221c76222c40ac7af28e",
           "responseBytes": 1230608,
-          "latencyMs": 1029
+          "latencyMs": 1017
         },
         {
           "employer": "Palantir",
@@ -441,7 +441,7 @@
           "lastModified": null,
           "responseHash": "sha256:c4f71a9e5a2a288929347ced42149332198b9d156f05bead8e193d05973d2f8f",
           "responseBytes": 5956013,
-          "latencyMs": 1446
+          "latencyMs": 10532
         },
         {
           "employer": "Spotify",
@@ -459,7 +459,7 @@
           "lastModified": null,
           "responseHash": "sha256:f4261cd9aead63509c4df495e49f8a2cceb29df8fa5a1961774c36c1dc0c34b3",
           "responseBytes": 974139,
-          "latencyMs": 902
+          "latencyMs": 1132
         }
       ],
       "eligibleObservations": 1709,

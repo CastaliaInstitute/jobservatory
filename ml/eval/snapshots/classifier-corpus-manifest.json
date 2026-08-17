@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "jobservatory.classifier-corpus-manifest.v1",
+  "snapshot": "ml/eval/snapshots/classifier-corpus-a20808a4486e8008.json.gz",
+  "observations": 1709,
+  "canonicalSha256": "a20808a4486e80087a595889d1726a29f89c07cf7829ca32721e2fce24bf8351",
+  "compressedSha256": "25ab1fbfab1f377505cb31f5a0520a4f8d3233de432dca023b85b077dd3fc76d",
+  "sourceGeneratedAt": "2026-08-17T10:27:40+00:00",
+  "fields": [
+    "observationId",
+    "duplicateGroup",
+    "title",
+    "location",
+    "retrievedAt",
+    "sourceUpdatedAt",
+    "sourcePublishedAt",
+    "classifications",
+    "domain",
+    "seniority"
+  ]
+}

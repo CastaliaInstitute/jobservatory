@@ -17,6 +17,8 @@ Rule-derived labels are explicitly marked as unreviewed inferences. Unsupported 
 - BM25, fixed dense-hash, reciprocal-rank fusion, and transparent interaction-reranking baselines
 - committed retrieval and multi-label development judgments with reproducible metrics
 - pinned learned sentence-embedding and cross-encoder experiment with a machine-enforced rejection gate
+- exact O*NET 30.3 software-skill normalization and occupation-inherited skill profiles with provenance-safe semantics
+- versioned hierarchical weak-label classifier with Platt calibration, abstention, tail-label metrics, and a machine-enforced rejection gate
 - public JSON corpus at `/api/observatory.json`
 - Apocalypso signal at `/api/apocalypso/jobs-signal.json`
 
