@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jobservatory.castalia.institute/schemas/data-card.schema.json",
+  "type": "object",
+  "required": ["schemaVersion", "generatedAt", "corpus", "coverage", "provenance", "rights", "labels", "intendedUses", "prohibitedUses", "knownLimitations"],
+  "properties": {
+    "schemaVersion": {"const": "jobservatory.data-card.v1"},
+    "generatedAt": {"type": "string", "format": "date-time"},
+    "corpus": {"type": "object", "required": ["schemaVersion", "sha256", "unitOfAnalysis", "descriptionPolicy"], "properties": {
+      "schemaVersion": {"type": "string"}, "sha256": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+      "unitOfAnalysis": {"type": "string"}, "descriptionPolicy": {"const": "metadata-and-evidence-only"}
+    }},
+    "coverage": {"type": "object"}, "provenance": {"type": "object"},
+    "rights": {"type": "object", "required": ["reviewStatusCounts", "allSourcesApproved", "fullDescriptionsRepublished", "modelTrainingPermitted", "notice"], "properties": {
+      "reviewStatusCounts": {"type": "object"}, "allSourcesApproved": {"type": "boolean"},
+      "fullDescriptionsRepublished": {"const": false}, "modelTrainingPermitted": {"type": "boolean"}, "notice": {"type": "string"}
+    }},
+    "labels": {"type": "object"},
+    "intendedUses": {"type": "array", "minItems": 1}, "prohibitedUses": {"type": "array", "minItems": 1}, "knownLimitations": {"type": "array", "minItems": 1}
+  }
+}

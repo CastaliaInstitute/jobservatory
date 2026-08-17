@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "jobservatory.data-card.v1",
+  "generatedAt": "2026-08-17T10:52:00+00:00",
+  "corpus": {
+    "schemaVersion": "0.2.0",
+    "sha256": "sha256:dbdfb6b87c2c96722da822165178bbd1cb393fc4dd3383b36949deec53b2955b",
+    "unitOfAnalysis": "A public job-listing observation retrieved at a particular time.",
+    "descriptionPolicy": "metadata-and-evidence-only"
+  },
+  "coverage": {
+    "employers": 26,
+    "observations": 2173,
+    "configuredSources": 26,
+    "successfulSources": 26,
+    "atsProviders": {
+      "greenhouse": 14,
+      "lever": 5,
+      "ashby": 7
+    },
+    "sectors": {
+      "frontier-model-lab": 5,
+      "ai-data-platform": 1,
+      "defense-robotics": 2,
+      "enterprise-search": 1,
+      "ai-cloud": 2,
+      "data-and-ai-platform": 1,
+      "financial-technology": 1,
+      "internet-infrastructure": 1,
+      "education-technology": 1,
+      "consumer-platform": 1,
+      "interactive-entertainment": 1,
+      "autonomous-vehicles": 2,
+      "enterprise-and-defense-software": 1,
+      "media-and-entertainment": 1,
+      "ai-search": 1,
+      "robotics-foundation-models": 1,
+      "enterprise-ai-agents": 2,
+      "healthcare-ai": 1
+    },
+    "largestEmployerShare": 0.2306,
+    "herfindahlHirschmanIndex": 0.0997
+  },
+  "provenance": {
+    "sourceRegistryVersion": "jobservatory-sources-2026-08-17.3",
+    "sourceManifests": 26,
+    "allFeedsSuccessful": true,
+    "allFeedResponsesHashed": true,
+    "durableVersionLedger": "data/observation_versions.ndjson",
+    "dailyPresenceSnapshots": "data/snapshots/YYYY-MM-DD.json"
+  },
+  "rights": {
+    "reviewStatusCounts": {
+      "pending": 26
+    },
+    "allSourcesApproved": false,
+    "accessBasis": [
+      "official-public-job-board-api",
+      "official-public-job-posting-api",
+      "official-public-postings-api"
+    ],
+    "fullDescriptionsRepublished": false,
+    "modelTrainingPermitted": false,
+    "notice": "A documented public API establishes technical access, not permission to redistribute employer-authored content or train models. Those reviews remain separate and fail closed."
+  },
+  "labels": {
+    "extractionVersion": "jobservatory-rules-0.2.3",
+    "ontologyVersion": "jobservatory-ontology-0.3.0",
+    "reviewStatus": "unreviewed",
+    "onetVersion": "30.3",
+    "onetLicense": "CC BY 4.0",
+    "semantics": "Rule-derived labels and O*NET candidates are unreviewed inferences; occupation-inherited profiles are context, not listing facts."
+  },
+  "intendedUses": [
+    "labor-market research within the declared source universe",
+    "retrieval and classification evaluation",
+    "aggregate term and compensation analysis with coverage warnings"
+  ],
+  "prohibitedUses": [
+    "automated employment decisions",
+    "candidate screening or rejection",
+    "claims of labor-market representativeness",
+    "model training on source content until rights approval"
+  ],
+  "knownLimitations": [
+    "Curated employer cohort",
+    "source and employer concentration",
+    "one-day longitudinal history at initial publication",
+    "unreviewed weak labels",
+    "missing compensation is not missing at random",
+    "reposts and location variants are not fully resolved"
+  ]
+}

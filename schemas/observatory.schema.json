@@ -29,10 +29,13 @@
         "atsProviders": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "integer", "minimum": 1}},
         "sectors": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "integer", "minimum": 1}},
         "publicationCap": {"type": ["integer", "null"], "minimum": 1},
-        "retrieval": {"type": "array", "items": {"type": "object", "required": ["employer", "ats", "sourceKey", "sector", "retrieved", "eligible", "status", "rightsReviewStatus", "responseHash"], "properties": {
-          "employer": {"type": "string"}, "ats": {"type": "string"}, "sourceKey": {"type": "string"}, "sector": {"type": "string"},
+        "retrieval": {"type": "array", "items": {"type": "object", "required": ["employer", "ats", "sourceKey", "sector", "retrieved", "eligible", "status", "rightsReviewStatus", "responseHash", "feedSchemaVersion", "accessBasis", "documentationUrl", "documentationReviewedAt", "redistributionReviewStatus", "modelTrainingReviewStatus"], "properties": {
+          "employer": {"type": "string"}, "ats": {"enum": ["greenhouse", "lever", "ashby"]}, "sourceKey": {"type": "string"}, "sector": {"type": "string"},
           "retrieved": {"type": "integer", "minimum": 0}, "eligible": {"type": "integer", "minimum": 0}, "status": {"type": "string"},
-          "rightsReviewStatus": {"type": "string"}, "responseHash": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+          "rightsReviewStatus": {"enum": ["pending", "approved", "rejected"]}, "responseHash": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+          "feedSchemaVersion": {"type": "string"}, "accessBasis": {"type": "string", "pattern": "^official-public-"},
+          "documentationUrl": {"type": "string", "format": "uri"}, "documentationReviewedAt": {"type": "string", "format": "date"},
+          "redistributionReviewStatus": {"enum": ["pending", "approved", "rejected"]}, "modelTrainingReviewStatus": {"enum": ["pending", "approved", "rejected"]}
         }}}
       }
     },

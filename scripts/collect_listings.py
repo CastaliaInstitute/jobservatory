@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Collect public Greenhouse listings as compact, versioned research observations.
+"""Collect public ATS listings as compact, versioned research observations.
 
 Full descriptions are never republished. The public export contains source metadata,
 derived classifications, hashes, and short evidence spans linked to the original.
@@ -211,6 +211,7 @@ def fetch_board(board: str) -> tuple[list[dict], dict]:
             "etag": response.headers.get("ETag"), "lastModified": response.headers.get("Last-Modified"),
             "responseHash": "sha256:" + hashlib.sha256(payload).hexdigest(),
             "responseBytes": len(payload), "latencyMs": round((time.perf_counter() - started) * 1000),
+            "feedSchemaVersion": "greenhouse-job-board-v1",
         }
         return json.loads(payload).get("jobs", []), metadata
 
@@ -225,11 +226,52 @@ def fetch_lever(site: str) -> tuple[list[dict], dict]:
             "etag": response.headers.get("ETag"), "lastModified": response.headers.get("Last-Modified"),
             "responseHash": "sha256:" + hashlib.sha256(payload).hexdigest(),
             "responseBytes": len(payload), "latencyMs": round((time.perf_counter() - started) * 1000),
+            "feedSchemaVersion": "lever-postings-v0",
         }
         jobs = json.loads(payload)
         if not isinstance(jobs, list):
             raise ValueError("Lever response is not a list")
         return jobs, metadata
+
+def fetch_ashby(board: str) -> tuple[list[dict], dict]:
+    url = f"https://api.ashbyhq.com/posting-api/job-board/{board}?includeCompensation=true"
+    req = urllib.request.Request(url, headers={"User-Agent": "Jobservatory/0.1 (+https://jobservatory.castalia.institute)"})
+    started = time.perf_counter()
+    with urllib.request.urlopen(req, timeout=40) as response:
+        payload = response.read()
+        parsed = json.loads(payload)
+        jobs = parsed.get("jobs", [])
+        if not isinstance(jobs, list):
+            raise ValueError("Ashby response jobs field is not a list")
+        jobs = [job for job in jobs if job.get("isListed") is True]
+        metadata = {
+            "url": url, "httpStatus": response.status,
+            "etag": response.headers.get("ETag"), "lastModified": response.headers.get("Last-Modified"),
+            "responseHash": "sha256:" + hashlib.sha256(payload).hexdigest(),
+            "responseBytes": len(payload), "latencyMs": round((time.perf_counter() - started) * 1000),
+            "feedSchemaVersion": f"ashby-posting-api-{parsed.get('apiVersion', 'unknown')}",
+        }
+        return jobs, metadata
+
+def structured_compensation(ats: str, job: dict) -> dict | None:
+    """Normalize explicitly structured annual salary ranges; do not annualize other units."""
+    if ats == "lever":
+        value = job.get("salaryRange") or {}
+        interval = str(value.get("interval", "")).lower()
+        if interval not in {"year", "annual", "annually", "1 year"}:
+            return None
+        minimum, maximum = value.get("min"), value.get("max")
+        currency = value.get("currency")
+    elif ats == "ashby":
+        components = (job.get("compensation") or {}).get("summaryComponents") or []
+        value = next((item for item in components if item.get("compensationType") == "Salary" and str(item.get("interval", "")).upper() == "1 YEAR"), {})
+        minimum, maximum = value.get("minValue"), value.get("maxValue")
+        currency = value.get("currencyCode")
+    else:
+        return None
+    if not isinstance(minimum, (int, float)) or not isinstance(maximum, (int, float)) or minimum > maximum:
+        return None
+    return {"currency": currency or "unspecified", "minimum": minimum, "maximum": maximum, "period": "annual", "explicit": True, "source": "structured-ats-field"}
 
 def normalize_job(ats: str, job: dict) -> dict:
     if ats == "greenhouse":
@@ -237,6 +279,15 @@ def normalize_job(ats: str, job: dict) -> dict:
             "id": str(job["id"]), "title": job.get("title", ""), "content": job.get("content", ""),
             "location": (job.get("location") or {}).get("name", "Remote / unspecified"),
             "url": job.get("absolute_url"), "sourceUpdatedAt": job.get("updated_at"), "sourcePublishedAt": None,
+            "structuredCompensation": structured_compensation(ats, job),
+        }
+    if ats == "ashby":
+        locations = [job.get("location", "")] + [item.get("location", "") for item in job.get("secondaryLocations", [])]
+        return {
+            "id": str(job["id"]), "title": job.get("title", ""), "content": job.get("descriptionPlain", ""),
+            "location": " · ".join(dict.fromkeys(value for value in locations if value)) or "Remote / unspecified",
+            "url": job.get("jobUrl"), "sourceUpdatedAt": None, "sourcePublishedAt": job.get("publishedAt"),
+            "structuredCompensation": structured_compensation(ats, job),
         }
     categories = job.get("categories") or {}
     list_content = " ".join(f"{item.get('text', '')}. {item.get('content', '')}" for item in job.get("lists", []))
@@ -247,6 +298,7 @@ def normalize_job(ats: str, job: dict) -> dict:
         "location": categories.get("location", "Remote / unspecified"), "url": job.get("hostedUrl"),
         "sourceUpdatedAt": None,
         "sourcePublishedAt": datetime.fromtimestamp(created / 1000, timezone.utc).isoformat() if isinstance(created, (int, float)) else None,
+        "structuredCompensation": structured_compensation(ats, job),
     }
 
 def init_db(conn: sqlite3.Connection) -> None:
@@ -281,11 +333,16 @@ def main() -> int:
     candidates = []
     retrieval = []
     failures = []
-    configured_sources = [("greenhouse", source) for source in CONFIG.get("greenhouse", [])] + [("lever", source) for source in CONFIG.get("lever", [])]
+    configured_sources = [("greenhouse", source) for source in CONFIG.get("greenhouse", [])] + [("lever", source) for source in CONFIG.get("lever", [])] + [("ashby", source) for source in CONFIG.get("ashby", [])]
     for ats, source in configured_sources:
         source_key = source.get("board") or source.get("site")
         try:
-            jobs, fetch_metadata = fetch_board(source_key) if ats == "greenhouse" else fetch_lever(source_key)
+            if ats == "greenhouse":
+                jobs, fetch_metadata = fetch_board(source_key)
+            elif ats == "lever":
+                jobs, fetch_metadata = fetch_lever(source_key)
+            else:
+                jobs, fetch_metadata = fetch_ashby(source_key)
         except Exception as exc:
             print(f"warning: {source['employer']}: {exc}", file=sys.stderr)
             failures.append({"employer": source["employer"], "ats": ats, "sourceKey": source_key, "errorType": type(exc).__name__})
@@ -317,7 +374,7 @@ def main() -> int:
                 "sourceUpdatedAt": job.get("sourceUpdatedAt"), "sourcePublishedAt": job.get("sourcePublishedAt"), "contentHash": f"sha256:{digest}",
                 "seniority": seniority(title), "domain": domain(title, role_text),
                 "onetOccupation": occupation,
-                "compensation": compensation(body),
+                "compensation": job.get("structuredCompensation") or compensation(body),
                 "roleRelevance": relevance,
                 "classifications": {
                     "aiRelationship": relationship_hits[:3], "systemLayer": layer_hits[:3],
@@ -331,7 +388,8 @@ def main() -> int:
                 "duplicateGroup": hashlib.sha256(f"{source['employer']}|{title.lower()}|{clean_html(job.get('location', ''))}".encode()).hexdigest()[:16]
             }
             candidates.append(record)
-        retrieval.append({"employer": source["employer"], "ats": ats, "sourceKey": source_key, "sector": source.get("sector", "unspecified"), "retrieved": len(jobs), "eligible": source_eligible, "status": "ok", "rightsReviewStatus": source.get("rightsReviewStatus", "pending"), "retentionPolicy": source.get("retentionPolicy", "metadata-hash-short-evidence"), **fetch_metadata})
+        policy = CONFIG.get("atsPolicies", {}).get(ats, {})
+        retrieval.append({"employer": source["employer"], "ats": ats, "sourceKey": source_key, "sector": source.get("sector", "unspecified"), "retrieved": len(jobs), "eligible": source_eligible, "status": "ok", "rightsReviewStatus": source.get("rightsReviewStatus", "pending"), "retentionPolicy": source.get("retentionPolicy", "metadata-hash-short-evidence"), **policy, **fetch_metadata})
 
     if failures and os.environ.get("JOBSERVATORY_ALLOW_PARTIAL") != "1":
         raise RuntimeError(f"refusing partial publication; {len(failures)} source feed(s) failed")
@@ -422,7 +480,8 @@ def main() -> int:
     snapshot = {"date": now[:10], "generatedAt": now, "eligibleSourceIds": sorted(current_presence), "contentHashes": {r["sourceId"]: r["contentHash"] for r in candidates}}
     (SNAPSHOT_DIR / f"{now[:10]}.json").write_text(json.dumps(snapshot, separators=(",", ":")) + "\n")
     compensated = [r for r in records if r["compensation"]]
-    midpoint = sorted((r["compensation"]["minimum"] + r["compensation"]["maximum"]) / 2 for r in compensated)
+    usd_annual_compensated = [r for r in compensated if r["compensation"].get("currency") == "USD" and r["compensation"].get("period") == "annual"]
+    midpoint = sorted((r["compensation"]["minimum"] + r["compensation"]["maximum"]) / 2 for r in usd_annual_compensated)
     median_pay = int(midpoint[len(midpoint)//2]) if midpoint else None
     previous_terms = {item["term"]: item.get("count", 0) for item in previous_export.get("termIndex", [])}
     term_index = [{
@@ -447,7 +506,7 @@ def main() -> int:
             "profileSemantics": "Occupation-inherited profiles are context, not listing-stated requirements. Record-level software mappings require listing evidence and an exact occupation-linked crosswalk.",
         },
         "coverage": {"sourceRegistryVersion": CONFIG.get("registryVersion"), "definition": CONFIG.get("coverageDefinition"), "sourcesConfigured": len(configured_sources), "sourcesSuccessful": len(retrieval), "sourceFailures": failures, "atsProviders": dict(Counter(item["ats"] for item in retrieval)), "sectors": dict(Counter(item["sector"] for item in retrieval)), "retrieval": retrieval, "eligibleObservations": len(candidates), "publishedObservations": len(records), "publicationCap": int(CONFIG["maximumObservations"])},
-        "summary": {"observations": len(records), "employers": len(employers), "employerMix": employers, "sourceConcentration": source_concentration, "changes": changes, "compensationCoverage": round(len(compensated)/len(records), 3) if records else 0, "medianAdvertisedPayMidpoint": median_pay, "topSkills": skill_counts.most_common(8), "domains": domains},
+        "summary": {"observations": len(records), "employers": len(employers), "employerMix": employers, "sourceConcentration": source_concentration, "changes": changes, "compensationCoverage": round(len(compensated)/len(records), 3) if records else 0, "usdAnnualCompensationObservations": len(usd_annual_compensated), "medianAdvertisedPayMidpoint": median_pay, "medianAdvertisedPayCurrency": "USD" if median_pay is not None else None, "medianAdvertisedPayPeriod": "annual" if median_pay is not None else None, "topSkills": skill_counts.most_common(8), "domains": domains},
         "payBenchmarks": [
           {"occupation":"Data scientists","medianAnnualPay":112590,"year":2024,"source":"BLS OEWS","sourceUrl":"https://www.bls.gov/ooh/math/data-scientists.htm"},
           {"occupation":"Software developers","medianAnnualPay":133080,"year":2024,"source":"BLS OOH","sourceUrl":"https://www.bls.gov/ooh/computer-and-information-technology/software-developers.htm"},

@@ -1,6 +1,29 @@
 {
-  "registryVersion": "jobservatory-sources-2026-08-17.2",
+  "registryVersion": "jobservatory-sources-2026-08-17.3",
   "coverageDefinition": "All listings satisfying the versioned AI relevance rule in every successfully retrieved feed in this registry; this is source-universe completeness, not labor-market completeness.",
+  "atsPolicies": {
+    "greenhouse": {
+      "accessBasis": "official-public-job-board-api",
+      "documentationUrl": "https://developers.greenhouse.io/job-board.html",
+      "documentationReviewedAt": "2026-08-17",
+      "redistributionReviewStatus": "pending",
+      "modelTrainingReviewStatus": "pending"
+    },
+    "lever": {
+      "accessBasis": "official-public-postings-api",
+      "documentationUrl": "https://github.com/lever/postings-api",
+      "documentationReviewedAt": "2026-08-17",
+      "redistributionReviewStatus": "pending",
+      "modelTrainingReviewStatus": "pending"
+    },
+    "ashby": {
+      "accessBasis": "official-public-job-posting-api",
+      "documentationUrl": "https://developers.ashbyhq.com/docs/public-job-posting-api",
+      "documentationReviewedAt": "2026-08-17",
+      "redistributionReviewStatus": "pending",
+      "modelTrainingReviewStatus": "pending"
+    }
+  },
   "greenhouse": [
     { "employer": "Anthropic", "board": "anthropic", "sector": "frontier-model-lab", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
     { "employer": "Scale AI", "board": "scaleai", "sector": "ai-data-platform", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
@@ -24,7 +47,16 @@
     { "employer": "Palantir", "site": "palantir", "sector": "enterprise-and-defense-software", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
     { "employer": "Spotify", "site": "spotify", "sector": "media-and-entertainment", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" }
   ],
-  "maximumObservations": 2500,
+  "ashby": [
+    { "employer": "OpenAI", "board": "openai", "sector": "frontier-model-lab", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Cohere", "board": "cohere", "sector": "frontier-model-lab", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Perplexity", "board": "perplexity", "sector": "ai-search", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Physical Intelligence", "board": "physicalintelligence", "sector": "robotics-foundation-models", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Sierra", "board": "sierra", "sector": "enterprise-ai-agents", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Decagon", "board": "decagon", "sector": "enterprise-ai-agents", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" },
+    { "employer": "Abridge", "board": "abridge", "sector": "healthcare-ai", "rightsReviewStatus": "pending", "retentionPolicy": "metadata-hash-short-evidence" }
+  ],
+  "maximumObservations": 5000,
   "minimumRecordsPerSource": 5,
   "samplingPolicy": "all-eligible-or-proportional-by-source-with-floor"
 }

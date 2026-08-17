@@ -10,8 +10,9 @@ test("builds a Cloudflare Pages-ready static site", async () => {
 });
 
 test("publishes provenance, evaluation, and safely abstaining signal feeds", async () => {
-  const [observatory, apocalypso, retrieval, classification, learnedRetrieval, hierarchical, readiness, benchmark] = await Promise.all([
+  const [observatory, dataCard, apocalypso, retrieval, classification, learnedRetrieval, hierarchical, readiness, benchmark] = await Promise.all([
     readFile(new URL("../dist/api/observatory.json", import.meta.url), "utf8"),
+    readFile(new URL("../dist/api/data-card.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/apocalypso/jobs-signal.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/ml/retrieval-metrics.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/api/ml/classification-metrics.json", import.meta.url), "utf8"),
@@ -21,6 +22,7 @@ test("publishes provenance, evaluation, and safely abstaining signal feeds", asy
     readFile(new URL("../dist/api/ops/production-benchmark.json", import.meta.url), "utf8"),
   ]);
   const corpus = JSON.parse(observatory);
+  const card = JSON.parse(dataCard);
   const signal = JSON.parse(apocalypso);
   const retrievalMetrics = JSON.parse(retrieval);
   const classificationMetrics = JSON.parse(classification);
@@ -44,6 +46,11 @@ test("publishes provenance, evaluation, and safely abstaining signal feeds", asy
   assert.ok(corpus.coverage.eligibleObservations >= corpus.observations.length);
   assert.equal(corpus.onet.version, "30.3");
   assert.equal(corpus.onet.license, "CC BY 4.0");
+  assert.equal(card.coverage.observations, corpus.summary.observations);
+  assert.equal(card.coverage.configuredSources, corpus.coverage.sourcesConfigured);
+  assert.equal(card.rights.allSourcesApproved, false);
+  assert.equal(card.rights.modelTrainingPermitted, false);
+  assert.equal(card.corpus.descriptionPolicy, "metadata-and-evidence-only");
   assert.ok(corpus.observations.some(item => item.classifications.skills.some(skill => skill.onetSoftwareSkill)));
   assert.equal(signal.module, "AI");
   assert.equal(signal.signal.status, "insufficient_history");

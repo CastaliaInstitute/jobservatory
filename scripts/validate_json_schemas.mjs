@@ -4,6 +4,7 @@ import addFormats from "ajv-formats";
 
 const pairs = [
   ["schemas/observatory.schema.json", "public/api/observatory.json"],
+  ["schemas/data-card.schema.json", "public/api/data-card.json"],
   ["schemas/apocalypso-signal.schema.json", "public/api/apocalypso/jobs-signal.json"],
   ["schemas/learned-retrieval.schema.json", "public/api/ml/learned-retrieval-metrics.json"],
   ["schemas/hierarchical-classifier.schema.json", "public/api/ml/hierarchical-classifier-metrics.json"],

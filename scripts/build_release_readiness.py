@@ -19,7 +19,12 @@ def gate(identifier: str, name: str, passed: bool, evidence: str) -> dict:
     return {"id": identifier, "name": name, "status": "pass" if passed else "fail", "evidence": evidence}
 
 
-rights_approved = all(source["rightsReviewStatus"] == "approved" for source in corpus["coverage"]["retrieval"])
+rights_approved = all(
+    source["rightsReviewStatus"] == "approved"
+    and source["redistributionReviewStatus"] == "approved"
+    and source["modelTrainingReviewStatus"] == "approved"
+    for source in corpus["coverage"]["retrieval"]
+)
 gates = [
     gate("corpus.source_universe", "Declared source universe is complete", corpus["coverage"]["sourcesSuccessful"] == corpus["coverage"]["sourcesConfigured"] and corpus["coverage"]["publishedObservations"] == corpus["coverage"]["eligibleObservations"], "public/api/observatory.json coverage"),
     gate("corpus.rights", "Every source has approved retrieval, retention, redistribution, and training rights", rights_approved and assurance["sourceRightsReviewComplete"], "source registry rightsReviewStatus plus config/assurance.json"),

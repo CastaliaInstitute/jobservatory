@@ -10,7 +10,7 @@ Rule-derived labels are explicitly marked as unreviewed inferences. Unsupported 
 
 ## Current prototype
 
-- 1,700+ published observations from 19 public feeds across Greenhouse and Lever, spanning 14 declared sectors
+- 2,100+ published observations from 26 public feeds across Greenhouse, Lever, and Ashby, spanning 18 declared sectors
 - ML engineering, scientific AI, robotics, product leadership, education, safety, governance, and evaluation
 - append-only source/analysis versions, full eligible-set daily presence snapshots, and summary frames retained for up to two years
 - evidence ledger, compensation signals, term map, and working hybrid retrieval laboratory
@@ -20,6 +20,7 @@ Rule-derived labels are explicitly marked as unreviewed inferences. Unsupported 
 - exact O*NET 30.3 software-skill normalization and occupation-inherited skill profiles with provenance-safe semantics
 - versioned hierarchical weak-label classifier with Platt calibration, abstention, tail-label metrics, and a machine-enforced rejection gate
 - public JSON corpus at `/api/observatory.json`
+- content-addressed data card at `/api/data-card.json`
 - Apocalypso signal at `/api/apocalypso/jobs-signal.json`
 - fail-closed A+ release ledger at `/api/ml/release-readiness.json`
 - bounded production delivery benchmark at `/api/ops/production-benchmark.json`

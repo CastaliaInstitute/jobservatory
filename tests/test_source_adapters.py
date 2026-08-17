@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from collect_listings import normalize_job  # noqa: E402
+from collect_listings import normalize_job, structured_compensation  # noqa: E402
 
 
 class SourceAdapterTests(unittest.TestCase):
@@ -39,6 +39,21 @@ class SourceAdapterTests(unittest.TestCase):
         self.assertIsNone(result["sourceUpdatedAt"])
         self.assertEqual(result["sourcePublishedAt"], "2026-08-17T00:00:00+00:00")
         self.assertIn("Evaluate systems", result["content"])
+
+    def test_ashby_preserves_publication_and_structured_salary(self):
+        result = normalize_job("ashby", {
+            "id": "ashby-1", "title": "ML Scientist", "descriptionPlain": "Train and evaluate models.",
+            "location": "New York", "secondaryLocations": [{"location": "Remote — US"}],
+            "jobUrl": "https://jobs.ashbyhq.com/example/ashby-1", "publishedAt": "2026-08-16T12:00:00+00:00",
+            "compensation": {"summaryComponents": [{"compensationType": "Salary", "interval": "1 YEAR", "currencyCode": "USD", "minValue": 180000, "maxValue": 220000}]},
+        })
+        self.assertEqual(result["sourcePublishedAt"], "2026-08-16T12:00:00+00:00")
+        self.assertEqual(result["location"], "New York · Remote — US")
+        self.assertEqual(result["structuredCompensation"]["minimum"], 180000)
+        self.assertEqual(result["structuredCompensation"]["source"], "structured-ats-field")
+
+    def test_nonannual_structured_pay_is_not_annualized(self):
+        self.assertIsNone(structured_compensation("lever", {"salaryRange": {"currency": "USD", "interval": "hour", "min": 50, "max": 75}}))
 
 
 if __name__ == "__main__":
