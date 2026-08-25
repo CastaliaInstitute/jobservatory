@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from collect_listings import entity_resolution, normalize_job, role_relevance, structured_compensation  # noqa: E402
+from collect_listings import domain, entity_resolution, normalize_job, role_relevance, structured_compensation  # noqa: E402
 
 
 class SourceAdapterTests(unittest.TestCase):
@@ -91,6 +91,18 @@ class SourceAdapterTests(unittest.TestCase):
         result = role_relevance("Budget Research Analyst", "Budget policy and reporting.")
         self.assertEqual(result["tier"], "contextual")
         self.assertNotIn("search", result["titleHits"])
+
+    def test_machine_learning_title_is_not_mislabeled_as_education(self):
+        self.assertEqual(
+            domain("Senior Machine Learning Engineer, Ads ML Platform", "Build and deploy ranking models."),
+            "ML engineering",
+        )
+
+    def test_human_learning_title_remains_education(self):
+        self.assertEqual(
+            domain("Learning Experience Designer", "Design employee learning programs."),
+            "Education & training",
+        )
 
 
 if __name__ == "__main__":

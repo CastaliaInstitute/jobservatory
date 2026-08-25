@@ -4,7 +4,12 @@
   "evaluation": {
     "observations": 13,
     "labels": 15,
-    "judgmentPolicy": "single-reviewer development annotations; not independently adjudicated or held out"
+    "judgmentPolicy": "single-reviewer development annotations over a frozen extraction snapshot; not independently adjudicated or held out",
+    "frozenCorpus": {
+      "observations": 1709,
+      "generatedAt": "2026-08-17T10:27:40+00:00",
+      "canonicalSha256": "a20808a4486e80087a595889d1726a29f89c07cf7829ca32721e2fce24bf8351"
+    }
   },
   "aggregate": {
     "microPrecision": 0.9091,
@@ -109,6 +114,7 @@
     }
   },
   "limitations": [
+    "The report evaluates the frozen reference extraction snapshot; it does not silently substitute a changing live corpus.",
     "Current rules emit binary decisions without probabilities, so calibration cannot yet be measured.",
     "The small development set is useful for regression detection but insufficient for publication-grade model comparison.",
     "Occupation, labor-effect, maturity, and responsibility labels remain unevaluated and must not be presented as validated predictions."
