@@ -3,12 +3,14 @@
 
 from __future__ import annotations
 
+import gzip
+import hashlib
 import json
 from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-CORPUS = ROOT / "public" / "api" / "observatory.json"
+CORPUS_MANIFEST = ROOT / "ml" / "eval" / "snapshots" / "classifier-corpus-manifest.json"
 LABELS = ROOT / "ml" / "eval" / "classification_labels.json"
 OUTPUT = ROOT / "public" / "api" / "ml" / "classification-metrics.json"
 
@@ -17,12 +19,30 @@ def divide(numerator: int, denominator: int) -> float:
     return numerator / denominator if denominator else 0.0
 
 
+def load_frozen_observations() -> tuple[dict[str, dict], dict]:
+    """Load the content-addressed evaluation corpus, not the changing live slice."""
+    manifest = json.loads(CORPUS_MANIFEST.read_text())
+    snapshot = (ROOT / manifest["snapshot"]).resolve()
+    if ROOT not in snapshot.parents:
+        raise RuntimeError("classifier snapshot must remain inside the repository")
+    with gzip.open(snapshot, "rb") as source:
+        canonical = source.read()
+    digest = hashlib.sha256(canonical).hexdigest()
+    if digest != manifest["canonicalSha256"]:
+        raise RuntimeError("classifier snapshot digest does not match its manifest")
+    dataset = json.loads(canonical)
+    observations = {item["observationId"]: item for item in dataset["observations"]}
+    if len(observations) != manifest["observations"]:
+        raise RuntimeError("classifier snapshot size does not match its manifest")
+    return observations, manifest
+
+
 def main() -> int:
-    observations = {item["observationId"]: item for item in json.loads(CORPUS.read_text())["observations"]}
+    observations, corpus_manifest = load_frozen_observations()
     annotations = json.loads(LABELS.read_text())["annotations"]
     missing = [row["observationId"] for row in annotations if row["observationId"] not in observations]
     if missing:
-        raise RuntimeError(f"annotated observations missing from current corpus: {missing}")
+        raise RuntimeError(f"annotated observations missing from frozen evaluation corpus: {missing}")
     universe = sorted({label for row in annotations for label in row["labels"]} | {hit["label"] for row in annotations for hit in observations[row["observationId"]]["classifications"]["skills"]})
     totals = Counter()
     per_label = {}
@@ -52,7 +72,15 @@ def main() -> int:
     report = {
         "schemaVersion": "jobservatory.classification-eval.v1",
         "task": "multi-label skill extraction",
-        "evaluation": {"observations": len(annotations), "labels": len(universe), "judgmentPolicy": "single-reviewer development annotations; not independently adjudicated or held out"},
+        "evaluation": {
+            "observations": len(annotations), "labels": len(universe),
+            "judgmentPolicy": "single-reviewer development annotations over a frozen extraction snapshot; not independently adjudicated or held out",
+            "frozenCorpus": {
+                "observations": corpus_manifest["observations"],
+                "generatedAt": corpus_manifest["sourceGeneratedAt"],
+                "canonicalSha256": corpus_manifest["canonicalSha256"],
+            },
+        },
         "aggregate": {
             "microPrecision": round(micro_precision, 4), "microRecall": round(micro_recall, 4),
             "microF1": round(divide(2 * micro_precision * micro_recall, micro_precision + micro_recall), 4),
@@ -62,6 +90,7 @@ def main() -> int:
         },
         "perLabel": per_label,
         "limitations": [
+            "The report evaluates the frozen reference extraction snapshot; it does not silently substitute a changing live corpus.",
             "Current rules emit binary decisions without probabilities, so calibration cannot yet be measured.",
             "The small development set is useful for regression detection but insufficient for publication-grade model comparison.",
             "Occupation, labor-effect, maturity, and responsibility labels remain unevaluated and must not be presented as validated predictions.",

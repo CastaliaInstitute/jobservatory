@@ -13,12 +13,20 @@ type Observation = {
 };
 type Term = { term: string; category: string; count: number; share: number; change: number | null; firstSeen: string; lastSeen: string };
 type Dataset = { generatedAt: string; coverage: { sourcesConfigured: number; sectors: Record<string, number>; assessment: { status: "expanding" | "target_met"; checks: Record<string, boolean>; missingRequiredSectors: string[] } }; summary: { observations: number; employers: number; compensationCoverage: number; medianAdvertisedPayMidpoint: number; topSkills: [string, number][]; domains: Record<string, number> }; termIndex: Term[]; termTimeline: { date: string; terms: Record<string, number> }[]; payBenchmarks: { occupation: string; medianAnnualPay: number; sourceUrl: string }[]; observations: Observation[] };
-type Metrics = { evaluation: { queries: number; judgmentPolicy: string }; aggregate: Record<string, Record<string, number>>; limitations: string[] };
+type Metrics = { corpus?: { observations: number; frozen: boolean }; evaluation: { queries: number; judgmentPolicy: string }; aggregate: Record<string, Record<string, number>>; limitations: string[] };
 type SearchResponse = { schemaVersion: string; totalCandidates: number; results: { observationId: string }[] };
 
 const money = (value: number) => `$${Math.round(value / 1000)}K`;
+const coverageCheckLabels: Record<string, string> = {
+  maximumLargestEmployerShare: "employer concentration above target",
+  minimumCompensationCoverage: "pay disclosure below target",
+  minimumEmployers: "employer count below target",
+  minimumSectors: "sector count below target",
+  requiredSectors: "required sectors missing",
+};
 export default function Observatory() {
   const [data, setData] = useState<Dataset | null>(null);
+  const [loadedAt, setLoadedAt] = useState<number | null>(null);
   const [metrics, setMetrics] = useState<Metrics | null>(null);
   const [loadError, setLoadError] = useState(false);
   const [query, setQuery] = useState("");
@@ -36,7 +44,7 @@ export default function Observatory() {
   const openObservation = (item: Observation) => { lastFocus.current = document.activeElement as HTMLElement; setSelected(item); };
   const closeObservation = () => { setSelected(null); requestAnimationFrame(() => lastFocus.current?.focus()); };
   useEffect(() => {
-    fetch("/api/observatory.json").then(r => { if (!r.ok) throw new Error(String(r.status)); return r.json(); }).then((next: Dataset) => { setData(next); setSelectedTerm(next.termIndex?.[0]?.term || null); setSelectedDate(next.termTimeline?.at(-1)?.date || null); }).catch(() => setLoadError(true));
+    fetch("/api/observatory.json").then(r => { if (!r.ok) throw new Error(String(r.status)); return r.json(); }).then((next: Dataset) => { setData(next); setLoadedAt(Date.now()); setSelectedTerm(next.termIndex?.[0]?.term || null); setSelectedDate(next.termTimeline?.at(-1)?.date || null); }).catch(() => setLoadError(true));
     fetch("/api/ml/retrieval-metrics.json").then(r => r.json()).then(setMetrics).catch(() => undefined);
   }, []);
   useEffect(() => {
@@ -98,6 +106,9 @@ export default function Observatory() {
   const selectedTermData = data?.termIndex.find(item => item.term === selectedTerm) || null;
   const termMatches = selectedTerm && data ? data.observations.filter(item => item.seniority === selectedTerm || item.domain === selectedTerm || [...item.classifications.skills,...item.classifications.systemLayer].some(hit => hit.label === selectedTerm)) : [];
   const termEmployers = Array.from(new Set(termMatches.map(item => item.employer))).slice(0, 4);
+  const snapshotAgeDays = data && loadedAt !== null ? Math.max(0, Math.floor((loadedAt - new Date(data.generatedAt).getTime()) / 86_400_000)) : null;
+  const snapshotIsStale = snapshotAgeDays !== null && snapshotAgeDays > 2;
+  const coverageGaps = data ? Object.entries(data.coverage.assessment.checks).filter(([, passed]) => !passed).map(([check]) => coverageCheckLabels[check] || check) : [];
 
   return (
     <>
@@ -109,7 +120,13 @@ export default function Observatory() {
           <article><span>Pay disclosed</span><strong>{data ? `${Math.round(data.summary.compensationCoverage * 100)}%` : "—"}</strong><small>of observations</small></article>
           <article><span>Median pay midpoint</span><strong>{data?.summary.medianAdvertisedPayMidpoint ? money(data.summary.medianAdvertisedPayMidpoint) : "—"}</strong><small>disclosed USD ranges</small></article>
         </div>
-        {data && <p className="coverage-note" role="status"><strong>{Object.values(data.coverage.assessment.checks).filter(Boolean).length}/5 coverage-design checks pass</strong><span>{data.coverage.sourcesConfigured} official feeds · {Object.keys(data.coverage.sectors).length} sectors · status: {data.coverage.assessment.status.replace("_", " ")}</span><a href="/api/observatory.json">Inspect targets and gaps ↗</a></p>}
+        {data && <div className="coverage-note" role="status">
+          <strong>{Object.values(data.coverage.assessment.checks).filter(Boolean).length}/5 coverage-design checks pass</strong>
+          <span className={snapshotIsStale ? "stale" : "fresh"}>Snapshot {data.generatedAt.slice(0, 10)}{snapshotAgeDays !== null ? ` · ${snapshotAgeDays} day${snapshotAgeDays === 1 ? "" : "s"} old${snapshotIsStale ? " · refresh overdue" : ""}` : ""}</span>
+          <span>{data.coverage.sourcesConfigured} official feeds · {Object.keys(data.coverage.sectors).length} sectors · status: {data.coverage.assessment.status.replace("_", " ")}</span>
+          {coverageGaps.length > 0 && <span>Gaps: {coverageGaps.join("; ")}</span>}
+          <a href="/api/observatory.json">Inspect targets and gaps ↗</a>
+        </div>}
         <div className="signal-grid">
           <article className="skills-panel">
             <div className="panel-title"><span>OBSERVED TERM FREQUENCY</span><small>current curated corpus</small></div>
@@ -149,7 +166,7 @@ export default function Observatory() {
       <section className="forecast" id="lab">
         <div className="section-head"><div><span>04 / RETRIEVAL LAB</span><h2>Measure relevance,<br />then improve it.</h2></div><p>The deployed search combines BM25, a fixed dense feature baseline, reciprocal-rank fusion, and transparent interaction reranking. Results are evaluated against committed graded judgments.</p></div>
         <div className="ml-metrics">{(["bm25", "dense_hash", "rrf", "interaction_rerank"] as const).map(name => <article key={name}><span>{name.replaceAll("_", " ")}</span><strong>{metrics ? metrics.aggregate[name]?.["ndcg@10"]?.toFixed(3) : "—"}</strong><small>nDCG@10</small><b>{metrics ? `${metrics.aggregate[name]?.["recall@10"]?.toFixed(3)} Recall@10` : "loading"}</b></article>)}</div>
-        <div className="lab-note"><p><strong>Development evidence:</strong> {metrics?.evaluation.queries || "—"} single-reviewer queries. These figures are baselines, not production claims; the dense hash is not a learned semantic model and the interaction reranker is not a neural cross-encoder.</p><a href="/api/ml/retrieval-metrics.json">Inspect full metrics JSON ↗</a></div>
+        <div className="lab-note"><p><strong>Development evidence:</strong> {metrics?.evaluation.queries || "—"} single-reviewer queries{metrics?.corpus?.observations ? ` against a frozen ${metrics.corpus.observations}-record corpus` : ""}. This is a regression fixture, not a held-out production claim; the dense hash is not a learned semantic model and the interaction reranker is not a neural cross-encoder.</p><a href="/api/ml/retrieval-metrics.json">Inspect full metrics JSON ↗</a></div>
       </section>
 
       <section className="method" id="method">

@@ -216,7 +216,13 @@ def domain(title: str, text: str) -> str:
     if any(x in t for x in ["safety", "policy", "governance", "alignment", "red team", "trust"]): return "Safety & governance"
     if any(x in t for x in ["scientist", "research", "biology", "science"]): return "Scientific AI"
     if any(x in t for x in ["product", "program manager", "business", "director", "head of", "manager"]): return "Product & leadership"
-    if any(x in t for x in ["education", "learning", "training", "curriculum"]): return "Education & training"
+    # Generic "learning" and "training" tokens are core ML vocabulary. Education
+    # requires a specifically human-learning title signal so roles such as
+    # "Senior Machine Learning Engineer" do not leak into this domain.
+    if any(x in t for x in [
+        "education", "curriculum", "instructional", "learning experience",
+        "learning designer", "training specialist", "technical trainer",
+    ]): return "Education & training"
     if any(x in v for x in ["robotics", "autonomous vehicle", "embedded system"]): return "Robotics & embedded"
     if any(x in v for x in ["ai safety", "responsible ai", "model governance"]): return "Safety & governance"
     if any(x in t for x in ["software", "machine learning", " ml ", "data", "infrastructure", "systems engineer", " ai ", "model"]): return "ML engineering"
