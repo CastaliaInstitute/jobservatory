@@ -1,13 +1,13 @@
 {
   "schemaVersion": "jobservatory.serving-index-manifest.v1",
-  "generatedAt": "2026-08-18T09:49:22+00:00",
+  "generatedAt": "2026-08-25T00:35:57+00:00",
   "serviceVersion": "jobservatory-search-api-v1",
   "route": "/api/v1/search",
   "index": {
     "path": "/api/search/index-v1.json",
-    "sha256": "sha256:1881ab44304fe58fae497b1004ac796921720865bd039858bec2e4561d6bc0b5",
-    "bytes": 2641144,
-    "documents": 2629,
+    "sha256": "sha256:81b762bf0d05050fd6684ddbc1dcf6e5c95e1ad9f9b0469b3041f04c08791d89",
+    "bytes": 2702747,
+    "documents": 2698,
     "indexBuildVersion": "jobservatory-serving-index-1.1.0"
   },
   "model": {
@@ -20,10 +20,10 @@
   },
   "corpus": {
     "schemaVersion": "0.2.0",
-    "observations": 2629,
+    "observations": 2698,
     "descriptionPolicy": "metadata-and-evidence-only",
-    "contentSha256": "sha256:30d650fab0f11ef58bdb2f9160f0ba7cda23c8118bcd51d0cfc3c76aaedd5178",
-    "generatedAt": "2026-08-18T09:49:22+00:00"
+    "contentSha256": "sha256:57c8738856e59a43950f20cbfd2fc2a505d632a8a1ae0081134b6b98493ca811",
+    "generatedAt": "2026-08-25T00:35:57+00:00"
   },
   "promotion": {
     "status": "baseline_only",
