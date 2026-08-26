@@ -1,15 +1,15 @@
 {
   "schemaVersion": "jobservatory.data-card.v1",
-  "generatedAt": "2026-08-25T09:52:56+00:00",
+  "generatedAt": "2026-08-26T09:58:37+00:00",
   "corpus": {
     "schemaVersion": "0.2.0",
-    "sha256": "sha256:9f56f802a8f8e99b7fb3422a01e5f8d11f749dd07434ed49b1f93ce3777d5576",
+    "sha256": "sha256:6ae5cb63755fe8179c0a210d0c605a510637dfb656252baa1ce37276a18f490d",
     "unitOfAnalysis": "A public job-listing observation retrieved at a particular time.",
     "descriptionPolicy": "metadata-and-evidence-only"
   },
   "coverage": {
     "employers": 54,
-    "observations": 2702,
+    "observations": 2706,
     "configuredSources": 54,
     "successfulSources": 54,
     "atsProviders": {
@@ -87,8 +87,8 @@
       "actual": {
         "employers": 54,
         "sectors": 38,
-        "largestEmployerShare": 0.1854,
-        "compensationCoverage": 0.608
+        "largestEmployerShare": 0.1866,
+        "compensationCoverage": 0.607
       },
       "checks": {
         "minimumEmployers": true,
@@ -99,13 +99,13 @@
       },
       "missingRequiredSectors": []
     },
-    "largestEmployerShare": 0.1854,
-    "herfindahlHirschmanIndex": 0.0652,
+    "largestEmployerShare": 0.1866,
+    "herfindahlHirschmanIndex": 0.0655,
     "entityResolution": {
       "methodVersion": "jobservatory-entity-resolution-0.1.0",
       "postingFamilies": 2336,
       "multiObservationFamilies": 252,
-      "exactVariantGroups": 2664,
+      "exactVariantGroups": 2668,
       "repostCandidateGroups": 36,
       "observationsInRepostCandidateGroups": 74,
       "reviewStatus": "unreviewed",
